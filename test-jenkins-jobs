@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+for dir in *;
+do 
+    if [ -d $dir ]; then
+        pushd $dir
+	jenkins-jobs test .
+	popd
+    fi
+done
+

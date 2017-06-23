@@ -1,5 +1,7 @@
 # Jenkins Jobs
 
+[![Build Status](https://travis-ci.org/canonical-server/jenkins-jobs.svg?branch=master)](https://travis-ci.org/canonical-server/jenkins-jobs)
+
 This repo contains the Jenkins Job Builder definitions. This is
 split into various folders based on the project. This way specific
 projects can be updated without affecting the other projects. 
