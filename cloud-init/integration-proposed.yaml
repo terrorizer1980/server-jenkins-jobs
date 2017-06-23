@@ -25,7 +25,7 @@
           #!/bin/bash -ux
 
           sudo rm version_lookup.py
-          wget https://git.launchpad.net/server-team-ci/plain/scripts/version_lookup.py
+          https://raw.githubusercontent.com/canonical-server/test-scripts/master/launchpad/version_lookup.py
           chmod +x version_lookup.py
           proposed=$(./version_lookup.py -r xenial -p Proposed -s Published cloud-init)
 
@@ -61,7 +61,7 @@
           #!/bin/bash -ux
 
           sudo rm version_lookup.py
-          wget https://git.launchpad.net/server-team-ci/plain/scripts/version_lookup.py
+          https://raw.githubusercontent.com/canonical-server/test-scripts/master/launchpad/version_lookup.py
           chmod +x version_lookup.py
           proposed=$(./version_lookup.py -r yakkety -p Proposed -s Published cloud-init)
 
@@ -97,7 +97,7 @@
           #!/bin/bash -ux
 
           sudo rm version_lookup.py
-          wget https://git.launchpad.net/server-team-ci/plain/scripts/version_lookup.py
+          https://raw.githubusercontent.com/canonical-server/test-scripts/master/launchpad/version_lookup.py
           chmod +x version_lookup.py
           proposed=$(./version_lookup.py -r zesty -p Proposed -s Published cloud-init)
 

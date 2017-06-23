@@ -19,47 +19,43 @@
     name: proposed-regression-t
     builders:
       - shell: |
-          #!/bin/bash -eux
-          RELEASE='trusty'
+          #!/bin/bash
+          set -e
           rm -rf *
-
-          git clone https://git.launchpad.net/server-team-ci
-          cd server-team-ci/scripts/proposed
-          ./proposed.py -r "$RELEASE"
+          git clone https://github.com/canonical-server/test-proposed.git
+          cd test-proposed
+          ./proposed.py -r trusty
 
 - job-template:
     name: proposed-regression-x
     builders:
       - shell: |
-          #!/bin/bash -eux
-          RELEASE='xenial'
+          #!/bin/bash 
+          set -e
           rm -rf *
-
-          git clone https://git.launchpad.net/server-team-ci
-          cd server-team-ci/scripts/proposed
-          ./proposed.py -r "$RELEASE"
+          git clone https://github.com/canonical-server/test-proposed.git
+          cd test-proposed
+          ./proposed.py -r xenial
 
 - job-template:
     name: proposed-regression-y
     builders:
       - shell: |
-          #!/bin/bash -eux
-          RELEASE='yakkety'
+          #!/bin/bash
+          set -e
           rm -rf *
-
-          git clone https://git.launchpad.net/server-team-ci
-          cd server-team-ci/scripts/proposed
-          ./proposed.py -r "$RELEASE"
+          git clone https://github.com/canonical-server/test-proposed.git
+          cd test-proposed
+          ./proposed.py -r yakkety
 
 
 - job-template:
     name: proposed-regression-z
     builders:
       - shell: |
-          #!/bin/bash -eux
-          RELEASE='zesty'
+          #!/bin/bash
+          set -e
           rm -rf *
-
-          git clone https://git.launchpad.net/server-team-ci
-          cd server-team-ci/scripts/proposed
-          ./proposed.py -r "$RELEASE"
+          git clone https://github.com/canonical-server/test-proposed.git
+          cd test-proposed
+          ./proposed.py -r zesty

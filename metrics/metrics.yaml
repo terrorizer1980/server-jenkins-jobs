@@ -19,53 +19,53 @@
     name: metric-server-cloudinit
     builders:
       - shell: |
-          #!/bin/bash -eux
+          #!/bin/bash
+          set -e
           rm -rf *
-
-          git clone https://git.launchpad.net/server-team-ci
-          cd server-team-ci/scripts/metrics
+          git clone https://github.com/canonical-server/metrics.git
+          cd metrics
           ./package.py --name='cloud-init'
 
 - job-template:
     name: metric-server-curtin
     builders:
       - shell: |
-          #!/bin/bash -eux
+          #!/bin/bash
+          set -e
           rm -rf *
-
-          git clone https://git.launchpad.net/server-team-ci
-          cd server-team-ci/scripts/metrics
+          git clone https://github.com/canonical-server/metrics.git
+          cd metrics
           ./package.py --name='curtin'
 
 - job-template:
     name: metric-server-simplestreams
     builders:
       - shell: |
-          #!/bin/bash -eux
+          #!/bin/bash
+          set -e
           rm -rf *
-
-          git clone https://git.launchpad.net/server-team-ci
-          cd server-team-ci/scripts/metrics
+          git clone https://github.com/canonical-server/metrics.git
+          cd metrics
           ./package.py --name='simplestreams'
 
 - job-template:
     name: metric-server-triage
     builders:
       - shell: |
-          #!/bin/bash -eux
+          #!/bin/bash
+          set -e
           rm -rf *
-
-          git clone https://git.launchpad.net/server-team-ci
-          cd server-team-ci/scripts/metrics
+          git clone https://github.com/canonical-server/metrics.git
+          cd metrics
           ./triage.py
 
 - job-template:
     name: metric-server-uploads
     builders:
       - shell: |
-          #!/bin/bash -eux
+          #!/bin/bash
+          set -e
           rm -rf *
-
-          git clone https://git.launchpad.net/server-team-ci
-          cd server-team-ci/scripts/metrics
+          git clone https://github.com/canonical-server/metrics.git
+          cd metrics
           ./uploads.py

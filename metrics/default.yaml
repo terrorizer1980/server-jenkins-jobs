@@ -27,12 +27,12 @@
 - defaults:
     name: global
     description: |
-        LaunchPad Ubuntu Server QA Jenkins Job
+        Metrics Ubuntu Server QA Jenkins Job
 
         *** STOP ***
         Do NOT edit this job through the web
-        This job is managed by Jenkins Job Builder and stored on LaunchPad via the URL below:
-        https://code.launchpad.net/server-team-ci
+        This job is managed by Jenkins Job Builder and stored on Github via the URL below:
+        https://github.com/canonical-server/jenkins-jobs
         *** STOP ***
     node: metal-amd64
     triggers:

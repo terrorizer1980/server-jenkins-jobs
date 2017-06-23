@@ -28,19 +28,20 @@
           threshold: SUCCESS
     builders:
       - shell: |
-          #!/bin/bash -ux
+          #!/bin/bash
+          set -e
           export http_proxy=http://squid.internal:3128
           export https_proxy=http://squid.internal:3128
 
-          rm -rf cloud-init server-team-ci
+          rm -rf *
           git clone https://git.launchpad.net/cloud-init
           cd cloud-init
           export PYVER=python2 
-          ./tools/run-centos 6 --srpm --artifact
+          ./tools/run-centos 7--srpm --artifact
 
           cd "$WORKSPACE"
-          git clone https://git.launchpad.net/server-team-ci
-          cd server-team-ci/scripts/centos
+          git clone https://github.com/canonical-server/test-scripts
+          cd test-scripts/cloud-init
           SRPM=$(ls $WORKSPACE/cloud-init/*.src.rpm)
           ./copr_build.py --dev --srpm "$SRPM"
 
@@ -55,13 +56,14 @@
           threshold: FAILURE
     builders:
       - shell: |
-          #!/bin/bash -ux
+          #!/bin/bash
+          set -e
           export http_proxy=http://squid.internal:3128
           export https_proxy=http://squid.internal:3128
 
-          rm -rf server-team-ci
-          git clone https://git.launchpad.net/server-team-ci
-          cd server-team-ci/scripts/centos
+          rm -rf *
+          git clone https://github.com/canonical-server/test-scripts
+          cd test-scripts/cloud-init
           ./copr_test 6
 
 - job-template:
@@ -69,11 +71,12 @@
     node: metal-amd64
     builders:
       - shell: |
-          #!/bin/bash -ux
+          #!/bin/bash
+          set -e
           export http_proxy=http://squid.internal:3128
           export https_proxy=http://squid.internal:3128
 
-          rm -rf server-team-ci
-          git clone https://git.launchpad.net/server-team-ci
-          cd server-team-ci/scripts/centos
+          rm -rf *
+          git clone https://github.com/canonical-server/test-scripts
+          cd test-scripts/cloud-init
           ./copr_test 7

@@ -1,5 +1,5 @@
 # Ubuntu Server QA Jenkins Jobs
-# Copyright (C) 2016 Canonical Ltd.
+# Copyright (C) 2017 Canonical Ltd.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@
       - shell: |
           #!/bin/bash -eux
           rm -rf *
-          git clone https://git.launchpad.net/server-team-ci
-          cd server-team-ci/jenkins
+          git clone https://github.com/canonical-server/jenkins-jobs
+          cd jenkins-jobs
 
           for dir in `find * -type d`
           do
