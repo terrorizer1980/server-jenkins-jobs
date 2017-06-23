@@ -1,0 +1,253 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2017 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- job-template:
+    name: curtin-vmtest-proposed-debug
+    node: metal-amd64
+    parameters:
+        - release
+        - nose-args
+    publishers:
+        - archive:
+            artifacts: 'output/**/collect/**, output/**/logs/**'
+    builders:
+      - shell: |
+          #!/bin/bash -eux
+          RELEASE="${{release}}"
+          TYPE="proposed"
+          LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
+
+          export http_proxy=http://squid.internal:3128
+          export apt_proxy=http://squid.internal:3128
+          export TMPDIR=/var/lib/jenkins/tmp/
+          export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
+
+          rm -Rf curtin-* output
+          pull-lp-source curtin "$RELEASE"-proposed
+          cd curtin-*
+          PATH="$PWD/tools:$PATH"
+
+          echo "Downloading latest curtainer..."
+          wget -O tools/curtainer http://bazaar.launchpad.net/~curtin-dev/curtin/trunk/download/head:/curtainer-20170210154934-nykc16zc9pk6prgo-1/curtainer
+          chmod +x tools/curtainer
+
+          echo "Downloading latest curtin-from-container..."
+          wget -O tools/curtin-from-container http://bazaar.launchpad.net/~curtin-dev/curtin/trunk/download/head:/curtinfromcontainer-20170209170910-tk5ve41yqbi7s7im-1/curtin-from-container
+          chmod +x tools/curtin-from-container
+          
+          ./tools/vmtest-system-setup
+          ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" "$LXC_NAME"
+          ./tools/jenkins-runner -p 4 ${{nose_args}}
+          RET=$?
+
+          # Return Skipped as Passed
+          [ $RET -eq 2 ] && RET=0
+
+          lxc delete "$LXC_NAME" --force
+
+          exit $RET
+
+- job-template:
+    name: curtin-vmtest-proposed-x-trigger
+    node: metal-amd64
+    triggers:
+      - timed: "H 16 * * *"
+    builders:
+      - shell: |
+          #!/bin/bash -ux
+
+          sudo rm version_lookup.py
+          wget https://git.launchpad.net/server-team-ci/plain/scripts/version_lookup.py
+          chmod +x version_lookup.py
+          proposed=$(./version_lookup.py -r xenial -p Proposed -s Published curtin)
+
+          if [ "$proposed" != "" ]; then
+            curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/curtin-vmtest-proposed-x/build?token=BUILD_ME
+          fi
+
+- job-template:
+    name: curtin-vmtest-proposed-x
+    node: metal-amd64
+    auth-token: BUILD_ME
+    publishers:
+        - archive:
+            artifacts: 'output/**/collect/**, output/**/logs/**'
+        - email:
+            recipients: server-crew-qa@lists.canonical.com
+    builders:
+      - shell: |
+          #!/bin/bash -eux
+          RELEASE="xenial"
+          TYPE="proposed"
+          LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
+
+          export http_proxy=http://squid.internal:3128
+          export apt_proxy=http://squid.internal:3128
+          export TMPDIR=/var/lib/jenkins/tmp/
+          export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
+
+          rm -Rf curtin-* output
+          pull-lp-source curtin "$RELEASE"-proposed
+          cd curtin-*
+          PATH="$PWD/tools:$PATH"
+
+          echo "Downloading latest curtainer..."
+          wget -O tools/curtainer http://bazaar.launchpad.net/~curtin-dev/curtin/trunk/download/head:/curtainer-20170210154934-nykc16zc9pk6prgo-1/curtainer
+          chmod +x tools/curtainer
+
+          echo "Downloading latest curtin-from-container..."
+          wget -O tools/curtin-from-container http://bazaar.launchpad.net/~curtin-dev/curtin/trunk/download/head:/curtinfromcontainer-20170209170910-tk5ve41yqbi7s7im-1/curtin-from-container
+          chmod +x tools/curtin-from-container
+
+          ./tools/vmtest-system-setup
+          ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" "$LXC_NAME"
+          ./tools/jenkins-runner -p 4
+          RET=$?
+
+          # Return Skipped as Passed
+          [ $RET -eq 2 ] && RET=0
+
+          lxc delete "$LXC_NAME" --force
+
+          exit $RET
+
+- job-template:
+    name: curtin-vmtest-proposed-y-trigger
+    node: metal-amd64
+    triggers:
+      - timed: "H 18 * * *"
+    builders:
+      - shell: |
+          #!/bin/bash -ux
+
+          sudo rm version_lookup.py
+          wget https://git.launchpad.net/server-team-ci/plain/scripts/version_lookup.py
+          chmod +x version_lookup.py
+          proposed=$(./version_lookup.py -r yakkety -p Proposed -s Published curtin)
+
+          if [ "$proposed" != "" ]; then
+            curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/curtin-vmtest-proposed-y/build?token=BUILD_ME
+          fi
+
+- job-template:
+    name: curtin-vmtest-proposed-y
+    node: metal-amd64
+    auth-token: BUILD_ME
+    publishers:
+        - archive:
+            artifacts: 'output/**/collect/**, output/**/logs/**'
+        - email:
+            recipients: server-crew-qa@lists.canonical.com
+    builders:
+      - shell: |
+          #!/bin/bash -eux
+          RELEASE="yakkety"
+          TYPE="proposed"
+          LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
+
+          export http_proxy=http://squid.internal:3128
+          export apt_proxy=http://squid.internal:3128
+          export TMPDIR=/var/lib/jenkins/tmp/
+          export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
+
+          rm -Rf curtin-* output
+          pull-lp-source curtin "$RELEASE"-proposed
+          cd curtin-*
+          PATH="$PWD/tools:$PATH"
+
+          echo "Downloading latest curtainer..."
+          wget -O tools/curtainer http://bazaar.launchpad.net/~curtin-dev/curtin/trunk/download/head:/curtainer-20170210154934-nykc16zc9pk6prgo-1/curtainer
+          chmod +x tools/curtainer
+
+          echo "Downloading latest curtin-from-container..."
+          wget -O tools/curtin-from-container http://bazaar.launchpad.net/~curtin-dev/curtin/trunk/download/head:/curtinfromcontainer-20170209170910-tk5ve41yqbi7s7im-1/curtin-from-container
+          chmod +x tools/curtin-from-container
+
+          ./tools/vmtest-system-setup
+          ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" "$LXC_NAME"
+          ./tools/jenkins-runner -p 4
+          RET=$?
+
+          # Return Skipped as Passed
+          [ $RET -eq 2 ] && RET=0
+
+          lxc delete "$LXC_NAME" --force
+
+          exit $RET
+- job-template:
+    name: curtin-vmtest-proposed-z-trigger
+    node: metal-amd64
+    triggers:
+      - timed: "H 18 * * *"
+    builders:
+      - shell: |
+          #!/bin/bash -ux
+
+          sudo rm version_lookup.py
+          wget https://git.launchpad.net/server-team-ci/plain/scripts/version_lookup.py
+          chmod +x version_lookup.py
+          proposed=$(./version_lookup.py -r zesty -p Proposed -s Published curtin)
+
+          if [ "$proposed" != "" ]; then
+            curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/curtin-vmtest-proposed-z/build?token=BUILD_ME
+          fi
+
+- job-template:
+    name: curtin-vmtest-proposed-z
+    node: metal-amd64
+    auth-token: BUILD_ME
+    publishers:
+        - archive:
+            artifacts: 'output/**/collect/**, output/**/logs/**'
+        - email:
+            recipients: server-crew-qa@lists.canonical.com
+    builders:
+      - shell: |
+          #!/bin/bash -eux
+          RELEASE="zesty"
+          TYPE="proposed"
+          LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
+
+          export http_proxy=http://squid.internal:3128
+          export apt_proxy=http://squid.internal:3128
+          export TMPDIR=/var/lib/jenkins/tmp/
+          export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
+
+          rm -Rf curtin-* output
+          pull-lp-source curtin "$RELEASE"-proposed
+          cd curtin-*
+          PATH="$PWD/tools:$PATH"
+
+          echo "Downloading latest curtainer..."
+          wget -O tools/curtainer http://bazaar.launchpad.net/~curtin-dev/curtin/trunk/download/head:/curtainer-20170210154934-nykc16zc9pk6prgo-1/curtainer
+          chmod +x tools/curtainer
+
+          echo "Downloading latest curtin-from-container..."
+          wget -O tools/curtin-from-container http://bazaar.launchpad.net/~curtin-dev/curtin/trunk/download/head:/curtinfromcontainer-20170209170910-tk5ve41yqbi7s7im-1/curtin-from-container
+          chmod +x tools/curtin-from-container
+
+          ./tools/vmtest-system-setup
+          ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" "$LXC_NAME"
+          ./tools/jenkins-runner -p 4
+          RET=$?
+
+          # Return Skipped as Passed
+          [ $RET -eq 2 ] && RET=0
+
+          lxc delete "$LXC_NAME" --force
+
+          exit $RET

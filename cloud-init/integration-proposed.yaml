@@ -1,0 +1,124 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2016 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- job-template:
+    name: cloud-init-integration-proposed-x-trigger
+    node: metal-amd64
+    triggers:
+      - timed: "H 10 * * *"
+    builders:
+      - shell: |
+          #!/bin/bash -ux
+
+          sudo rm version_lookup.py
+          wget https://git.launchpad.net/server-team-ci/plain/scripts/version_lookup.py
+          chmod +x version_lookup.py
+          proposed=$(./version_lookup.py -r xenial -p Proposed -s Published cloud-init)
+
+          if [ "$proposed" != "" ]; then
+            curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/cloud-init-integration-proposed-x/build?token=BUILD_ME
+          fi
+
+- job-template:
+    name: cloud-init-integration-proposed-x
+    node: metal-amd64
+    auth-token: BUILD_ME
+    publishers:
+      - email:
+          recipients: server-crew-qa@lists.canonical.com
+    builders:
+      - shell: |
+          #!/bin/bash -ux
+          export http_proxy=http://squid.internal:3128
+          export apt_proxy=http://squid.internal:3128
+
+          sudo rm -Rf cloud-init*
+          pull-lp-source cloud-init xenial-proposed
+          cd cloud-init-*
+          python3 -m tests.cloud_tests run -v -n xenial --repo 'deb http://archive.ubuntu.com/ubuntu/ xenial-proposed main'
+
+- job-template:
+    name: cloud-init-integration-proposed-y-trigger
+    node: metal-amd64
+    triggers:
+      - timed: "H 10 * * *"
+    builders:
+      - shell: |
+          #!/bin/bash -ux
+
+          sudo rm version_lookup.py
+          wget https://git.launchpad.net/server-team-ci/plain/scripts/version_lookup.py
+          chmod +x version_lookup.py
+          proposed=$(./version_lookup.py -r yakkety -p Proposed -s Published cloud-init)
+
+          if [ "$proposed" != "" ]; then
+            curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/cloud-init-integration-proposed-y/build?token=BUILD_ME
+          fi
+
+- job-template:
+    name: cloud-init-integration-proposed-y
+    node: metal-amd64
+    auth-token: BUILD_ME
+    publishers:
+      - email:
+          recipients: server-crew-qa@lists.canonical.com
+    builders:
+      - shell: |
+          #!/bin/bash -ux
+          export http_proxy=http://squid.internal:3128
+          export apt_proxy=http://squid.internal:3128
+
+          sudo rm -Rf cloud-init*
+          pull-lp-source cloud-init yakkety-proposed
+          cd cloud-init-*
+          python3 -m tests.cloud_tests run -v -n yakkety --repo 'deb http://archive.ubuntu.com/ubuntu/ yakkety-proposed main'
+
+- job-template:
+    name: cloud-init-integration-proposed-z-trigger
+    node: metal-amd64
+    triggers:
+      - timed: "H 10 * * *"
+    builders:
+      - shell: |
+          #!/bin/bash -ux
+
+          sudo rm version_lookup.py
+          wget https://git.launchpad.net/server-team-ci/plain/scripts/version_lookup.py
+          chmod +x version_lookup.py
+          proposed=$(./version_lookup.py -r zesty -p Proposed -s Published cloud-init)
+
+          if [ "$proposed" != "" ]; then
+            curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/cloud-init-integration-proposed-z/build?token=BUILD_ME
+          fi
+
+- job-template:
+    name: cloud-init-integration-proposed-z
+    node: metal-amd64
+    auth-token: BUILD_ME
+    publishers:
+      - email:
+          recipients: server-crew-qa@lists.canonical.com
+    builders:
+      - shell: |
+          #!/bin/bash -ux
+          export http_proxy=http://squid.internal:3128
+          export apt_proxy=http://squid.internal:3128
+
+          sudo rm -Rf cloud-init*
+          pull-lp-source cloud-init zesty-proposed
+          cd cloud-init-*
+          python3 -m tests.cloud_tests run -v -n zesty --repo 'deb http://archive.ubuntu.com/ubuntu/ zesty-proposed main'

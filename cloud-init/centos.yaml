@@ -1,0 +1,79 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2017 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- job-template:
+    name: cloud-init-copr-build
+    node: metal-amd64
+    triggers:
+      - timed: "H 23 * * *"
+    publishers:
+      - email:
+          recipients: server-crew-qa@lists.canonical.com
+      - trigger:
+          project: cloud-init-copr-test-6
+          threshold: SUCCESS
+    builders:
+      - shell: |
+          #!/bin/bash -ux
+          export http_proxy=http://squid.internal:3128
+          export https_proxy=http://squid.internal:3128
+
+          rm -rf cloud-init server-team-ci
+          git clone https://git.launchpad.net/cloud-init
+          cd cloud-init
+          export PYVER=python2 
+          ./tools/run-centos 6 --srpm --artifact
+
+          cd "$WORKSPACE"
+          git clone https://git.launchpad.net/server-team-ci
+          cd server-team-ci/scripts/centos
+          SRPM=$(ls $WORKSPACE/cloud-init/*.src.rpm)
+          ./copr_build.py --dev --srpm "$SRPM"
+
+- job-template:
+    name: cloud-init-copr-test-6
+    node: metal-amd64
+    publishers:
+      - email:
+          recipients: server-crew-qa@lists.canonical.com
+      - trigger:
+          project: cloud-init-copr-test-7
+          threshold: FAILURE
+    builders:
+      - shell: |
+          #!/bin/bash -ux
+          export http_proxy=http://squid.internal:3128
+          export https_proxy=http://squid.internal:3128
+
+          rm -rf server-team-ci
+          git clone https://git.launchpad.net/server-team-ci
+          cd server-team-ci/scripts/centos
+          ./copr_test 6
+
+- job-template:
+    name: cloud-init-copr-test-7
+    node: metal-amd64
+    builders:
+      - shell: |
+          #!/bin/bash -ux
+          export http_proxy=http://squid.internal:3128
+          export https_proxy=http://squid.internal:3128
+
+          rm -rf server-team-ci
+          git clone https://git.launchpad.net/server-team-ci
+          cd server-team-ci/scripts/centos
+          ./copr_test 7

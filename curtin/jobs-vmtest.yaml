@@ -1,0 +1,114 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2016-2017 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- job-template:
+    name: curtin-vmtest-sync-images
+    node: metal-amd64
+    triggers:
+        - timed: "H 11,23 * * *"
+    builders:
+        - shell: |
+            #!/bin/bash -x
+            export http_proxy=http://squid.internal:3128
+            export apt_proxy=http://squid.internal:3128
+
+            rm -Rf curtin
+            bzr branch lp:curtin 
+            cd curtin
+
+            ./tools/vmtest-sync-images
+
+- job-template:
+    name: curtin-vmtest-devel-amd64
+    node: metal-amd64
+    parameters:
+        - branch
+        - nose-args
+    triggers:
+        - timed: "H 0,12 * * *"
+    builders:
+        - curtin-vmtest
+    publishers:
+        - archive:
+            artifacts: 'output/**/collect/**, output/**/logs/**'
+        - email:
+            recipients: server-crew-qa@lists.canonical.com
+
+- job-template:
+    name: curtin-vmtest-devel-ppc64el
+    node: metal-ppc64el
+    parameters:
+        - branch
+        - nose-args
+    builders:
+        - curtin-vmtest
+    publishers:
+        - archive:
+            artifacts: 'output/**/collect/**, output/**/logs/**'
+        - email:
+            recipients: server-crew-qa@lists.canonical.com
+
+- job-template:
+    name: curtin-vmtest-devel-s390x
+    node: metal-s390x
+    parameters:
+        - branch
+        - nose-args
+    builders:
+        - curtin-vmtest
+    publishers:
+        - archive:
+            artifacts: 'output/**/collect/**, output/**/logs/**'
+        - email:
+            recipients: server-crew-qa@lists.canonical.com
+
+- job-template:
+    name: curtin-vmtest-devel-debug
+    node: metal-amd64
+    parameters:
+        - branch
+        - nose-args
+    builders:
+        - curtin-vmtest
+    publishers:
+        - archive:
+            artifacts: 'output/**/collect/**, output/**/logs/**'
+
+- builder:
+    name: curtin-vmtest
+    builders:
+        - shell: |
+            #!/bin/bash -x
+            export http_proxy=http://squid.internal:3128
+            export apt_proxy=http://squid.internal:3128
+            if [ "$(hostname)" == "torkoal" ]; then
+                export TMPDIR=/var/lib/jenkins/tmp/
+            fi
+
+            rm -Rf curtin-*
+            rm -Rf output
+            bzr branch ${branch} curtin-${BUILD_NUMBER}
+            cd curtin-${BUILD_NUMBER}
+
+            ./tools/vmtest-system-setup
+            ./tools/jenkins-runner -p 4 ${nose_args}
+            RET=$?
+
+            # Return Skipped as Passed
+            [ $RET -eq 2 ] && RET=0
+
+            exit $RET

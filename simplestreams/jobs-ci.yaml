@@ -1,0 +1,83 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2016 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- job-template:
+    name: simplestreams-ci-trigger
+    triggers:
+      - timed: H/15 * * * *
+    builders:
+      - shell: |
+          #!/bin/bash -x
+          rm -rf *
+          launchpadTrigger --lock-name=${{JOB_NAME}} \
+                           --job=simplestreams-ci \
+                           --branch=lp:simplestreams \
+                           --trigger-ci
+
+          exit 0
+
+- job-template:
+    name: simplestreams-ci
+    parameters:
+      - landing-candidate
+      - candidate-revision
+      - merge-proposal
+      - use-description-for-commit
+    project-type: matrix
+    axes:
+      - axis:
+          type: slave
+          name: nodes
+          values:
+            - metal-amd64
+            - vm-i386
+            - metal-ppc64el
+            - metal-arm64
+            - metal-s390x
+    auth-token: BUILD_ME
+    publishers:
+      - trigger-parameterized-builds:
+        - project: admin-lp-vote
+          predefined-parameters: |
+            CI_RESULT=FAILED
+            CI_BUILD=${{BUILD_URL}}
+            CI_BRANCH=${{landing_candidate}}
+            CI_MERGE_PROPOSAL=${{merge_proposal}}
+            CI_REVISION=${{candidate_revision}}
+          current-parameters: true
+          condition: UNSTABLE_OR_WORSE
+      - trigger-parameterized-builds:
+        - project: admin-lp-vote
+          predefined-parameters: |
+            CI_RESULT=PASSED
+            CI_BUILD=${{BUILD_URL}}
+            CI_BRANCH=${{landing_candidate}}
+            CI_MERGE_PROPOSAL=${{merge_proposal}}
+            CI_REVISION=${{candidate_revision}}
+          current-parameters: true
+          condition: SUCCESS
+    builders:
+      - shell: |
+          #!/bin/bash -x
+          export https_proxy=http://squid.internal:3128
+          export no_proxy=launchpad.net
+
+          rm -rf ss-*
+          bzr branch ${{landing_candidate}} ss-${{BUILD_NUMBER}}
+          cd ss-${{BUILD_NUMBER}}
+
+          tox

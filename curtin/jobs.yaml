@@ -1,0 +1,123 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2016-2017 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- job-template:
+    name: curtin-build
+    node: metal-amd64
+    builders:
+      - shell: |
+          #!/bin/bash -x
+          export https_proxy=http://squid.internal:3128
+          export no_proxy=launchpad.net
+
+          rm -rf *
+          bzr branch lp:curtin build
+          cd build
+
+          ./tools/build-deb -S -us -uc
+          sbuild --nolog --verbose --dist=xenial curtin_*.dsc
+          
+- job-template:
+    name: curtin-debug
+    parameters:
+      - branch
+      - tox-parameters
+    publishers:
+      - email:
+          recipients: ''
+    project-type: matrix
+    axes:
+      - axis:
+          type: slave
+          name: nodes
+          values:
+            - metal-amd64
+            - vm-i386
+            - metal-ppc64el
+            - metal-arm64
+            - metal-s390x
+    builders:
+      - shell: |
+          #!/bin/bash -x
+          export https_proxy=http://squid.internal:3128
+          export no_proxy=launchpad.net
+
+          rm -rf *
+          bzr branch ${{branch}} debug
+          cd debug
+
+          tox ${{tox_parameters}}
+
+- job-template:
+    name: curtin-style
+    node: metal-amd64
+    publishers:
+      - trigger:
+          project: curtin-build
+          threshold: FAILURE
+      - email:
+          recipients: server-crew-qa@lists.canonical.com
+    builders:
+      - shell: |
+          #!/bin/bash -x
+          export https_proxy=http://squid.internal:3128
+          export no_proxy=launchpad.net
+
+          rm -rf *
+          bzr branch lp:curtin style
+          cd style
+
+          tox -e tip-pycodestyle
+          exit_1=$?
+
+          tox -e tip-pyflakes
+          exit_2=$?
+
+          ! (( $exit_1 || $exit_2))
+
+- job-template:
+    name: curtin-tests
+    project-type: matrix
+    triggers:
+      - timed: "H 23 * * *"
+    publishers:
+      - trigger:
+          project: curtin-style
+          threshold: FAILURE
+      - email:
+          recipients: server-crew-qa@lists.canonical.com
+    axes:
+      - axis:
+          type: slave
+          name: nodes
+          values:
+            - metal-amd64
+            - vm-i386
+            - metal-ppc64el
+            - metal-arm64
+            - metal-s390x
+    builders:
+      - shell: |
+          #!/bin/bash -x
+          export https_proxy=http://squid.internal:3128
+          export no_proxy=launchpad.net
+
+          rm -rf *
+          bzr branch lp:curtin tests
+          cd tests
+
+          tox

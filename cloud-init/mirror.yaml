@@ -1,0 +1,38 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2016 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- job-template:
+    name: cloud-init-github-mirror
+    node: metal-amd64
+    triggers:
+      - timed: "H */4 * * *"
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -eux
+          GIT_DIR="mirror"
+
+          if [ -d "$GIT_DIR" ]; then
+              rm -rf "$GIT_DIR"
+          fi
+
+          git clone --mirror https://git.launchpad.net/cloud-init "$GIT_DIR"
+          cd "$GIT_DIR" || exit 1
+
+          git remote add github git@github.com:cloud-init/cloud-init.git
+          git fetch -q
+          git push -q --mirror github

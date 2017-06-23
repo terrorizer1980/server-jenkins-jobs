@@ -1,0 +1,93 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2016 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- job-template:
+    name: dpdk-tools-x
+    node: metal-amd64
+    publishers:
+      - archive:
+          artifacts: 'dpdk-testing/dpdk-test.status'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: dpdk-virt-tools-x
+          threshold: FAILURE
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf dpdk-testing
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/dpdk-testing
+          cd dpdk-testing
+          ./test.sh -P -t 3 -r "xenial" -R "xenial"
+
+- job-template:
+    name: dpdk-virt-tools-x
+    node: metal-amd64
+    publishers:
+      - archive:
+          artifacts: 'dpdk-testing/dpdk-test.status'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: dpdk-benchmark-x
+          threshold: FAILURE
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf dpdk-testing
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/dpdk-testing
+          cd dpdk-testing
+          ./test.sh -P -t 56 -r "xenial" -R "xenial"
+
+- job-template:
+    name: dpdk-benchmark-x
+    node: metal-amd64
+    publishers:
+      - archive:
+          artifacts: 'dpdk-testing/dpdk-test.status'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: dpdk-endurance-x
+          threshold: FAILURE
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf dpdk-testing
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/dpdk-testing
+          cd dpdk-testing
+          ./test.sh -P -t 896 -r "xenial" -R "xenial"
+
+- job-template:
+    name: dpdk-endurance-x
+    node: metal-amd64
+    publishers:
+      - archive:
+          artifacts: 'dpdk-testing/dpdk-test.status'
+      - email:
+          recipients: josh.powers@canonical.com
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf dpdk-testing
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/dpdk-testing
+          cd dpdk-testing
+          ./test.sh -P -t 3072 -r "xenial" -R "xenial"

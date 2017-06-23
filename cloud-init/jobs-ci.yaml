@@ -1,0 +1,170 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2017 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- job-template:
+    name: cloud-init-ci-trigger
+    node: metal-amd64
+    triggers:
+        - timed: H/15 * * * *
+    builders:
+        - shell: |
+            #!/bin/bash -x
+            rm -rf *
+            launchpadTrigger --lock-name=${{JOB_NAME}} \
+                             --job=cloud-init-ci \
+                             --branch=lp:cloud-init \
+                             --trigger-ci
+
+            exit 0
+
+- job-template:
+    name: cloud-init-ci
+    project-type: pipeline
+    auth-token: BUILD_ME
+    sandbox: True
+    dsl: |
+      pipeline {{
+        agent {{ label 'metal-amd64' }}
+        parameters {{
+            string (
+                defaultValue: 'lp:cloud-init',
+                description: 'Candidate git repo to test (e.g. lp:~smoser/cloud-init)',
+                name : 'landing_candidate')
+            string (
+                defaultValue: 'master',
+                description: 'Git branch name for testing (e.g. master)',
+                name : 'landing_candidate_branch')
+            string (
+                defaultValue: '',
+                description: 'Hash revision of the branch to test (e.g. c6af5b9a1648c208c82b3a2704668391abadd8ab)',
+                name : 'candidate_revision')
+            string (
+                defaultValue: '',
+                description: 'URL of merge proposal to process to test (e.g. https://code.launchpad.net/~smoser/cloud-init/+git/cloud-init/+merge/325760)',
+                name : 'merge_proposal')
+            booleanParam (
+                defaultValue: true,
+                description: 'Use or not use the merge proposal description as commit message.',
+                name : 'use_description_for_commit')
+        }}
+
+        stages {{
+            stage ('Checkout') {{
+                steps {{
+                    script {{
+                        env.git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String    
+                    }}
+
+                    deleteDir()
+                    git url: "${{env.git_url}}", branch: "${{params.landing_candidate_branch}}"
+                    sh 'git remote add master https://git.launchpad.net/cloud-init'
+                    sh 'git fetch master --tags'
+                }}
+            }}
+
+            stage ('Unit & Style Tests') {{
+                steps {{
+                    sh 'tox'
+                    sh 'tox -e tip-pycodestyle'
+                    sh 'tox -e tip-pyflakes'
+                    sh 'tox -e tip-pylint'
+                }}
+            }}
+
+            stage ('Ubuntu LTS: Build') {{
+                steps {{
+                    sh 'git checkout .'
+                    sh './packages/bddeb -S'
+                    sh 'sbuild --nolog --verbose --dist=xenial cloud-init_*.dsc'
+                }}
+            }}
+
+            stage ('Ubuntu LTS: Integration') {{
+                steps {{
+                    sh 'python3 -m tests.cloud_tests run --verbose --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
+                }}
+            }}
+
+            stage ('CentOS 6 & 7: Build & Test') {{
+                steps {{
+                    sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 6'
+                    sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 7'
+                }}
+            }}
+        }}
+
+      post {{
+          success {{
+              build job: 'admin-lp-vote-git', 
+              parameters: [string(name: 'CI_RESULT', value: 'PASSED'),
+                           string(name: 'CI_BUILD', value: env.BUILD_URL),
+                           string(name: 'CI_BRANCH', value: params.landing_candidate),
+                           string(name: 'CI_MERGE_PROPOSAL', value: params.merge_proposal),
+                           string(name: 'CI_REVISION', value: params.candidate_revision),
+                           ],
+              propagate: false
+          }}
+
+          failure {{
+              build job: 'admin-lp-vote-git', 
+              parameters: [string(name: 'CI_RESULT', value: 'FAILED'),
+                           string(name: 'CI_BUILD', value: env.BUILD_URL),
+                           string(name: 'CI_BRANCH', value: params.landing_candidate),
+                           string(name: 'CI_MERGE_PROPOSAL', value: params.merge_proposal),
+                           string(name: 'CI_REVISION', value: params.candidate_revision),
+                           ],
+              propagate: false
+          }}
+        }}
+      }}
+
+
+- job-template:
+    name: cloud-init-ci-nightly
+    project-type: pipeline
+    triggers:
+      - timed: "H 23 * * *"
+    sandbox: True
+    dsl: |
+      node('metal-amd64') {{
+        stage ('Checkout') {{
+          deleteDir()
+          git url: 'https://git.launchpad.net/cloud-init', branch: 'master'
+        }}
+
+        stage ('Unit & Style Tests') {{
+          sh 'tox'
+          sh 'tox -e tip-pycodestyle'
+          sh 'tox -e tip-pyflakes'
+          sh 'tox -e tip-pylint'
+        }}
+
+        stage ('Ubuntu LTS: Build') {{
+          sh 'git checkout .'
+          sh './packages/bddeb -S'
+          sh 'sbuild --nolog --verbose --dist=xenial cloud-init_*.dsc'
+        }}
+
+        stage ('Ubuntu LTS: Integration') {{
+          sh 'python3 -m tests.cloud_tests run --verbose --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
+        }}
+        
+        stage ('CentOS 6 & 7: Build & Test') {{
+          sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 6'
+          sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 7'
+        }}
+      }}

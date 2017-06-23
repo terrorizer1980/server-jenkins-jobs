@@ -1,0 +1,58 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2016 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- project:
+    name: curtin
+    jobs:
+      - curtin-ci
+      - curtin-ci-trigger
+      - curtin-build
+      - curtin-style
+      - curtin-tests
+      - curtin-debug
+      - curtin-vmtest-devel-debug
+      - curtin-vmtest-devel-amd64
+      - curtin-vmtest-devel-ppc64el
+      - curtin-vmtest-devel-s390x
+      - curtin-vmtest-sync-images
+      - curtin-vmtest-daily-debug
+      - curtin-vmtest-daily-t
+      - curtin-vmtest-daily-x
+      - curtin-vmtest-proposed-debug
+      - curtin-vmtest-proposed-x
+      - curtin-vmtest-proposed-x-trigger
+      - curtin-vmtest-proposed-y
+      - curtin-vmtest-proposed-y-trigger
+      - curtin-vmtest-proposed-z
+      - curtin-vmtest-proposed-z-trigger
+      
+- defaults:
+    name: global
+    description: |
+        Curtin Ubuntu Server QA Jenkins Job
+
+        *** STOP ***
+        Do NOT edit this job through the web
+        This job is managed by Jenkins Job Builder and stored on LaunchPad via the URL below:
+        https://code.launchpad.net/server-team-ci
+        *** STOP ***
+    properties:
+      - build-discarder:
+          num-to-keep: 25
+    publishers:
+      - email:
+          recipients: server-crew-qa@lists.canonical.com

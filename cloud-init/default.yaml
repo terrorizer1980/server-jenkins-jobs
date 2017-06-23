@@ -1,0 +1,54 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2016 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- project:
+    name: cloud-init
+    jobs:
+      - cloud-init-ci
+      - cloud-init-ci-nightly
+      - cloud-init-ci-trigger
+      - cloud-init-copr-build
+      - cloud-init-copr-test-6
+      - cloud-init-copr-test-7
+      - cloud-init-github-mirror
+      - cloud-init-integration-a
+      - cloud-init-integration-x      
+      - cloud-init-integration-y
+      - cloud-init-integration-z
+      - cloud-init-integration-proposed-x-trigger
+      - cloud-init-integration-proposed-x
+      - cloud-init-integration-proposed-y-trigger
+      - cloud-init-integration-proposed-y
+      - cloud-init-integration-proposed-z-trigger
+      - cloud-init-integration-proposed-z
+
+- defaults:
+    name: global
+    description: |
+      Cloud-init Ubuntu Server QA Jenkins Job
+
+      *** STOP ***
+      Do NOT edit this job through the web
+      This job is managed by Jenkins Job Builder and stored on LaunchPad via the URL below:
+      https://code.launchpad.net/server-team-ci
+      *** STOP ***
+    properties:
+      - build-discarder:
+          num-to-keep: 25
+    publishers:
+      - email:
+          recipients: server-crew-qa@lists.canonical.com

@@ -1,0 +1,70 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2016 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- parameter:
+    name: branch
+    parameters:
+      - string:
+          name: branch
+          default: https://git.launchpad.net/cloud-init
+          description: git url to clone (e.g. '-b mybranch https://git.launchpad.net/cloud-init')
+
+- parameter:
+    name: tox-parameters
+    parameters:
+      - string:
+          name: tox_parameters
+          default: ''
+          description: Parameters to pass to tox
+
+- parameter:
+    name: landing-candidate
+    parameters:
+      - string:
+          name: landing_candidate
+          default: lp:cloud-init
+          description: Candidate git repo to test (e.g. lp:~smoser/cloud-init)
+
+- parameter:
+    name: landing-candidate-branch
+    parameters:
+      - string:
+          name: landing_candidate_branch
+          default: master
+          description: Git branch name for testing (e.g. 'master')
+
+- parameter:
+    name: candidate-revision
+    parameters:
+      - string:
+          name: candidate_revision
+          description: Hash revision of the branch to test (e.g. 'c6af5b9a1648c208c82b3a2704668391abadd8ab')
+
+- parameter:
+    name: merge-proposal
+    parameters:
+      - string:
+          name: merge_proposal
+          description: URL of merge proposal to process to test (e.g. https://code.launchpad.net/~smoser/cloud-init/+git/cloud-init/+merge/325760)
+
+- parameter:
+    name: use-description-for-commit
+    parameters:
+      - bool:
+          name: use_description_for_commit
+          default: true
+          description: Use or not use the merge proposal description as commit message.

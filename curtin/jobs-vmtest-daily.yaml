@@ -1,0 +1,144 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2017 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- job-template:
+    name: curtin-vmtest-daily-debug
+    node: metal-amd64
+    parameters:
+        - release
+        - nose-args
+    publishers:
+        - archive:
+            artifacts: 'output/**/collect/**, output/**/logs/**'
+    builders:
+      - shell: |
+          #!/bin/bash -x
+          RELEASE="${{release}}"
+          TYPE="daily"
+          LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
+
+          export http_proxy=http://squid.internal:3128
+          export apt_proxy=http://squid.internal:3128
+          export TMPDIR=/var/lib/jenkins/tmp/
+          export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
+
+          rm -Rf curtin-* output
+          lxc delete "$LXC_NAME" --force
+          bzr branch lp:curtin curtin-${{BUILD_NUMBER}}
+          cd curtin-${{BUILD_NUMBER}}
+          PATH="$PWD/tools:$PATH"
+
+          ./tools/vmtest-system-setup
+          ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" --source=src "$LXC_NAME"
+          cd src
+          ./tools/jenkins-runner -p 4 ${{nose_args}}
+          RET=$?
+
+          
+          # Return Skipped as Passed
+          [ $RET -eq 2 ] && RET=0
+
+          lxc delete "$LXC_NAME" --force
+
+          exit $RET
+
+- job-template:
+    name: curtin-vmtest-daily-t
+    node: metal-amd64
+    triggers:
+        - timed: "H 2 * * *"
+    publishers:
+        - archive:
+            artifacts: 'output/**/collect/**, output/**/logs/**'
+        - email:
+            recipients: server-crew-qa@lists.canonical.com
+    builders:
+      - shell: |
+          #!/bin/bash -x
+          RELEASE="trusty"
+          TYPE="daily"
+          LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
+
+          export http_proxy=http://squid.internal:3128
+          export apt_proxy=http://squid.internal:3128
+          export TMPDIR=/var/lib/jenkins/tmp/
+          export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
+
+          rm -Rf curtin-* output
+          lxc delete "$LXC_NAME" --force
+          bzr branch lp:curtin curtin-${{BUILD_NUMBER}}
+          cd curtin-${{BUILD_NUMBER}}
+          PATH="$PWD/tools:$PATH"
+
+          ./tools/vmtest-system-setup
+          ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" --source=src "$LXC_NAME"
+          cd src
+          ./tools/jenkins-runner -p 4
+          RET=$?
+
+          # Return Skipped as Passed
+          [ $RET -eq 2 ] && RET=0
+
+          lxc delete "$LXC_NAME" --force
+
+          exit $RET
+
+
+- job-template:
+    name: curtin-vmtest-daily-x
+    node: metal-amd64
+    parameters:
+        - branch
+        - nose-args
+    triggers:
+        - timed: "H 4 * * *"
+    publishers:
+        - archive:
+            artifacts: 'output/**/collect/**, output/**/logs/**'
+        - email:
+            recipients: server-crew-qa@lists.canonical.com
+    builders:
+      - shell: |
+          #!/bin/bash -x
+          RELEASE="xenial"
+          TYPE="daily"
+          LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
+
+          export http_proxy=http://squid.internal:3128
+          export apt_proxy=http://squid.internal:3128
+          export TMPDIR=/var/lib/jenkins/tmp/
+          export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
+
+          rm -Rf curtin-* output
+          lxc delete "$LXC_NAME" --force
+          bzr branch lp:curtin curtin-${{BUILD_NUMBER}}
+          cd curtin-${{BUILD_NUMBER}}
+          PATH="$PWD/tools:$PATH"
+
+          ./tools/vmtest-system-setup
+          ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" --source=src "$LXC_NAME"
+          cd src
+          ./tools/jenkins-runner -p 4
+          RET=$?
+
+
+          # Return Skipped as Passed
+          [ $RET -eq 2 ] && RET=0
+
+          lxc delete "$LXC_NAME" --force
+
+          exit $RET
