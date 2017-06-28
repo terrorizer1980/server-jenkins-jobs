@@ -24,7 +24,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
-          ./package.py --name='cloud-init'
+          python3 -m metrics.package cloud-init
 
 - job-template:
     name: metric-server-curtin
@@ -35,7 +35,18 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
-          ./package.py --name='curtin'
+          python3 -m metrics.package curtin
+
+- job-template:
+    name: metric-server-merges
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -e
+          rm -rf *
+          git clone https://github.com/canonical-server/metrics.git
+          cd metrics
+          python3 -m metrics.package merges
 
 - job-template:
     name: metric-server-simplestreams
@@ -46,7 +57,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
-          ./package.py --name='simplestreams'
+          python3 -m metrics.package simplestreams
 
 - job-template:
     name: metric-server-triage
@@ -57,7 +68,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
-          ./triage.py
+          python3 -m metrics.package triage
 
 - job-template:
     name: metric-server-uploads
@@ -68,4 +79,4 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
-          ./uploads.py
+          python3 -m metrics.package uploads
