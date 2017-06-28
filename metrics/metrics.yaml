@@ -46,7 +46,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
-          python3 -m metrics.package merges
+          python3 -m metrics.merges
 
 - job-template:
     name: metric-server-simplestreams
