@@ -68,7 +68,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
-          python3 -m metrics.package triage
+          python3 -m metrics.triage
 
 - job-template:
     name: metric-server-uploads
@@ -79,4 +79,4 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
-          python3 -m metrics.package uploads
+          python3 -m metrics.uploads
