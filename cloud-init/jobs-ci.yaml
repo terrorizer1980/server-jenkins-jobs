@@ -33,6 +33,12 @@
 
 - job-template:
     name: cloud-init-ci
+    parameters:
+      - landing-candidate
+      - candidate-revision
+      - merge-proposal
+      - landing-candidate-branch
+      - use-description-for-commit
     project-type: pipeline
     auth-token: BUILD_ME
     sandbox: True
@@ -66,7 +72,7 @@
             stage ('Checkout') {{
                 steps {{
                     script {{
-                        env.git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String    
+                        env.git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
                     }}
 
                     deleteDir()
@@ -109,7 +115,7 @@
 
       post {{
           success {{
-              build job: 'admin-lp-vote-git', 
+              build job: 'admin-lp-vote-git',
               parameters: [string(name: 'CI_RESULT', value: 'PASSED'),
                            string(name: 'CI_BUILD', value: env.BUILD_URL),
                            string(name: 'CI_BRANCH', value: params.landing_candidate),
@@ -120,7 +126,7 @@
           }}
 
           failure {{
-              build job: 'admin-lp-vote-git', 
+              build job: 'admin-lp-vote-git',
               parameters: [string(name: 'CI_RESULT', value: 'FAILED'),
                            string(name: 'CI_BUILD', value: env.BUILD_URL),
                            string(name: 'CI_BRANCH', value: params.landing_candidate),
@@ -162,7 +168,7 @@
         stage ('Ubuntu LTS: Integration') {{
           sh 'python3 -m tests.cloud_tests run --verbose --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
         }}
-        
+
         stage ('CentOS 6 & 7: Build & Test') {{
           sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 6'
           sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 7'
