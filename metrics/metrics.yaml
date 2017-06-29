@@ -24,7 +24,8 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
-          python3 -m metrics.package cloud-init
+          python3 -m metrics.package cloud-init \
+            --repo https://git.launchpad.net/cloud-init
 
 - job-template:
     name: metric-server-curtin
@@ -35,7 +36,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
-          python3 -m metrics.package curtin
+          python3 -m metrics.package curtin --repo lp:curtin
 
 - job-template:
     name: metric-server-merges
@@ -57,7 +58,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
-          python3 -m metrics.package simplestreams
+          python3 -m metrics.package simplestreams --repo lp:simplestreams
 
 - job-template:
     name: metric-server-triage
