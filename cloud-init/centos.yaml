@@ -36,8 +36,8 @@
           rm -rf *
           git clone https://git.launchpad.net/cloud-init
           cd cloud-init
-          export PYVER=python2 
-          ./tools/run-centos 7--srpm --artifact
+          export PYVER=python2
+          ./tools/run-centos 7 --srpm --artifact
 
           cd "$WORKSPACE"
           git clone https://github.com/canonical-server/test-scripts
