@@ -39,6 +39,17 @@
           python3 -m metrics.package curtin --repo lp:curtin
 
 - job-template:
+    name: metric-server-iso
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -e
+          rm -rf *
+          git clone https://github.com/canonical-server/metrics.git
+          cd metrics
+          python3 -m metrics.iso
+
+- job-template:
     name: metric-server-merges
     builders:
       - shell: |

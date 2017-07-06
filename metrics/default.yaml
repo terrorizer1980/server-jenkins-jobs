@@ -20,6 +20,7 @@
     jobs:
       - metric-server-cloudinit
       - metric-server-curtin
+      - metric-server-iso
       - metric-server-merges
       - metric-server-simplestreams
       - metric-server-triage
