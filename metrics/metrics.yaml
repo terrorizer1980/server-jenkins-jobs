@@ -15,6 +15,17 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
+- builder:
+    name: builder-metric-uploads
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -e
+          rm -rf *
+          git clone https://github.com/canonical-server/metrics.git
+          cd metrics
+          python3 -m metrics.uploads {team_name}
+
 - job-template:
     name: metric-server-cloudinit
     builders:
@@ -90,10 +101,5 @@
 - job-template:
     name: metric-server-uploads
     builders:
-      - shell: |
-          #!/bin/bash
-          set -e
-          rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
-          cd metrics
-          python3 -m metrics.uploads
+        - builder-metric-uploads:
+            team_name: "server"
