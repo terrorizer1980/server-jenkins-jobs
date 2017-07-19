@@ -59,18 +59,19 @@
 
           team_names="foundations server"
 
+          git clone https://github.com/canonical-server/metrics.git
+
           cd /srv/patches.ubuntu.com/code
           wget -q -O/srv/patches.ubuntu.com/code/package-team-mapping.json http://people.canonical.com/~ubuntu-archive/package-team-mapping.json
           http_proxy=http://squid.internal:3128 ./update-pool.py debian ubuntu
           ./update-sources.py
           for team_name in $team_names; do
-              ./stats.py -t ubuntu-$team_name
-              tail -n 4 ../stats-ubuntu-${{team_name}}.txt
+              launchpad_team_name="$(cd "$WORKSPACE/metrics"; python3 -m metrics.helpers.get_launchpad_team_name $team_name)"
+              ./stats.py -t $launchpad_team_name
+              tail -n 4 ../stats-${{launchpad_team_name}}.txt
           done
 
-          cd "$WORKSPACE"
-          git clone https://github.com/canonical-server/metrics.git
-          cd metrics
+          cd "$WORKSPACE/metrics"
           for team_name in $team_names; do
               python3 -m metrics.merges $team_name
           done
