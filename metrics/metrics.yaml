@@ -50,14 +50,14 @@
           python3 -m metrics.iso
 
 - job-template:
-    name: metric-server-merges
+    name: metric-merges
     builders:
       - shell: |
           #!/bin/bash
           set -e
           rm -rf *
 
-          team_names="server"
+          team_names="foundations server"
 
           cd /srv/patches.ubuntu.com/code
           wget -q -O/srv/patches.ubuntu.com/code/package-team-mapping.json http://people.canonical.com/~ubuntu-archive/package-team-mapping.json
