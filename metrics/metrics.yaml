@@ -27,6 +27,12 @@
           python3 -m metrics.uploads {team_name}
 
 - job-template:
+    name: metric-foundations-uploads
+    builders:
+        - builder-metric-uploads:
+            team_name: "foundations"
+
+- job-template:
     name: metric-server-cloudinit
     builders:
       - shell: |
