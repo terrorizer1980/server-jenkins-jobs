@@ -57,17 +57,23 @@
           set -e
           rm -rf *
 
+          team_names="server"
+
           cd /srv/patches.ubuntu.com/code
           wget -q -O/srv/patches.ubuntu.com/code/package-team-mapping.json http://people.canonical.com/~ubuntu-archive/package-team-mapping.json
           http_proxy=http://squid.internal:3128 ./update-pool.py debian ubuntu
           ./update-sources.py
-          ./stats.py -t ubuntu-server
-          tail -n 4 ../stats-ubuntu-server.txt
+          for team_name in $team_names; do
+              ./stats.py -t ubuntu-$team_name
+              tail -n 4 ../stats-ubuntu-${{team_name}}.txt
+          done
 
           cd "$WORKSPACE"
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
-          python3 -m metrics.merges
+          for team_name in $team_names; do
+              python3 -m metrics.merges $team_name
+          done
 
 - job-template:
     name: metric-server-simplestreams
