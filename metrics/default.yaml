@@ -18,6 +18,7 @@
 - project:
     name: metrics
     jobs:
+      - metric-foundations-cloud-images
       - metric-foundations-proposed-migration
       - metric-foundations-uploads
       - metric-merges
