@@ -94,6 +94,17 @@
           python3 -m metrics.package simplestreams --repo lp:simplestreams
 
 - job-template:
+    name: metric-foundations-proposed-migration
+    builders:
+      - shell: |
+          #!/bin/sh
+          set -e
+          rm -rf *
+          git clone https://github.com/canonical-server/metrics.git
+          cd metrics
+          python3 -m metrics.foundations_proposed_migration
+
+- job-template:
     name: metric-server-triage
     builders:
       - shell: |
