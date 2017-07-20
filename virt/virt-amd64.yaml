@@ -19,8 +19,8 @@
     name: virt-in-release-amd64-t
     node: metal-amd64
     triggers:
-      # 3am UTC every Wednesday/Saturday
-      - timed: "H 3 * * 3,6"
+      # 3am UTC every Saturday
+      - timed: "H 3 * * 6"
     publishers:
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
