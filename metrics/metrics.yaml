@@ -27,6 +27,17 @@
           python3 -m metrics.uploads {team_name}
 
 - job-template:
+    name: metric-foundations-cloud-images
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -e
+          rm -rf *
+          git clone https://github.com/canonical-server/metrics.git
+          cd metrics
+          python3 -m metrics.cloud_images
+
+- job-template:
     name: metric-foundations-uploads
     builders:
         - builder-metric-uploads:
