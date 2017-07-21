@@ -24,6 +24,7 @@
       - metric-merges
       - metric-server-cloudinit
       - metric-server-curtin
+      - metric-server-google-analytics
       - metric-server-iso
       - metric-server-simplestreams
       - metric-server-triage
