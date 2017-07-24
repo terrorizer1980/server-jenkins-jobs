@@ -52,42 +52,6 @@
           python3 -m tests.cloud_tests run -v -n xenial --repo 'deb http://archive.ubuntu.com/ubuntu/ xenial-proposed main'
 
 - job-template:
-    name: cloud-init-integration-proposed-y-trigger
-    node: metal-amd64
-    triggers:
-      - timed: "H 10 * * *"
-    builders:
-      - shell: |
-          #!/bin/bash -ux
-
-          sudo rm version_lookup.py
-          https://raw.githubusercontent.com/canonical-server/test-scripts/master/launchpad/version_lookup.py
-          chmod +x version_lookup.py
-          proposed=$(./version_lookup.py -r yakkety -p Proposed -s Published cloud-init)
-
-          if [ "$proposed" != "" ]; then
-            curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/cloud-init-integration-proposed-y/build?token=BUILD_ME
-          fi
-
-- job-template:
-    name: cloud-init-integration-proposed-y
-    node: metal-amd64
-    auth-token: BUILD_ME
-    publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
-    builders:
-      - shell: |
-          #!/bin/bash -ux
-          export http_proxy=http://squid.internal:3128
-          export apt_proxy=http://squid.internal:3128
-
-          sudo rm -Rf cloud-init*
-          pull-lp-source cloud-init yakkety-proposed
-          cd cloud-init-*
-          python3 -m tests.cloud_tests run -v -n yakkety --repo 'deb http://archive.ubuntu.com/ubuntu/ yakkety-proposed main'
-
-- job-template:
     name: cloud-init-integration-proposed-z-trigger
     node: metal-amd64
     triggers:

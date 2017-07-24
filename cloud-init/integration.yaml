@@ -24,7 +24,7 @@
       - email:
           recipients: server-crew-qa@lists.canonical.com
       - trigger:
-          project: cloud-init-integration-y
+          project: cloud-init-integration-z
           threshold: FAILURE
       - archive:
           artifacts: 'cloud-init/results/**'
@@ -41,33 +41,6 @@
           ./packages/bddeb -S
           sbuild --nolog --dist=xenial cloud-init_*.dsc
           python3 -m tests.cloud_tests run --os-name xenial \
-            --preserve-data --data-dir results \
-            --verbose --deb cloud-init_*_all.deb
-
-- job-template:
-    name: cloud-init-integration-y
-    node: metal-amd64
-    publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
-      - trigger:
-          project: cloud-init-integration-z
-          threshold: FAILURE
-      - archive:
-          artifacts: 'cloud-init/results/**'
-    builders:
-      - shell: |
-          #!/bin/bash -ux
-          export http_proxy=http://squid.internal:3128
-          export apt_proxy=http://squid.internal:3128
-
-          sudo rm -Rf cloud-init cloud-init-build
-          git clone https://git.launchpad.net/cloud-init
-          cd cloud-init
-          sudo python3 ./tools/read-dependencies --distro ubuntu --test-distro
-          ./packages/bddeb -S
-          sbuild --nolog --dist=yakkety cloud-init_*.dsc
-          python3 -m tests.cloud_tests run --os-name yakkety \
             --preserve-data --data-dir results \
             --verbose --deb cloud-init_*_all.deb
 

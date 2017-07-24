@@ -28,11 +28,10 @@
       - shell: |
           #!/bin/bash -eux
           rm -rf *
-          
+
           sudo schroot --end-session --all-sessions
 
           sudo sbuild-update -udcar source:trusty-amd64
-          sudo sbuild-update -udcar source:yakkety-amd64
           sudo sbuild-update -udcar source:xenial-amd64
           sudo sbuild-update -udcar source:zesty-amd64
           sudo sbuild-update -udcar source:artful-amd64
