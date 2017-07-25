@@ -44,7 +44,7 @@
         - curtin-vmtest
     publishers:
         - archive:
-            artifacts: 'output/**/collect/**, output/**/logs/**, output/tgt.d/**'
+            artifacts: 'output/**/collect/**, output/**/logs/**, output/tgt.d/tgt.log, output/tgt.d/info'
         - email:
             recipients: server-crew-qa@lists.canonical.com
 
@@ -58,7 +58,7 @@
         - curtin-vmtest
     publishers:
         - archive:
-            artifacts: 'output/**/collect/**, output/**/logs/**, output/tgt.d/**'
+            artifacts: 'output/**/collect/**, output/**/logs/**, output/tgt.d/tgt.log, output/tgt.d/info'
         - email:
             recipients: server-crew-qa@lists.canonical.com
 
@@ -72,7 +72,7 @@
         - curtin-vmtest
     publishers:
         - archive:
-            artifacts: 'output/**/collect/**, output/**/logs/**, output/tgt.d/**'
+            artifacts: 'output/**/collect/**, output/**/logs/**, output/tgt.d/tgt.log, output/tgt.d/info'
         - email:
             recipients: server-crew-qa@lists.canonical.com
 
@@ -86,7 +86,7 @@
         - curtin-vmtest
     publishers:
         - archive:
-            artifacts: 'output/**/collect/**, output/**/logs/**, output/tgt.d/**'
+            artifacts: 'output/**/collect/**, output/**/logs/**, output/tgt.d/tgt.log, output/tgt.d/info'
 
 - builder:
     name: curtin-vmtest
