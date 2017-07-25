@@ -23,7 +23,7 @@
         - nose-args
     publishers:
         - archive:
-            artifacts: 'output/**/collect/**, output/**/logs/**, output/tgt.d/*.log'
+            artifacts: 'output/**/collect/**, output/**/logs/**'
     builders:
       - shell: |
           #!/bin/bash -x
@@ -63,7 +63,7 @@
         - timed: "H 2 * * *"
     publishers:
         - archive:
-            artifacts: 'output/**/collect/**, output/**/logs/**, output/tgt.d/*.log'
+            artifacts: 'output/**/collect/**, output/**/logs/**'
         - email:
             recipients: server-crew-qa@lists.canonical.com
     builders:
@@ -108,7 +108,7 @@
         - timed: "H 4 * * *"
     publishers:
         - archive:
-            artifacts: 'output/**/collect/**, output/**/logs/**, output/tgt.d/*.log'
+            artifacts: 'output/**/collect/**, output/**/logs/**'
         - email:
             recipients: server-crew-qa@lists.canonical.com
     builders:
