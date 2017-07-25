@@ -23,7 +23,7 @@
         - nose-args
     publishers:
         - archive:
-            artifacts: 'output/**/collect/**, output/**/logs/**'
+            artifacts: 'output/**/collect/**, output/**/logs/**, output/tgt.d/**'
     builders:
       - shell: |
           #!/bin/bash -eux
@@ -85,7 +85,7 @@
     auth-token: BUILD_ME
     publishers:
         - archive:
-            artifacts: 'output/**/collect/**, output/**/logs/**'
+            artifacts: 'output/**/collect/**, output/**/logs/**, output/tgt.d/**'
         - email:
             recipients: server-crew-qa@lists.canonical.com
     builders:
@@ -149,7 +149,7 @@
     auth-token: BUILD_ME
     publishers:
         - archive:
-            artifacts: 'output/**/collect/**, output/**/logs/**'
+            artifacts: 'output/**/collect/**, output/**/logs/**, output/tgt.d/**'
         - email:
             recipients: server-crew-qa@lists.canonical.com
     builders:
