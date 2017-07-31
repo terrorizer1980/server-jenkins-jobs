@@ -22,6 +22,7 @@
       - metric-foundations-proposed-migration
       - metric-foundations-uploads
       - metric-merges
+      - metric-rls-bug-tasks
       - metric-server-cloudinit
       - metric-server-curtin
       - metric-server-iso

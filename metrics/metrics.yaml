@@ -50,6 +50,12 @@
             team_name: "foundations"
 
 - job-template:
+    name: metric-rls-bug-tasks
+    builders:
+        - simple-metric:
+            metric_module: "rls_bug_tasks"
+
+- job-template:
     name: metric-server-cloudinit
     builders:
       - shell: |
