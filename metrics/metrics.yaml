@@ -16,6 +16,17 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - builder:
+    name: simple-metric
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -e
+          rm -rf *
+          git clone https://github.com/canonical-server/metrics.git
+          cd metrics
+          python3 -m metrics.{metric_module}
+
+- builder:
     name: builder-metric-uploads
     builders:
       - shell: |
@@ -29,19 +40,20 @@
 - job-template:
     name: metric-foundations-cloud-images
     builders:
-      - shell: |
-          #!/bin/bash
-          set -e
-          rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
-          cd metrics
-          python3 -m metrics.cloud_images
+      - simple-metric:
+          metric_module: "cloud_images"
 
 - job-template:
     name: metric-foundations-uploads
     builders:
         - builder-metric-uploads:
             team_name: "foundations"
+
+- job-template:
+    name: metric-rls-bug-tasks
+    builders:
+        - simple-metric:
+            metric_module: "rls_bug_tasks"
 
 - job-template:
     name: metric-server-cloudinit
@@ -69,13 +81,8 @@
 - job-template:
     name: metric-server-iso
     builders:
-      - shell: |
-          #!/bin/bash
-          set -e
-          rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
-          cd metrics
-          python3 -m metrics.iso
+      - simple-metric:
+          metric_module: "iso"
 
 - job-template:
     name: metric-merges
@@ -107,13 +114,8 @@
 - job-template:
     name: metric-foundations-proposed-migration
     builders:
-      - shell: |
-          #!/bin/sh
-          set -e
-          rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
-          cd metrics
-          python3 -m metrics.foundations_proposed_migration
+      - simple-metric:
+          metric_module: "foundations_proposed_migration"
 
 - job-template:
     name: metric-server-triage
