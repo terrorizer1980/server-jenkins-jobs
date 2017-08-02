@@ -133,3 +133,9 @@
     builders:
         - builder-metric-uploads:
             team_name: "server"
+
+- job-template:
+    name: metric-foundations-sru-queues
+    builders:
+        - simple-metric:
+            metric_module: "foundations_sru"

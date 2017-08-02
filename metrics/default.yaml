@@ -20,6 +20,7 @@
     jobs:
       - metric-foundations-cloud-images
       - metric-foundations-proposed-migration
+      - metric-foundations-sru-queues
       - metric-foundations-uploads
       - metric-merges
       - metric-rls-bug-tasks
