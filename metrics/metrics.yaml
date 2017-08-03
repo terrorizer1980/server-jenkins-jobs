@@ -139,3 +139,26 @@
     builders:
         - simple-metric:
             metric_module: "foundations_sru"
+
+- job-template:
+    name: metric-server-google-analytics
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -e
+          rm -rf *
+          git clone https://github.com/canonical-server/metrics.git
+          cd metrics
+          python -m metrics.google_analytics
+    parameters:
+      - string:
+          name: HTTPS_PROXY
+          default: https://squid.internal:3128
+    wrappers:
+     - credentials-binding:
+         - file:
+            credential-id: ga-json-credentials
+            variable: GA_KEY_FILE_LOCATION
+         - text:
+            credential-id: ga-view-id
+            variable: GA_VIEW_ID
