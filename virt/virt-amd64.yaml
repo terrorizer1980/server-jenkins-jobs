@@ -50,29 +50,6 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-amd64-y
-          threshold: FAILURE
-      - junit:
-          results: result.xml
-    builders:
-      - shell: |
-          #!/bin/bash -eu
-
-          rm -rf qemu-migration-test
-          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
-          cd qemu-migration-test
-
-          ./qemu-libvirt-test.sh -P -s 1 -r "xenial" -R "xenial"
-
-- job-template:
-    name: virt-in-release-amd64-y
-    node: metal-amd64
-    publishers:
-      - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
-      - email:
-          recipients: josh.powers@canonical.com
-      - trigger:
           project: virt-in-release-amd64-z
           threshold: FAILURE
       - junit:
@@ -85,7 +62,7 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "yakkety" -R "yakkety"
+          ./qemu-libvirt-test.sh -P -s 1 -r "xenial" -R "xenial"
 
 - job-template:
     name: virt-in-release-amd64-z

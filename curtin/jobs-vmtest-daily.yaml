@@ -48,7 +48,7 @@
           ./tools/jenkins-runner -p 4 ${{nose_args}}
           RET=$?
 
-          
+
           # Return Skipped as Passed
           [ $RET -eq 2 ] && RET=0
 

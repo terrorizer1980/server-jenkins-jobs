@@ -30,24 +30,12 @@
     name: proposed-regression-x
     builders:
       - shell: |
-          #!/bin/bash 
-          set -e
-          rm -rf *
-          git clone https://github.com/canonical-server/test-proposed.git
-          cd test-proposed
-          ./proposed.py -r xenial
-
-- job-template:
-    name: proposed-regression-y
-    builders:
-      - shell: |
           #!/bin/bash
           set -e
           rm -rf *
           git clone https://github.com/canonical-server/test-proposed.git
           cd test-proposed
-          ./proposed.py -r yakkety
-
+          ./proposed.py -r xenial
 
 - job-template:
     name: proposed-regression-z

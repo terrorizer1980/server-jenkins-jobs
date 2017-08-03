@@ -26,13 +26,10 @@
       - cloud-init-copr-test-7
       - cloud-init-github-mirror
       - cloud-init-integration-a
-      - cloud-init-integration-x      
-      - cloud-init-integration-y
+      - cloud-init-integration-x
       - cloud-init-integration-z
       - cloud-init-integration-proposed-x-trigger
       - cloud-init-integration-proposed-x
-      - cloud-init-integration-proposed-y-trigger
-      - cloud-init-integration-proposed-y
       - cloud-init-integration-proposed-z-trigger
       - cloud-init-integration-proposed-z
 

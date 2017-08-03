@@ -35,11 +35,9 @@
       - curtin-vmtest-proposed-debug
       - curtin-vmtest-proposed-x
       - curtin-vmtest-proposed-x-trigger
-      - curtin-vmtest-proposed-y
-      - curtin-vmtest-proposed-y-trigger
       - curtin-vmtest-proposed-z
       - curtin-vmtest-proposed-z-trigger
-      
+
 - defaults:
     name: global
     description: |
