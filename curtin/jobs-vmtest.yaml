@@ -109,6 +109,9 @@
             ./tools/jenkins-runner -p 4 ${nose_args}
             RET=$?
 
+            find output/ > output/output.files.txt
+            tree output
+
             # Return Skipped as Passed
             [ $RET -eq 2 ] && RET=0
 
