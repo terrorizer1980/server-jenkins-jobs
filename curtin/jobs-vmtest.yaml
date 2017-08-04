@@ -45,6 +45,7 @@
     publishers:
         - archive:
             artifacts: 'output/**'
+            excludes: 'output/debug.log'
         - email:
             recipients: server-crew-qa@lists.canonical.com
 
@@ -59,6 +60,7 @@
     publishers:
         - archive:
             artifacts: 'output/**'
+            excludes: 'output/debug.log'
         - email:
             recipients: server-crew-qa@lists.canonical.com
 
@@ -73,6 +75,7 @@
     publishers:
         - archive:
             artifacts: 'output/**'
+            excludes: 'output/debug.log'
         - email:
             recipients: server-crew-qa@lists.canonical.com
 
@@ -87,6 +90,7 @@
     publishers:
         - archive:
             artifacts: 'output/**'
+            excludes: 'output/debug.log'
 
 - builder:
     name: curtin-vmtest
@@ -109,8 +113,7 @@
             ./tools/jenkins-runner -p 4 ${nose_args}
             RET=$?
 
-            find output/ > output/output.files.txt
-            tree output
+            find output -type l -delete
 
             # Return Skipped as Passed
             [ $RET -eq 2 ] && RET=0
