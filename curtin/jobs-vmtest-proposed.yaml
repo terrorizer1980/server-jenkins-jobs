@@ -21,6 +21,9 @@
     parameters:
         - release
         - nose-args
+    properties:
+      - build-discarder:
+          num-to-keep: 1
     publishers:
         - archive:
             artifacts: 'output/**'
@@ -92,6 +95,9 @@
             excludes: 'output/debug.log'
         - email:
             recipients: server-crew-qa@lists.canonical.com
+    properties:
+      - build-discarder:
+          num-to-keep: 1
     builders:
       - shell: |
           #!/bin/bash -eux
@@ -159,6 +165,9 @@
             excludes: 'output/debug.log'
         - email:
             recipients: server-crew-qa@lists.canonical.com
+    properties:
+      - build-discarder:
+          num-to-keep: 1
     builders:
       - shell: |
           #!/bin/bash -eux

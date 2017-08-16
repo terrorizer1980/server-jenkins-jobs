@@ -21,6 +21,9 @@
     parameters:
         - release
         - nose-args
+    properties:
+      - build-discarder:
+          num-to-keep: 1
     publishers:
         - archive:
             artifacts: 'output/**'
@@ -63,6 +66,9 @@
     node: metal-amd64
     triggers:
         - timed: "H 2 * * *"
+    properties:
+      - build-discarder:
+          num-to-keep: 2
     publishers:
         - archive:
             artifacts: 'output/**'
@@ -111,6 +117,9 @@
         - nose-args
     triggers:
         - timed: "H 4 * * *"
+    properties:
+      - build-discarder:
+          num-to-keep: 2
     publishers:
         - archive:
             artifacts: 'output/**'
