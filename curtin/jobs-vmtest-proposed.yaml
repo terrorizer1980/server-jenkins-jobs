@@ -97,7 +97,7 @@
             recipients: server-crew-qa@lists.canonical.com
     properties:
       - build-discarder:
-          num-to-keep: 1
+          num-to-keep: 5
     builders:
       - shell: |
           #!/bin/bash -eux
@@ -167,7 +167,7 @@
             recipients: server-crew-qa@lists.canonical.com
     properties:
       - build-discarder:
-          num-to-keep: 1
+          num-to-keep: 5
     builders:
       - shell: |
           #!/bin/bash -eux

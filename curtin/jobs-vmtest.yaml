@@ -44,7 +44,7 @@
         - curtin-vmtest
     properties:
       - build-discarder:
-          num-to-keep: 2
+          num-to-keep: 10
     publishers:
         - archive:
             artifacts: 'output/**'
@@ -62,7 +62,7 @@
         - curtin-vmtest
     properties:
       - build-discarder:
-          num-to-keep: 2
+          num-to-keep: 10
     publishers:
         - archive:
             artifacts: 'output/**'
@@ -80,7 +80,7 @@
         - curtin-vmtest
     properties:
       - build-discarder:
-          num-to-keep: 2
+          num-to-keep: 10
     publishers:
         - archive:
             artifacts: 'output/**'
@@ -98,7 +98,7 @@
         - curtin-vmtest
     properties:
       - build-discarder:
-          num-to-keep: 2
+          num-to-keep: 5
     publishers:
         - archive:
             artifacts: 'output/**'
