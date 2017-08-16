@@ -24,6 +24,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
+          METRICS_PROMETHEUS=10.245.168.18:9091
           python3 -m metrics.{metric_module}
 
 - builder:
@@ -35,6 +36,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
+          METRICS_PROMETHEUS=10.245.168.18:9091
           python3 -m metrics.uploads {team_name}
 
 - job-template:
@@ -64,6 +66,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
+          METRICS_PROMETHEUS=10.245.168.18:9091
           python3 -m metrics.package cloud-init \
             --repo https://git.launchpad.net/cloud-init
 
@@ -76,6 +79,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
+          METRICS_PROMETHEUS=10.245.168.18:9091
           python3 -m metrics.package curtin --repo lp:curtin
 
 - job-template:
@@ -96,6 +100,7 @@
 
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
+          METRICS_PROMETHEUS=10.245.168.18:9091
           for team_name in $team_names; do
               python3 -m metrics.merges $team_name
           done
@@ -109,6 +114,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
+          METRICS_PROMETHEUS=10.245.168.18:9091
           python3 -m metrics.package simplestreams --repo lp:simplestreams
 
 - job-template:
@@ -126,6 +132,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
+          METRICS_PROMETHEUS=10.245.168.18:9091
           python3 -m metrics.triage server
 
 - job-template:
@@ -149,6 +156,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
+          METRICS_PROMETHEUS=10.245.168.18:9091
           python -m metrics.google_analytics
     parameters:
       - string:
