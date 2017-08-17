@@ -26,7 +26,7 @@
             rm -rf *
             launchpadTrigger --lock-name=${{JOB_NAME}} \
                              --job=git-ubuntu-ci \
-                             --branch=lp:git-ubuntu \
+                             --branch=lp:usd-importer \
                              --trigger-ci
 
             exit 0
@@ -51,7 +51,7 @@
                 description: 'Hash revision of the branch to test (e.g. c6af5b9a1648c208c82b3a2704668391abadd8ab)',
                 name : 'candidate_revision')
             string (
-                defaultValue: 'lp:git-ubuntu',
+                defaultValue: 'lp:usd-importer',
                 description: 'Candidate git repo to test (e.g. lp:~smoser/git-ubuntu)',
                 name : 'landing_candidate')
             string (
@@ -60,7 +60,7 @@
                 name : 'landing_candidate_branch')
             string (
                 defaultValue: '',
-                description: 'URL of merge proposal to process to test (e.g. https://code.launchpad.net/~smoser/git-ubuntu/+git/git-ubuntu/+merge/325760)',
+                description: 'URL of merge proposal to process to test (e.g. https://code.launchpad.net/~smoser/usd-importer/+git/usd-importer/+merge/325760)',
                 name : 'merge_proposal')
             booleanParam (
                 defaultValue: true,
