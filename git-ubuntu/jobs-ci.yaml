@@ -83,7 +83,7 @@
             }}
 
             stage ('Tests') {{
-              sh 'pytest-3 gitubuntu/*'
+              sh 'pytest gitubuntu/*'
             }}
 
             stage ('Build') {{
@@ -132,7 +132,7 @@
         }}
 
         stage ('Tests') {{
-          sh 'pytest-3 gitubuntu/*'
+          sh 'pytest gitubuntu/*'
         }}
 
         stage ('Build') {{
