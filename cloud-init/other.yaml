@@ -16,6 +16,29 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job-template:
+    name: cloud-init-lp-build-status
+    node: metal-amd64
+    triggers:
+      - timed: "H */5 * * *"
+    publishers:
+      - email:
+          recipients: server-crew-qa@lists.canonical.com
+      - junit:
+          results: test-scripts/cloud-init/results.xml
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -e
+          export http_proxy=http://squid.internal:3128
+          export https_proxy=http://squid.internal:3128
+
+          rm -rf *
+          git clone https://github.com/canonical-server/test-scripts
+          cd test-scripts/cloud-init
+          ./lp_build_status.py
+          cat results.xml
+
+- job-template:
     name: cloud-init-github-mirror
     node: metal-amd64
     triggers:

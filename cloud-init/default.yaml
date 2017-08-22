@@ -32,6 +32,7 @@
       - cloud-init-integration-proposed-x
       - cloud-init-integration-proposed-z-trigger
       - cloud-init-integration-proposed-z
+      - cloud-init-lp-build-status
 
 - defaults:
     name: global

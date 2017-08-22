@@ -30,7 +30,7 @@
 
           ./tools/build-deb -S -us -uc
           sbuild --nolog --verbose --dist=xenial curtin_*.dsc
-          
+
 - job-template:
     name: curtin-debug
     parameters:
@@ -121,3 +121,26 @@
           cd tests
 
           tox
+
+- job-template:
+    name: curtin-lp-build-status
+    node: metal-amd64
+    triggers:
+      - timed: "H */5 * * *"
+    publishers:
+      - email:
+          recipients: server-crew-qa@lists.canonical.com
+      - junit:
+          results: test-scripts/curtin/results.xml
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -e
+          export http_proxy=http://squid.internal:3128
+          export https_proxy=http://squid.internal:3128
+
+          rm -rf *
+          git clone https://github.com/canonical-server/test-scripts
+          cd test-scripts/curtin
+          ./lp_build_status.py
+          cat results.xml
