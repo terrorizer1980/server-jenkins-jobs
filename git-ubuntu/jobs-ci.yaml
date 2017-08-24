@@ -83,13 +83,17 @@
             }}
 
             stage ('Tests') {{
-              sh 'pytest gitubuntu/*'
+              steps {{
+                sh 'pytest gitubuntu/*'
+              }}
             }}
 
             stage ('Build') {{
+              steps {{
               sh 'git checkout .'
               sh 'snapcraft'
             }}
+          }}
         }}
 
       post {{
