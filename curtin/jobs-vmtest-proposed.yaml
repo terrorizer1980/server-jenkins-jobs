@@ -58,7 +58,7 @@
           ./tools/jenkins-runner -p 4 ${{nose_args}}
           RET=$?
 
-          cd ${WORKSPACE}
+          cd ${{WORKSPACE}}
           find output -type l -delete
           du -h output/ | sort -h | tail -n 10
 
@@ -130,7 +130,7 @@
           ./tools/jenkins-runner -p 4
           RET=$?
 
-          cd ${WORKSPACE}
+          cd ${{WORKSPACE}}
           find output -type l -delete
           du -h output/ | sort -h | tail -n 10
 
@@ -202,7 +202,7 @@
           ./tools/jenkins-runner -p 4
           RET=$?
 
-          cd ${WORKSPACE}
+          cd ${{WORKSPACE}}
           find output -type l -delete
           du -h output/ | sort -h | tail -n 10
 
