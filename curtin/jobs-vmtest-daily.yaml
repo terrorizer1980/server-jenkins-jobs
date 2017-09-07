@@ -54,6 +54,7 @@
 
           cd ${{WORKSPACE}}
           find output -type l -delete
+          echo "Jenkins Info - Finding 10 largest dirs consuming on-disk space:"
           du -h output/ | sort -h | tail -n 10
 
           # Return Skipped as Passed
