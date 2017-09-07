@@ -135,13 +135,18 @@
           git url: 'https://git.launchpad.net/usd-importer', branch: 'master'
         }}
 
+        stage ('Style') {{
+          sh 'pylint3 -E gitubuntu --ignored-modules=pygit2'
+        }}
+
         stage ('Tests') {{
           sh 'pytest gitubuntu/*'
         }}
 
-        stage ('Build') {{
-          sh 'git checkout .'
-          sh 'snapcraft'
+        stage ('Integration') {{
+          deleteDir()
+          git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
+          sh './git-ubuntu/integration_test'
         }}
 
       }}
