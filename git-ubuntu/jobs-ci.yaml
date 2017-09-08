@@ -83,7 +83,9 @@
             }}
 
             stage ('Style Check') {{
+              steps {{
                 sh 'pylint3 -E gitubuntu --ignored-modules=pygit2'
+              }}
             }}
 
             stage ('Unit Tests') {{
@@ -95,8 +97,8 @@
             stage ('Integration Tests') {{
               steps {{
               deleteDir()
-              git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
-              sh 'https_proxy=http://squid.internal:3128 http_proxy=http://squid.internal:3128 ./git-ubuntu/integration_test -u ${{env.git_url}} -b ${{params.landing_candidate_branch}}'
+                git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
+                sh 'https_proxy=http://squid.internal:3128 http_proxy=http://squid.internal:3128 ./git-ubuntu/integration_test -u ${{env.git_url}} -b ${{params.landing_candidate_branch}}'
               }}
             }}
           }}
