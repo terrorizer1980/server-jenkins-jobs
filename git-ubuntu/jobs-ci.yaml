@@ -71,12 +71,15 @@
         environment {{
             https_proxy = 'http://squid.internal:3128'
             http_proxy = 'http://squid.internal:3128'
-            git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
         }}
 
         stages {{
             stage ('Checkout') {{
                 steps {{
+                    script {{
+                        git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
+                    }}
+
                     deleteDir()
                     git url: "${{env.git_url}}", branch: "${{params.landing_candidate_branch}}"
                     sh 'git remote add master https://git.launchpad.net/usd-importer'
@@ -98,6 +101,9 @@
 
             stage ('Integration Tests') {{
               steps {{
+                  script {{
+                      git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
+                  }}
                 deleteDir()
                 git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
                 sh './git-ubuntu/integration_test -u ${{env.git_url}} -b ${{params.landing_candidate_branch}}'
