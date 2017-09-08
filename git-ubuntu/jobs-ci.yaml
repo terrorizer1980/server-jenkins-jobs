@@ -93,9 +93,11 @@
             }}
 
             stage ('Integration Tests') {{
+              steps {{
               deleteDir()
               git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
               sh 'https_proxy=http://squid.internal:3128 http_proxy=http://squid.internal:3128 ./git-ubuntu/integration_test -u ${{env.git_url}} -b ${{params.landing_candidate_branch}}'
+              }}
             }}
           }}
         }}
