@@ -77,7 +77,7 @@
             stage ('Checkout') {{
                 steps {{
                     script {{
-                        git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
+                        env.git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
                     }}
 
                     deleteDir()
@@ -102,7 +102,7 @@
             stage ('Integration Tests') {{
               steps {{
                   script {{
-                      git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
+                      env.git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
                   }}
                 deleteDir()
                 git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
