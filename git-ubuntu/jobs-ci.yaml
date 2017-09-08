@@ -68,16 +68,11 @@
                 name : 'use_description_for_commit')
         }}
 
-        environment {{
-            https_proxy = 'http://squid.internal:3128'
-            http_proxy = 'http://squid.internal:3128'
-        }}
-
         stages {{
             stage ('Checkout') {{
                 steps {{
                     script {{
-                        git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
+                        env.git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
                     }}
 
                     deleteDir()
@@ -102,11 +97,12 @@
             stage ('Integration Tests') {{
               steps {{
                   script {{
-                      git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
+                      env.git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
                   }}
-                deleteDir()
-                git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
-                sh './git-ubuntu/integration_test -u ${{env.git_url}} -b ${{params.landing_candidate_branch}}'
+
+                  deleteDir()
+                  git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
+                  sh "https_proxy=http://squid.internal:3128 http_proxy=http://squid.internal:3128  ./git-ubuntu/integration_test -u ${{env.git_url}} -b ${{params.landing_candidate_branch}}"
               }}
             }}
           }}
@@ -161,9 +157,7 @@
         stage ('Integration Tests') {{
           deleteDir()
           git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
-          env.https_proxy = 'http://squid.internal:3128'
-          env.http_proxy = 'http://squid.internal:3128'
-          sh './git-ubuntu/integration_test'
+          sh 'https_proxy=http://squid.internal:3128 http_proxy=http://squid.internal:3128 ./git-ubuntu/integration_test'
         }}
 
       }}
