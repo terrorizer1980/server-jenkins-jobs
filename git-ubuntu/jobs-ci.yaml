@@ -96,9 +96,16 @@
 
             stage ('Integration Tests') {{
               steps {{
-              deleteDir()
+                script {{
+                  env.git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
+                }}
+
+                deleteDir()
                 git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
-                sh 'https_proxy=http://squid.internal:3128 http_proxy=http://squid.internal:3128 ./git-ubuntu/integration_test -u ${{env.git_url}} -b ${{params.landing_candidate_branch}}'
+
+                env.https_proxy = 'http://squid.internal:3128'
+                env.http_proxy = 'http://squid.internal:3128'
+                sh './git-ubuntu/integration_test -u ${{env.git_url}} -b ${{params.landing_candidate_branch}}'
               }}
             }}
           }}
@@ -153,7 +160,9 @@
         stage ('Integration Tests') {{
           deleteDir()
           git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
-          sh 'https_proxy=http://squid.internal:3128 http_proxy=http://squid.internal:3128 ./git-ubuntu/integration_test'
+          env.https_proxy = 'http://squid.internal:3128'
+          env.http_proxy = 'http://squid.internal:3128'
+          sh './git-ubuntu/integration_test'
         }}
 
       }}
