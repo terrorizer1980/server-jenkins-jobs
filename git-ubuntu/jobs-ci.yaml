@@ -84,7 +84,7 @@
 
             stage ('Style Check') {{
               steps {{
-                sh 'pylint3 -E gitubuntu --ignored-modules=pygit2'
+                sh 'tox'
               }}
             }}
 
@@ -143,7 +143,7 @@
         }}
 
         stage ('Style Check') {{
-          sh 'pylint3 -E gitubuntu --ignored-modules=pygit2'
+          sh 'tox'
         }}
 
         stage ('Unit Tests') {{
