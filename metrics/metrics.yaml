@@ -26,6 +26,8 @@
           cd metrics
           export METRICS_PROMETHEUS=10.245.168.18:9091
           python3 -m metrics.{metric_module}
+          export METRICS_PROMETHEUS=10.25.2.225:9091
+          python3 -m metrics.{metric_module}
 
 - builder:
     name: builder-metric-uploads
@@ -38,6 +40,8 @@
           cd metrics
           export METRICS_PROMETHEUS=10.245.168.18:9091
           python3 -m metrics.uploads {team_name}
+          export METRICS_PROMETHEUS=10.25.2.225:9091
+          python3 -m metrics.uploads {team_name}
 
 - builder:
     name: errors-most-common-problems
@@ -49,6 +53,8 @@
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.245.168.18:9091
+          python3 -m metrics.foundations_errors --teams {team_name}
+          export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.foundations_errors --teams {team_name}
 
 - job-template:
@@ -87,6 +93,9 @@
           export METRICS_PROMETHEUS=10.245.168.18:9091
           python3 -m metrics.package cloud-init \
             --repo https://git.launchpad.net/cloud-init
+          export METRICS_PROMETHEUS=10.25.2.225:9091
+          python3 -m metrics.package cloud-init \
+            --repo https://git.launchpad.net/cloud-init
 
 - job-template:
     name: metric-server-curtin
@@ -98,6 +107,8 @@
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.245.168.18:9091
+          python3 -m metrics.package curtin --repo lp:curtin
+          export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.package curtin --repo lp:curtin
 
 - job-template:
@@ -123,6 +134,11 @@
               python3 -m metrics.merges $team_name
           done
 
+          export METRICS_PROMETHEUS=10.25.2.225:9091
+          for team_name in $team_names; do
+              python3 -m metrics.merges $team_name
+          done
+
 - job-template:
     name: metric-server-simplestreams
     builders:
@@ -133,6 +149,8 @@
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.245.168.18:9091
+          python3 -m metrics.package simplestreams --repo lp:simplestreams
+          export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.package simplestreams --repo lp:simplestreams
 
 - job-template:
@@ -151,6 +169,8 @@
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.245.168.18:9091
+          python3 -m metrics.triage server
+          export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.triage server
 
 - job-template:
