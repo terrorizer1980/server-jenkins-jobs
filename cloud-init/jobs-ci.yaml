@@ -24,7 +24,7 @@
         - shell: |
             #!/bin/bash -x
             rm -rf *
-            launchpadTrigger --lock-name=${{JOB_NAME}} \
+            launchpadTrigger --lock-name=${{JOB_NAME}}s \
                              --job=cloud-init-ci \
                              --branch=lp:cloud-init \
                              --trigger-ci
