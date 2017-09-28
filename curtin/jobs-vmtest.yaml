@@ -115,6 +115,7 @@
             if [ "$(hostname)" == "torkoal" ]; then
                 export TMPDIR=/var/lib/jenkins/tmp/
             fi
+            export CURTIN_VMTEST_TAR_DISKS=1
 
             rm -Rf curtin-*
             rm -Rf output
