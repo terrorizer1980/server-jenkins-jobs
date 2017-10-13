@@ -188,3 +188,9 @@
          - text:
             credential-id: ga-view-id
             variable: GA_VIEW_ID
+
+- job-template:
+    name: metric-openstack-uploads
+    builders:
+        - builder-metric-uploads:
+            team_name: "openstack"
