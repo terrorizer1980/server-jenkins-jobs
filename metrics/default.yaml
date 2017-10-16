@@ -24,6 +24,7 @@
       - metric-foundations-sru-queues
       - metric-foundations-uploads
       - metric-merges
+      - metric-openstack-uploads
       - metric-rls-bug-tasks
       - metric-server-cloudinit
       - metric-server-curtin
