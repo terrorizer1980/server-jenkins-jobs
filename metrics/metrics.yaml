@@ -114,7 +114,7 @@
           set -e
           rm -rf *
 
-          team_names="foundations server"
+          team_names="foundations server openstack"
 
           git clone https://github.com/canonical-server/metrics.git
           cd metrics
