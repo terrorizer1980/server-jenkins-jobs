@@ -80,8 +80,9 @@
       - shell: |
           #!/bin/bash -ux
 
-          sudo rm version_lookup.py
-          https://raw.githubusercontent.com/canonical-server/test-scripts/master/launchpad/version_lookup.py
+          set -e
+          sudo rm -f version_lookup.py
+          wget https://raw.githubusercontent.com/canonical-server/test-scripts/master/launchpad/version_lookup.py
           chmod +x version_lookup.py
           proposed=$(./version_lookup.py -r xenial -p Proposed -s Published curtin)
 
@@ -153,8 +154,9 @@
       - shell: |
           #!/bin/bash -ux
 
-          sudo rm version_lookup.py
-          https://raw.githubusercontent.com/canonical-server/test-scripts/master/launchpad/version_lookup.py
+          set -e
+          sudo rm -f version_lookup.py
+          wget https://raw.githubusercontent.com/canonical-server/test-scripts/master/launchpad/version_lookup.py
           chmod +x version_lookup.py
           proposed=$(./version_lookup.py -r zesty -p Proposed -s Published curtin)
 
