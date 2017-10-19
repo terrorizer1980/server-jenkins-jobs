@@ -89,6 +89,7 @@
           export apt_proxy=http://squid.internal:3128
           export TMPDIR=/var/lib/jenkins/tmp/
           export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
+          export CURTIN_VMTEST_TAR_DISKS=1
 
           rm -Rf curtin-* output
           lxc delete "$LXC_NAME" --force
