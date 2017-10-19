@@ -55,6 +55,7 @@
 
           ./tools/vmtest-system-setup
           ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" "$LXC_NAME"
+          set +e
           ./tools/jenkins-runner -p 4 ${{nose_args}}
           RET=$?
 
@@ -128,6 +129,7 @@
 
           ./tools/vmtest-system-setup
           ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" "$LXC_NAME"
+          set +e
           ./tools/jenkins-runner -p 4
           RET=$?
 
@@ -201,6 +203,7 @@
 
           ./tools/vmtest-system-setup
           ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" "$LXC_NAME"
+          set +e
           ./tools/jenkins-runner -p 4
           RET=$?
 
