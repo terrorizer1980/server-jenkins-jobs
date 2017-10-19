@@ -24,6 +24,7 @@
           #!/bin/bash
           export http_proxy=http://squid.internal:3128
           export https_proxy=http://squid.internal:3128
+          export DATA_DIR=/var/lib/jenkins/data/proxy-logs-cloud
           rm -rf *
           bzr branch lp:proxy-logs-tools && cd proxy-logs-tools
           ./run
