@@ -30,7 +30,6 @@
       - metric-server-curtin
       - metric-server-google-analytics
       - metric-server-iso
-      - metric-server-logs-cloud
       - metric-server-simplestreams
       - metric-server-triage
       - metric-server-uploads
