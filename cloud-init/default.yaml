@@ -32,6 +32,8 @@
       - cloud-init-integration-proposed-x
       - cloud-init-integration-proposed-z-trigger
       - cloud-init-integration-proposed-z
+      - cloud-init-integration-proposed-a-trigger
+      - cloud-init-integration-proposed-a
       - cloud-init-lp-build-status
 
 - defaults:
@@ -48,5 +50,16 @@
       - build-discarder:
           num-to-keep: 25
     publishers:
+      - email-server-crew
+
+- publisher:
+    name: email-server-crew
+    publishers:
       - email:
           recipients: server-crew-qa@lists.canonical.com
+
+- publisher:
+    name: archive-results
+    publishers:
+      - archive:
+          artifacts: 'cloud-init/results/**'
