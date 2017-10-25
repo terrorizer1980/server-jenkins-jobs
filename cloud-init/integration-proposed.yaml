@@ -21,70 +21,97 @@
     triggers:
       - timed: "H 10 * * *"
     builders:
-      - shell: |
-          #!/bin/bash -ux
-
-          set -e
-          sudo rm -f version_lookup.py
-          wget https://raw.githubusercontent.com/canonical-server/test-scripts/master/launchpad/version_lookup.py
-          chmod +x version_lookup.py
-          proposed=$(./version_lookup.py -r xenial -p Proposed -s Published cloud-init)
-
-          if [ "$proposed" != "" ]; then
-            curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/cloud-init-integration-proposed-x/build?token=BUILD_ME
-          fi
+      - trigger-proposed-integration:
+          release: xenial
+          triggerwhat: cloud-init-integration-proposed-x
 
 - job-template:
     name: cloud-init-integration-proposed-x
     node: metal-amd64
     auth-token: BUILD_ME
     publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+        - email-server-crew
+        - archive-results
     builders:
-      - shell: |
-          #!/bin/bash -ux
-          export http_proxy=http://squid.internal:3128
-          export apt_proxy=http://squid.internal:3128
-
-          sudo rm -Rf cloud-init*
-          pull-lp-source cloud-init xenial-proposed
-          cd cloud-init-*
-          python3 -m tests.cloud_tests run -v -n xenial --repo 'deb http://archive.ubuntu.com/ubuntu/ xenial-proposed main'
+      - proposed-integration:
+          release: xenial
 
 - job-template:
     name: cloud-init-integration-proposed-z-trigger
     node: metal-amd64
+    publishers: []
     triggers:
       - timed: "H 10 * * *"
     builders:
-      - shell: |
-          #!/bin/bash -ux
-
-          set -e
-          sudo rm -f version_lookup.py
-          wget https://raw.githubusercontent.com/canonical-server/test-scripts/master/launchpad/version_lookup.py
-          chmod +x version_lookup.py
-          proposed=$(./version_lookup.py -r zesty -p Proposed -s Published cloud-init)
-
-          if [ "$proposed" != "" ]; then
-            curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/cloud-init-integration-proposed-z/build?token=BUILD_ME
-          fi
+      - trigger-proposed-integration:
+          release: zesty
+          triggerwhat: cloud-init-integration-proposed-z
 
 - job-template:
     name: cloud-init-integration-proposed-z
     node: metal-amd64
     auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: zesty
     publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+        - email-server-crew
+        - archive-results
+
+- job-template:
+    name: cloud-init-integration-proposed-a-trigger
+    node: metal-amd64
+    publishers: []
+    triggers:
+      - timed: "H 10 * * *"
+    builders:
+      - trigger-proposed-integration:
+          release: artful
+          triggerwhat: cloud-init-integration-proposed-a
+
+- job-template:
+    name: cloud-init-integration-proposed-a
+    node: metal-amd64
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: artful
+    publishers:
+        - email-server-crew
+        - archive-results
+
+- builder:
+    name: proposed-integration
     builders:
       - shell: |
-          #!/bin/bash -ux
+          release="{release}"
+
           export http_proxy=http://squid.internal:3128
           export apt_proxy=http://squid.internal:3128
+          sudo rm -Rf cloud-init cloud-init-build
+          git clone https://git.launchpad.net/cloud-init
+          cd cloud-init
+          sudo python3 ./tools/read-dependencies --distro ubuntu --test-distro
+          ./packages/bddeb -S
+          sbuild --nolog "--dist=$release" cloud-init_*.dsc
+          python3 -m tests.cloud_tests run --os-name "$release" \
+            --preserve-data --data-dir results \
+            --verbose --deb cloud-init_*_all.deb
 
-          sudo rm -Rf cloud-init*
-          pull-lp-source cloud-init zesty-proposed
-          cd cloud-init-*
-          python3 -m tests.cloud_tests run -v -n zesty --repo 'deb http://archive.ubuntu.com/ubuntu/ zesty-proposed main'
+- builder:
+    name: trigger-proposed-integration
+    builders:
+      - shell: |
+          set -e
+          release={release}
+          triggerwhat={triggerwhat}
+          sudo rm -f version_lookup.py
+          wget https://raw.githubusercontent.com/canonical-server/test-scripts/master/launchpad/version_lookup.py
+          chmod +x version_lookup.py
+          proposed=$(./version_lookup.py -r $release -p Proposed -s Published cloud-init)
+
+          if [ "$proposed" != "" ]; then
+            curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/$triggerwhat/build?token=BUILD_ME
+          fi
+
+
