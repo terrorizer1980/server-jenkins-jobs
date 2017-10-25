@@ -21,76 +21,52 @@
     triggers:
       - timed: "H 11 * * *"
     publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+      - email-server-crew
+      - archive-results
       - trigger:
           project: cloud-init-integration-z
           threshold: FAILURE
-      - archive:
-          artifacts: 'cloud-init/results/**'
     builders:
-      - shell: |
-          #!/bin/bash -ux
-          export http_proxy=http://squid.internal:3128
-          export apt_proxy=http://squid.internal:3128
-
-          sudo rm -Rf cloud-init cloud-init-build
-          git clone https://git.launchpad.net/cloud-init
-          cd cloud-init
-          sudo python3 ./tools/read-dependencies --distro ubuntu --test-distro
-          ./packages/bddeb -S
-          sbuild --nolog --dist=xenial cloud-init_*.dsc
-          python3 -m tests.cloud_tests run --os-name xenial \
-            --preserve-data --data-dir results \
-            --verbose --deb cloud-init_*_all.deb
+      - integration:
+          release: xenial
 
 - job-template:
     name: cloud-init-integration-z
     node: metal-amd64
     publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+      - email-server-crew
+      - archive-results
       - trigger:
           project: cloud-init-integration-a
           threshold: FAILURE
-      - archive:
-          artifacts: 'cloud-init/results/**'
     builders:
-      - shell: |
-          #!/bin/bash -ux
-          export http_proxy=http://squid.internal:3128
-          export apt_proxy=http://squid.internal:3128
-
-          sudo rm -Rf cloud-init cloud-init-build
-          git clone https://git.launchpad.net/cloud-init
-          cd cloud-init
-          sudo python3 ./tools/read-dependencies --distro ubuntu --test-distro
-          ./packages/bddeb -S
-          sbuild --nolog --dist=zesty cloud-init_*.dsc
-          python3 -m tests.cloud_tests run --os-name zesty \
-            --preserve-data --data-dir results \
-            --verbose --deb cloud-init_*_all.deb
+      - integration:
+          release: zesty
 
 - job-template:
     name: cloud-init-integration-a
     node: metal-amd64
     publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
-      - archive:
-          artifacts: 'cloud-init/results/**'
+      - email-server-crew
+      - archive-results
+    builders:
+      - integration:
+          release: artful
+
+- builder:
+    name: integration
     builders:
       - shell: |
-          #!/bin/bash -ux
+          release="{release}"
           export http_proxy=http://squid.internal:3128
           export apt_proxy=http://squid.internal:3128
 
-          sudo rm -Rf cloud-init cloud-init-build
+          sudo rm -Rf *
           git clone https://git.launchpad.net/cloud-init
           cd cloud-init
           sudo python3 ./tools/read-dependencies --distro ubuntu --test-distro
           ./packages/bddeb -S
-          sbuild --nolog --dist=artful cloud-init_*.dsc
-          python3 -m tests.cloud_tests run --os-name artful \
+          sbuild --nolog --dist=$release cloud-init_*.dsc
+          python3 -m tests.cloud_tests run --os-name $release \
             --preserve-data --data-dir results \
             --verbose --deb cloud-init_*_all.deb
