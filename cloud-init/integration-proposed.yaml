@@ -85,18 +85,23 @@
     builders:
       - shell: |
           release="{release}"
-
           export http_proxy=http://squid.internal:3128
           export apt_proxy=http://squid.internal:3128
-          sudo rm -Rf cloud-init cloud-init-build
-          git clone https://git.launchpad.net/cloud-init
+
+          set -e
+          sudo rm -Rf cloud-init
+          mkdir cloud-init
           cd cloud-init
-          sudo python3 ./tools/read-dependencies --distro ubuntu --test-distro
-          ./packages/bddeb -S
-          sbuild --nolog "--dist=$release" cloud-init_*.dsc
-          python3 -m tests.cloud_tests run --os-name "$release" \
-            --preserve-data --data-dir results \
-            --verbose --deb cloud-init_*_all.deb
+          pull-lp-source cloud-init $release-proposed
+          d=$(for d in *; do [ -d "$d" ] && echo "$d"; done)
+          cd "$d"
+          echo "Running with source for $d"
+          mirror="http://archive.ubuntu.com/ubuntu/"
+          python3 -m tests.cloud_tests run \
+              --os-name="$release" \
+              --repo="deb $mirror $release-proposed main" \
+              --preserve-data --data-dir="../results" \
+              --verbose
 
 - builder:
     name: trigger-proposed-integration
