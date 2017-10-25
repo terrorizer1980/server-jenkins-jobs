@@ -93,7 +93,7 @@
           mkdir cloud-init
           cd cloud-init
           pull-lp-source cloud-init $release-proposed
-          d=$(for d in *; do [ -d "$d" ] && echo "$d"; done)
+          d=$(for d in *; do [ -d "$d" ] && echo "$d" && exit 0; done)
           cd "$d"
           echo "Running with source for $d"
           mirror="http://archive.ubuntu.com/ubuntu/"
