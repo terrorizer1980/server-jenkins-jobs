@@ -30,10 +30,10 @@
       - curtin-vmtest-devel-ppc64el
       - curtin-vmtest-devel-s390x
       - curtin-vmtest-sync-images
-      - curtin-vmtest-daily-debug
       - curtin-vmtest-daily-t
       - curtin-vmtest-daily-x
-      - curtin-vmtest-proposed-debug
+      - curtin-vmtest-proposed-a
+      - curtin-vmtest-proposed-a-trigger
       - curtin-vmtest-proposed-x
       - curtin-vmtest-proposed-x-trigger
       - curtin-vmtest-proposed-z
@@ -53,5 +53,17 @@
       - build-discarder:
           num-to-keep: 25
     publishers:
+      - email-server-crew
+
+- publisher:
+    name: email-server-crew
+    publishers:
       - email:
           recipients: server-crew-qa@lists.canonical.com
+
+- publisher:
+    name: archive-results
+    publishers:
+      - archive:
+          artifacts: 'output/**'
+          excludes: 'output/debug.log'

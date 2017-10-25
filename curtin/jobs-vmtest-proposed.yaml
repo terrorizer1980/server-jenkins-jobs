@@ -15,175 +15,110 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
-    name: curtin-vmtest-proposed-debug
-    node: metal-amd64
-    parameters:
-        - release
-        - nose-args
-    properties:
-      - build-discarder:
-          num-to-keep: 1
-    publishers:
-        - archive:
-            artifacts: 'output/**'
-            excludes: 'output/debug.log'
-    builders:
-      - shell: |
-          #!/bin/bash -eux
-          RELEASE="${{release}}"
-          TYPE="proposed"
-          LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
-
-          export http_proxy=http://squid.internal:3128
-          export apt_proxy=http://squid.internal:3128
-          export TMPDIR=/var/lib/jenkins/tmp/
-          export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
-          export CURTIN_VMTEST_TAR_DISKS=1
-
-          rm -Rf curtin-* output
-          pull-lp-source curtin "$RELEASE"-proposed
-          cd curtin-*
-          PATH="$PWD/tools:$PATH"
-
-          echo "Downloading latest curtainer..."
-          wget -O tools/curtainer http://bazaar.launchpad.net/~curtin-dev/curtin/trunk/download/head:/curtainer-20170210154934-nykc16zc9pk6prgo-1/curtainer
-          chmod +x tools/curtainer
-
-          echo "Downloading latest curtin-from-container..."
-          wget -O tools/curtin-from-container http://bazaar.launchpad.net/~curtin-dev/curtin/trunk/download/head:/curtinfromcontainer-20170209170910-tk5ve41yqbi7s7im-1/curtin-from-container
-          chmod +x tools/curtin-from-container
-
-          ./tools/vmtest-system-setup
-          ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" "$LXC_NAME"
-          set +e
-          ./tools/jenkins-runner -p 4 ${{nose_args}}
-          RET=$?
-
-          cd ${{WORKSPACE}}
-          find output -type l -delete
-          echo "Jenkins Info - Finding 10 largest dirs consuming on-disk space:"
-          du -h output/ | sort -h | tail -n 10
-
-          # Return Skipped as Passed
-          [ $RET -eq 2 ] && RET=0
-
-          lxc delete "$LXC_NAME" --force
-
-          exit $RET
 
 - job-template:
     name: curtin-vmtest-proposed-x-trigger
     node: metal-amd64
     triggers:
       - timed: "H 16 * * *"
-    builders:
-      - shell: |
-          #!/bin/bash -ux
-
-          set -e
-          sudo rm -f version_lookup.py
-          wget https://raw.githubusercontent.com/canonical-server/test-scripts/master/launchpad/version_lookup.py
-          chmod +x version_lookup.py
-          proposed=$(./version_lookup.py -r xenial -p Proposed -s Published curtin)
-
-          if [ "$proposed" != "" ]; then
-            curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/curtin-vmtest-proposed-x/build?token=BUILD_ME
-          fi
-
-- job-template:
-    name: curtin-vmtest-proposed-x
-    node: metal-amd64
-    auth-token: BUILD_ME
     publishers:
-        - archive:
-            artifacts: 'output/**'
-            excludes: 'output/debug.log'
-        - email:
-            recipients: server-crew-qa@lists.canonical.com
-    properties:
-      - build-discarder:
-          num-to-keep: 5
+        - email-server-crew
+        - archive-results
     builders:
-      - shell: |
-          #!/bin/bash -eux
-          RELEASE="xenial"
-          TYPE="proposed"
-          LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
-
-          export http_proxy=http://squid.internal:3128
-          export apt_proxy=http://squid.internal:3128
-          export TMPDIR=/var/lib/jenkins/tmp/
-          export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
-          export CURTIN_VMTEST_TAR_DISKS=1
-          
-          rm -Rf curtin-* output
-          pull-lp-source curtin "$RELEASE"-proposed
-          cd curtin-*
-          PATH="$PWD/tools:$PATH"
-
-          echo "Downloading latest curtainer..."
-          wget -O tools/curtainer http://bazaar.launchpad.net/~curtin-dev/curtin/trunk/download/head:/curtainer-20170210154934-nykc16zc9pk6prgo-1/curtainer
-          chmod +x tools/curtainer
-
-          echo "Downloading latest curtin-from-container..."
-          wget -O tools/curtin-from-container http://bazaar.launchpad.net/~curtin-dev/curtin/trunk/download/head:/curtinfromcontainer-20170209170910-tk5ve41yqbi7s7im-1/curtin-from-container
-          chmod +x tools/curtin-from-container
-
-          ./tools/vmtest-system-setup
-          ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" "$LXC_NAME"
-          set +e
-          ./tools/jenkins-runner -p 4
-          RET=$?
-
-          cd ${{WORKSPACE}}
-          find output -type l -delete
-          echo "Jenkins Info - Finding 10 largest dirs consuming on-disk space:"
-          du -h output/ | sort -h | tail -n 10
-
-          # Return Skipped as Passed
-          [ $RET -eq 2 ] && RET=0
-
-          lxc delete "$LXC_NAME" --force
-
-          exit $RET
+      - vmtest-proposed-trigger:
+          release: xenial
+          triggerwhat: curtin-vmtest-proposed-x
 
 - job-template:
     name: curtin-vmtest-proposed-z-trigger
     node: metal-amd64
     triggers:
       - timed: "H 18 * * *"
+    publishers:
+        - email-server-crew
+        - archive-results
+    builders:
+      - vmtest-proposed-trigger:
+          release: zesty
+          triggerwhat: curtin-vmtest-proposed-z
+
+- job-template:
+    name: curtin-vmtest-proposed-a-trigger
+    node: metal-amd64
+    triggers:
+      - timed: "H 18 * * *"
+    publishers:
+        - email-server-crew
+        - archive-results
+    builders:
+      - vmtest-proposed-trigger:
+          release: artful
+          triggerwhat: curtin-vmtest-proposed-a
+
+- builder:
+    name: vmtest-proposed-trigger
     builders:
       - shell: |
-          #!/bin/bash -ux
-
           set -e
+          release={release}
+          triggerwhat={triggerwhat}
           sudo rm -f version_lookup.py
           wget https://raw.githubusercontent.com/canonical-server/test-scripts/master/launchpad/version_lookup.py
           chmod +x version_lookup.py
-          proposed=$(./version_lookup.py -r zesty -p Proposed -s Published curtin)
+          proposed=$(./version_lookup.py -r "$release" -p Proposed -s Published curtin)
 
           if [ "$proposed" != "" ]; then
-            curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/curtin-vmtest-proposed-z/build?token=BUILD_ME
+            curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/$triggerwhat/build?token=BUILD_ME
           fi
+
+- job-template:
+    name: curtin-vmtest-proposed-x
+    node: metal-amd64
+    auth-token: BUILD_ME
+    properties:
+      - build-discarder:
+          num-to-keep: 5
+    publishers:
+        - email-server-crew
+        - archive-results
+    builders:
+      - vmtest-proposed:
+          release: xenial
 
 - job-template:
     name: curtin-vmtest-proposed-z
     node: metal-amd64
     auth-token: BUILD_ME
-    publishers:
-        - archive:
-            artifacts: 'output/**'
-            excludes: 'output/debug.log'
-        - email:
-            recipients: server-crew-qa@lists.canonical.com
     properties:
       - build-discarder:
           num-to-keep: 5
+    publishers:
+        - email-server-crew
+        - archive-results
+    builders:
+      - vmtest-proposed:
+          release: zesty
+
+- job-template:
+    name: curtin-vmtest-proposed-a
+    node: metal-amd64
+    auth-token: BUILD_ME
+    properties:
+      - build-discarder:
+          num-to-keep: 5
+    publishers:
+        - email-server-crew
+        - archive-results
+    builders:
+      - vmtest-proposed:
+          release: artful
+
+- builder:
+    name: vmtest-proposed
     builders:
       - shell: |
-          #!/bin/bash -eux
-          RELEASE="zesty"
+          set -e
+          RELEASE={release}
           TYPE="proposed"
           LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
 
@@ -192,7 +127,7 @@
           export TMPDIR=/var/lib/jenkins/tmp/
           export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
           export CURTIN_VMTEST_TAR_DISKS=1
-          
+
           rm -Rf curtin-* output
           pull-lp-source curtin "$RELEASE"-proposed
           cd curtin-*

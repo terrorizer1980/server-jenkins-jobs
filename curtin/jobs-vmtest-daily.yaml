@@ -16,55 +16,6 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job-template:
-    name: curtin-vmtest-daily-debug
-    node: metal-amd64
-    parameters:
-        - release
-        - nose-args
-    properties:
-      - build-discarder:
-          num-to-keep: 5
-    publishers:
-        - archive:
-            artifacts: 'output/**'
-            excludes: 'output/debug.log'
-    builders:
-      - shell: |
-          #!/bin/bash -x
-          RELEASE="${{release}}"
-          TYPE="daily"
-          LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
-
-          export http_proxy=http://squid.internal:3128
-          export apt_proxy=http://squid.internal:3128
-          export TMPDIR=/var/lib/jenkins/tmp/
-          export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
-
-          rm -Rf curtin-* output
-          lxc delete "$LXC_NAME" --force
-          bzr branch lp:curtin curtin-${{BUILD_NUMBER}}
-          cd curtin-${{BUILD_NUMBER}}
-          PATH="$PWD/tools:$PATH"
-
-          ./tools/vmtest-system-setup
-          ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" --source=src "$LXC_NAME"
-          cd src
-          ./tools/jenkins-runner -p 4 ${{nose_args}}
-          RET=$?
-
-          cd ${{WORKSPACE}}
-          find output -type l -delete
-          echo "Jenkins Info - Finding 10 largest dirs consuming on-disk space:"
-          du -h output/ | sort -h | tail -n 10
-
-          # Return Skipped as Passed
-          [ $RET -eq 2 ] && RET=0
-
-          lxc delete "$LXC_NAME" --force
-
-          exit $RET
-
-- job-template:
     name: curtin-vmtest-daily-t
     node: metal-amd64
     triggers:
@@ -73,47 +24,11 @@
       - build-discarder:
           num-to-keep: 5
     publishers:
-        - archive:
-            artifacts: 'output/**'
-            excludes: 'output/debug.log'
-        - email:
-            recipients: server-crew-qa@lists.canonical.com
+        - email-server-crew
+        - archive-results
     builders:
-      - shell: |
-          #!/bin/bash -x
-          RELEASE="trusty"
-          TYPE="daily"
-          LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
-
-          export http_proxy=http://squid.internal:3128
-          export apt_proxy=http://squid.internal:3128
-          export TMPDIR=/var/lib/jenkins/tmp/
-          export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
-          export CURTIN_VMTEST_TAR_DISKS=1
-
-          rm -Rf curtin-* output
-          lxc delete "$LXC_NAME" --force
-          bzr branch lp:curtin curtin-${{BUILD_NUMBER}}
-          cd curtin-${{BUILD_NUMBER}}
-          PATH="$PWD/tools:$PATH"
-
-          ./tools/vmtest-system-setup
-          ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" --source=src "$LXC_NAME"
-          cd src
-          ./tools/jenkins-runner -p 4
-          RET=$?
-
-          cd ${{WORKSPACE}}
-          find output -type l -delete
-          du -h output/ | sort -h | tail -n 10
-
-          # Return Skipped as Passed
-          [ $RET -eq 2 ] && RET=0
-
-          lxc delete "$LXC_NAME" --force
-
-          exit $RET
-
+      - vmtest-daily:
+          release: trusty
 
 - job-template:
     name: curtin-vmtest-daily-x
@@ -127,15 +42,18 @@
       - build-discarder:
           num-to-keep: 5
     publishers:
-        - archive:
-            artifacts: 'output/**'
-            excludes: 'output/debug.log'
-        - email:
-            recipients: server-crew-qa@lists.canonical.com
+        - email-server-crew
+        - archive-results
+    builders:
+      - vmtest-daily:
+          release: xenial
+
+- builder:
+    name: vmtest-daily
     builders:
       - shell: |
-          #!/bin/bash -x
-          RELEASE="xenial"
+          set -e
+          RELEASE={release}
           TYPE="daily"
           LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
 
