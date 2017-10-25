@@ -23,7 +23,6 @@
       - timed: "H 16 * * *"
     publishers:
         - email-server-crew
-        - archive-results
     builders:
       - vmtest-proposed-trigger:
           release: xenial
@@ -36,7 +35,6 @@
       - timed: "H 18 * * *"
     publishers:
         - email-server-crew
-        - archive-results
     builders:
       - vmtest-proposed-trigger:
           release: zesty
@@ -49,7 +47,6 @@
       - timed: "H 18 * * *"
     publishers:
         - email-server-crew
-        - archive-results
     builders:
       - vmtest-proposed-trigger:
           release: artful
