@@ -52,7 +52,6 @@
     name: vmtest-daily
     builders:
       - shell: |
-          set -e
           RELEASE={release}
           TYPE="daily"
           LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
@@ -62,8 +61,9 @@
           export TMPDIR=/var/lib/jenkins/tmp/
           export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
 
-          rm -Rf curtin-* output
           lxc delete "$LXC_NAME" --force
+          set -e
+          rm -Rf curtin-* output
           bzr branch lp:curtin curtin-${{BUILD_NUMBER}}
           cd curtin-${{BUILD_NUMBER}}
           PATH="$PWD/tools:$PATH"
