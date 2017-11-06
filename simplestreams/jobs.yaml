@@ -30,7 +30,7 @@
 
           ./tools/build-deb -S -us -uc
           sbuild --nolog --verbose --dist=xenial simplestreams_*.dsc
-          
+
 - job-template:
     name: simplestreams-debug
     parameters:
@@ -46,7 +46,6 @@
           name: nodes
           values:
             - metal-amd64
-            - vm-i386
             - metal-ppc64el
             - metal-arm64
             - metal-s390x
@@ -79,7 +78,6 @@
           name: nodes
           values:
             - metal-amd64
-            - vm-i386
             - metal-ppc64el
             - metal-arm64
             - metal-s390x
