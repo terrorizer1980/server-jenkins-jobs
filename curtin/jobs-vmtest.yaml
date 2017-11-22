@@ -108,7 +108,6 @@
     name: curtin-vmtest
     builders:
         - shell: |
-            #!/bin/bash -x
             export http_proxy=http://squid.internal:3128
             export https_proxy=http://squid.internal:3128
             export no_proxy=archive.ubuntu.com,security.ubuntu.com,ppa.launchpad.net
@@ -123,6 +122,7 @@
             cd curtin-${BUILD_NUMBER}
 
             ./tools/vmtest-system-setup
+            set +e
             ./tools/jenkins-runner -p 4 ${nose_args}
             RET=$?
 

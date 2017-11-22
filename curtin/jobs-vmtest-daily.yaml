@@ -69,6 +69,7 @@
           ./tools/vmtest-system-setup
           ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" --source=src "$LXC_NAME"
           cd src
+          set +e
           ./tools/jenkins-runner -p 4
           RET=$?
 
