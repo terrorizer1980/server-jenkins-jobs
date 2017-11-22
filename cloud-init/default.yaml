@@ -25,15 +25,18 @@
       - cloud-init-copr-test-6
       - cloud-init-copr-test-7
       - cloud-init-github-mirror
-      - cloud-init-integration-a
-      - cloud-init-integration-x
-      - cloud-init-integration-z
-      - cloud-init-integration-proposed-x-trigger
-      - cloud-init-integration-proposed-x
-      - cloud-init-integration-proposed-z-trigger
-      - cloud-init-integration-proposed-z
-      - cloud-init-integration-proposed-a-trigger
-      - cloud-init-integration-proposed-a
+      - cloud-init-integration-lxd-a
+      - cloud-init-integration-lxd-b
+      - cloud-init-integration-lxd-x
+      - cloud-init-integration-lxd-z
+      - cloud-init-integration-nocloud-kvm-x
+      - cloud-init-integration-nocloud-kvm-b
+      - cloud-init-integration-proposed-lxd-a
+      - cloud-init-integration-proposed-lxd-x
+      - cloud-init-integration-proposed-lxd-z
+      - cloud-init-integration-proposed-trigger-a
+      - cloud-init-integration-proposed-trigger-x
+      - cloud-init-integration-proposed-trigger-z
       - cloud-init-lp-build-status
 
 - defaults:

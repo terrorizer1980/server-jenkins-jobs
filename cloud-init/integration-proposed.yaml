@@ -16,17 +16,17 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job-template:
-    name: cloud-init-integration-proposed-x-trigger
+    name: cloud-init-integration-proposed-trigger-x
     node: metal-amd64
     triggers:
       - timed: "H 10 * * *"
     builders:
       - trigger-proposed-integration:
           release: xenial
-          triggerwhat: cloud-init-integration-proposed-x
+          triggerwhat: cloud-init-integration-proposed-lxd-x
 
 - job-template:
-    name: cloud-init-integration-proposed-x
+    name: cloud-init-integration-proposed-lxd-x
     node: metal-amd64
     auth-token: BUILD_ME
     publishers:
@@ -37,7 +37,7 @@
           release: xenial
 
 - job-template:
-    name: cloud-init-integration-proposed-z-trigger
+    name: cloud-init-integration-proposed-trigger-z
     node: metal-amd64
     publishers: []
     triggers:
@@ -45,10 +45,10 @@
     builders:
       - trigger-proposed-integration:
           release: zesty
-          triggerwhat: cloud-init-integration-proposed-z
+          triggerwhat: cloud-init-integration-proposed-lxd-z
 
 - job-template:
-    name: cloud-init-integration-proposed-z
+    name: cloud-init-integration-proposed-lxd-z
     node: metal-amd64
     auth-token: BUILD_ME
     builders:
@@ -59,7 +59,7 @@
         - archive-results
 
 - job-template:
-    name: cloud-init-integration-proposed-a-trigger
+    name: cloud-init-integration-proposed-trigger-a
     node: metal-amd64
     publishers: []
     triggers:
@@ -67,10 +67,10 @@
     builders:
       - trigger-proposed-integration:
           release: artful
-          triggerwhat: cloud-init-integration-proposed-a
+          triggerwhat: cloud-init-integration-proposed-lxd-a
 
 - job-template:
-    name: cloud-init-integration-proposed-a
+    name: cloud-init-integration-proposed-lxd-a
     node: metal-amd64
     auth-token: BUILD_ME
     builders:
@@ -128,7 +128,7 @@
             exit 0
           fi
 
-          pre="cloud-init-integration-proposed-"
+          pre="cloud-init-integration-proposed-lxd--"
           for t in $triggerwhat; do
               curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/$pre$t/build?token=BUILD_ME
           done
