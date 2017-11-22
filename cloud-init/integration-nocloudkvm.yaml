@@ -1,0 +1,59 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2016 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- job-template:
+    name: cloud-init-integration-nocloud-kvm-x
+    node: metal-amd64
+    triggers:
+      - timed: "H 12 * * *"
+    publishers:
+      - email-server-crew
+      - archive-results
+      - trigger:
+          project: cloud-init-integration-nocloud-kvm-b
+          threshold: FAILURE
+    builders:
+      - integration-nocloud-kvm:
+          release: xenial
+
+- job-template:
+    name: cloud-init-integration-nocloud-kvm-b
+    node: metal-amd64
+    publishers:
+      - email-server-crew
+      - archive-results
+    builders:
+      - integration-nocloud-kvm:
+          release: bionic
+
+- builder:
+    name: integration-nocloud-kvm
+    builders:
+      - shell: |
+          release="{release}"
+          export http_proxy=http://squid.internal:3128
+          export apt_proxy=http://squid.internal:3128
+
+          sudo rm -Rf *
+          git clone https://git.launchpad.net/cloud-init
+          cd cloud-init
+          sudo python3 ./tools/read-dependencies --distro ubuntu --test-distro
+          ./packages/bddeb -S
+          sbuild --nolog --dist=$release cloud-init_*.dsc
+          python3 -m tests.cloud_tests run --os-name $release \
+            --platform nocloud-kvm --preserve-data --data-dir results \
+            --verbose --deb cloud-init_*_all.deb
