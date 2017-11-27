@@ -21,8 +21,6 @@
     triggers:
       - timed: "H 3 * * *"
     publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
       - junit:
           results: test-scripts/simplestreams/results.xml
     builders:
@@ -43,8 +41,6 @@
     triggers:
       - timed: "H 3 * * *"
     publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
       - junit:
           results: test-scripts/simplestreams/results.xml
     builders:
