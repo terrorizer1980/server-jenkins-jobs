@@ -21,6 +21,7 @@
       - metric-foundations-cloud-images
       - metric-foundations-error-reports
       - metric-foundations-proposed-migration
+      - metric-foundations-autopkgtest-queue
       - metric-foundations-sru-queues
       - metric-foundations-uploads
       - metric-merges
