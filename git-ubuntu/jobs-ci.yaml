@@ -90,7 +90,7 @@
 
             stage ('Unit Tests') {{
               steps {{
-                sh 'pytest gitubuntu/*'
+                sh 'python3 -m pytest --cov=gitubuntu gitubuntu/*'
               }}
             }}
 
@@ -151,7 +151,7 @@
         }}
 
         stage ('Unit Tests') {{
-          sh 'pytest gitubuntu/*'
+          sh 'python3 -m pytest --cov=gitubuntu gitubuntu/*'
         }}
 
         stage ('Integration Tests') {{
