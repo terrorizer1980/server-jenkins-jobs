@@ -28,6 +28,19 @@
           python3 -m metrics.{metric_module}
 
 - builder:
+    name: metric-influxdb
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -e
+          rm -rf *
+          git clone https://github.com/canonical-server/metrics.git
+          cd metrics
+          bzr branch lp:kpi-metrics-tools
+          source kpi-metrics-tools/{team}-kpi-influxdb.txt
+          python3 -m metrics.{metric_module}
+
+- builder:
     name: builder-metric-uploads
     builders:
       - shell: |
@@ -133,7 +146,8 @@
 - job-template:
     name: metric-server-iso
     builders:
-      - simple-metric:
+      - metric-influxdb:
+          team: "server"
           metric_module: "iso"
 
 - job-template:
