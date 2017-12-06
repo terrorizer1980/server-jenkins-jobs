@@ -19,6 +19,7 @@
     name: metrics
     jobs:
       - metric-foundations-cloud-images
+      - metric-foundations-docker-hub-images
       - metric-foundations-error-reports
       - metric-foundations-proposed-migration
       - metric-foundations-autopkgtest-queue
