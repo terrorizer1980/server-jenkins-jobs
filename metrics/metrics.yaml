@@ -83,6 +83,13 @@
           metric_module: "cloud_images"
 
 - job-template:
+    name: metric-foundations-docker-hub-images
+    builders:
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "docker_hub_images"
+
+- job-template:
     name: metric-foundations-uploads
     builders:
         - builder-metric-uploads:
