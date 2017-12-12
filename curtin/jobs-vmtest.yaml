@@ -39,7 +39,7 @@
         - branch
         - nose-args
     triggers:
-        - timed: "H 0,12 * * *"
+        - timed: "H 0 * * *"
     builders:
         - curtin-vmtest
     properties:
