@@ -64,7 +64,7 @@
           rm -rf *
           git clone https://github.com/canonical-server/test-scripts
           cd test-scripts/cloud-init
-          ./copr_test 6
+          ./copr_test -vv 6
 
 - job-template:
     name: cloud-init-copr-test-7
@@ -79,4 +79,4 @@
           rm -rf *
           git clone https://github.com/canonical-server/test-scripts
           cd test-scripts/cloud-init
-          ./copr_test 7
+          ./copr_test -vv 7
