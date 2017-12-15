@@ -60,3 +60,5 @@
             --verbose --deb cloud-init_*_all.deb
             
           find results -name "*.qcow2" -delete
+          # remove temporary keys
+          find . -name "id_rsa*" -delete
