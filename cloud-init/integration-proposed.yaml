@@ -97,11 +97,15 @@
           cd "$d"
           echo "Running with source for $d"
           mirror="http://archive.ubuntu.com/ubuntu/"
+          set +e
           python3 -m tests.cloud_tests run \
               --os-name="$release" \
               --repo="deb $mirror $release-proposed main" \
               --preserve-data --data-dir="../results" \
               --verbose
+              
+          # remove temporary keys
+          find . -name "id_rsa*" -delete
 
 - builder:
     name: trigger-proposed-integration
