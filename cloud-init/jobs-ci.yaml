@@ -85,9 +85,6 @@
             stage ('Unit & Style Tests') {{
                 steps {{
                     sh 'tox'
-                    sh 'tox -e tip-pycodestyle'
-                    sh 'tox -e tip-pyflakes'
-                    sh 'tox -e tip-pylint'
                 }}
             }}
 
