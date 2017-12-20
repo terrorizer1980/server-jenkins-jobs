@@ -76,7 +76,7 @@
             export no_proxy=launchpad.net
 
             rm -rf curtin-*
-            bzr branch ${{landing_candidate}} curtin-${{BUILD_NUMBER}}
+            git clone ${{landing_candidate}} curtin-${{BUILD_NUMBER}}
             cd curtin-${{BUILD_NUMBER}}
 
             tox

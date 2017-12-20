@@ -27,7 +27,7 @@
             export https_proxy=http://squid.internal:3128
 
             rm -Rf curtin
-            bzr branch lp:curtin
+            git clone https://git.launchpad.net/curtin
             cd curtin
 
             ./tools/vmtest-sync-images
@@ -118,7 +118,7 @@
 
             rm -Rf curtin-*
             rm -Rf output
-            bzr branch ${branch} curtin-${BUILD_NUMBER}
+            git clone -b ${branch} https://git.launchpad.net/curtin curtin-${BUILD_NUMBER}
             cd curtin-${BUILD_NUMBER}
 
             ./tools/vmtest-system-setup
