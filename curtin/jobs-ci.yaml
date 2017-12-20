@@ -36,6 +36,7 @@
         - landing-candidate
         - candidate-revision
         - merge-proposal
+        - landing-candidate-branch
         - use-description-for-commit
     project-type: matrix
     axes:
@@ -50,7 +51,7 @@
     auth-token: BUILD_ME
     publishers:
       - trigger-parameterized-builds:
-        - project: admin-lp-vote
+        - project: admin-lp-vote-git
           predefined-parameters: |
             CI_RESULT=FAILED
             CI_BUILD=${{BUILD_URL}}
@@ -60,7 +61,7 @@
           current-parameters: true
           condition: UNSTABLE_OR_WORSE
       - trigger-parameterized-builds:
-        - project: admin-lp-vote
+        - project: admin-lp-vote-git
           predefined-parameters: |
             CI_RESULT=PASSED
             CI_BUILD=${{BUILD_URL}}
@@ -76,7 +77,8 @@
             export no_proxy=launchpad.net
 
             rm -rf curtin-*
-            git clone ${{landing_candidate}} curtin-${{BUILD_NUMBER}}
+            branch=${{landing_candidate//lp:/https://git.launchpad.net/}}
+            git clone --branch=${{landing_candidate_branch}} $branch curtin-${{BUILD_NUMBER}}
             cd curtin-${{BUILD_NUMBER}}
 
             tox

@@ -36,7 +36,7 @@
     parameters:
       - string:
           name: landing_candidate
-          default: lp:cloud-init
+          default: https://git.launchpad.net/cloud-init
           description: Candidate git repo to test (e.g. lp:~smoser/cloud-init)
 
 - parameter:
