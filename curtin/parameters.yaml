@@ -49,7 +49,7 @@
     parameters:
       - string:
           name: branch
-          default: lp:curtin
+          default: master
           description: LaunchPad branch to use for running the test.
 
 - parameter:

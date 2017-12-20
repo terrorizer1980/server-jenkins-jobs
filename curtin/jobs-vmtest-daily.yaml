@@ -62,7 +62,7 @@
           export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
 
           rm -Rf curtin-* output
-          bzr branch lp:curtin curtin-${{BUILD_NUMBER}}
+          git clone https://git.launchpad.net/curtin curtin-${{BUILD_NUMBER}}
           cd curtin-${{BUILD_NUMBER}}
           PATH="$PWD/tools:$PATH"
 
