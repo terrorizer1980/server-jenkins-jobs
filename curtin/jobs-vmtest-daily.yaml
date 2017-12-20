@@ -18,6 +18,8 @@
 - job-template:
     name: curtin-vmtest-daily-t
     node: metal-amd64
+    parameters:
+        - nose-args
     triggers:
         - timed: "H 2 * * *"
     properties:
@@ -29,12 +31,12 @@
     builders:
       - vmtest-daily:
           release: trusty
+          nose_args: nose_args
 
 - job-template:
     name: curtin-vmtest-daily-x
     node: metal-amd64
     parameters:
-        - branch
         - nose-args
     triggers:
         - timed: "H 4 * * *"
@@ -47,6 +49,7 @@
     builders:
       - vmtest-daily:
           release: xenial
+          nose_args: nose_args
 
 - builder:
     name: vmtest-daily
@@ -62,7 +65,7 @@
           export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
 
           rm -Rf curtin-* output
-          bzr branch lp:curtin curtin-${{BUILD_NUMBER}}
+          git clone -b master https://git.launchpad.net/curtin curtin-${{BUILD_NUMBER}}
           cd curtin-${{BUILD_NUMBER}}
           PATH="$PWD/tools:$PATH"
 
@@ -70,7 +73,7 @@
           ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" --source=src "$LXC_NAME"
           cd src
           set +e
-          ./tools/jenkins-runner -p 4
+          ./tools/jenkins-runner -p 4 ${nose_args}
           RET=$?
 
           cd ${{WORKSPACE}}

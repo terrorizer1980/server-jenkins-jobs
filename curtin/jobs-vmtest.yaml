@@ -27,7 +27,7 @@
             export https_proxy=http://squid.internal:3128
 
             rm -Rf curtin
-            bzr branch lp:curtin
+            git clone --branch=master https://git.launchpad.net/curtin
             cd curtin
 
             ./tools/vmtest-sync-images
@@ -36,7 +36,8 @@
     name: curtin-vmtest-devel-amd64
     node: metal-amd64
     parameters:
-        - branch
+        - landing-candidate
+        - landing-candidate-branch
         - nose-args
     triggers:
         - timed: "H 0 * * *"
@@ -56,7 +57,8 @@
     name: curtin-vmtest-devel-ppc64el
     node: metal-ppc64el
     parameters:
-        - branch
+        - landing-candidate
+        - landing-candidate-branch
         - nose-args
     builders:
         - curtin-vmtest
@@ -74,7 +76,8 @@
     name: curtin-vmtest-devel-s390x
     node: metal-s390x
     parameters:
-        - branch
+        - landing-candidate
+        - landing-candidate-branch
         - nose-args
     builders:
         - curtin-vmtest
@@ -92,7 +95,8 @@
     name: curtin-vmtest-devel-debug
     node: metal-amd64
     parameters:
-        - branch
+        - landing-candidate
+        - landing-candidate-branch
         - nose-args
     builders:
         - curtin-vmtest
@@ -118,7 +122,7 @@
 
             rm -Rf curtin-*
             rm -Rf output
-            bzr branch ${branch} curtin-${BUILD_NUMBER}
+            git clone -b ${landing_candidate_branch} ${landing_candidate} curtin-${BUILD_NUMBER}
             cd curtin-${BUILD_NUMBER}
 
             ./tools/vmtest-system-setup
@@ -128,8 +132,6 @@
 
             cd ${WORKSPACE}
             find output -type l -delete
-            echo "Jenkins Info - Finding 10 largest dirs consuming on-disk space:"
-            du -h output/ | sort -h | tail -n 10
 
             # Return Skipped as Passed
             [ $RET -eq 2 ] && RET=0
