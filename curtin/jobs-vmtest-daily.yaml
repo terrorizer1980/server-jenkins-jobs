@@ -65,7 +65,7 @@
           export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
 
           rm -Rf curtin-* output
-          git clone -b master https://git.launchpad.net/curtin curtin-${{BUILD_NUMBER}}
+          git clone --branch=master https://git.launchpad.net/curtin curtin-${{BUILD_NUMBER}}
           cd curtin-${{BUILD_NUMBER}}
           PATH="$PWD/tools:$PATH"
 

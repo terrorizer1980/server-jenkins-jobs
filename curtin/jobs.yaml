@@ -56,7 +56,7 @@
           export no_proxy=launchpad.net
 
           rm -rf *
-          git clone -b ${{branch}} https://git.launchpad.net/curtin debug
+          git clone --branch=${{branch}} https://git.launchpad.net/curtin debug
           cd debug
 
           tox ${{tox_parameters}}
