@@ -23,10 +23,10 @@
     builders:
       - trigger-proposed-integration:
           release: xenial
-          triggerwhat: cloud-init-integration-proposed-lxd-x
+          triggerwhat: cloud-init-integration-proposed-x
 
 - job-template:
-    name: cloud-init-integration-proposed-lxd-x
+    name: cloud-init-integration-proposed-x
     node: metal-amd64
     auth-token: BUILD_ME
     publishers:
@@ -45,10 +45,10 @@
     builders:
       - trigger-proposed-integration:
           release: artful
-          triggerwhat: cloud-init-integration-proposed-lxd-a
+          triggerwhat: cloud-init-integration-proposed-a
 
 - job-template:
-    name: cloud-init-integration-proposed-lxd-a
+    name: cloud-init-integration-proposed-a
     node: metal-amd64
     auth-token: BUILD_ME
     builders:
@@ -78,6 +78,7 @@
           set +e
           python3 -m tests.cloud_tests run \
               --os-name="$release" \
+              --platform=lxd --platform=nocloud-kvm --platform=ec2 \
               --repo="deb $mirror $release-proposed main" \
               --preserve-data --data-dir="../results" \
               --verbose
@@ -110,7 +111,7 @@
             exit 0
           fi
 
-          pre="cloud-init-integration-proposed-lxd--"
+          pre="cloud-init-integration-proposed--"
           for t in $triggerwhat; do
               curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/$pre$t/build?token=BUILD_ME
           done

@@ -16,47 +16,45 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job-template:
-    name: cloud-init-integration-nocloud-kvm-x
+    name: cloud-init-integration-ec2-x
     node: metal-amd64
     triggers:
-      - timed: "H 12 * * *"
+      - timed: "H 0 * * 0"
     publishers:
       - email-server-crew
       - archive-results
       - trigger:
-          project: cloud-init-integration-nocloud-kvm-a
+          project: cloud-init-integration-ec2-a
           threshold: FAILURE
     builders:
-      - integration-nocloud-kvm:
+      - integration-ec2:
           release: xenial
 
 - job-template:
-    name: cloud-init-integration-nocloud-kvm-a
+    name: cloud-init-integration-ec2-a
     node: metal-amd64
-    triggers:
-      - timed: "H 12 * * *"
     publishers:
       - email-server-crew
       - archive-results
       - trigger:
-          project: cloud-init-integration-nocloud-kvm-b
+          project: cloud-init-integration-ec2-b
           threshold: FAILURE
     builders:
-      - integration-nocloud-kvm:
+      - integration-ec2:
           release: artful
 
 - job-template:
-    name: cloud-init-integration-nocloud-kvm-b
+    name: cloud-init-integration-ec2-b
     node: metal-amd64
     publishers:
       - email-server-crew
       - archive-results
     builders:
-      - integration-nocloud-kvm:
+      - integration-ec2:
           release: bionic
 
 - builder:
-    name: integration-nocloud-kvm
+    name: integration-ec2
     builders:
       - shell: |
           release="{release}"
@@ -71,9 +69,8 @@
           sbuild --nolog --dist=$release cloud-init_*.dsc
           set +e
           python3 -m tests.cloud_tests run --os-name $release \
-            --platform nocloud-kvm --preserve-data --data-dir results \
+            --platform ec2 --preserve-data --data-dir results \
             --verbose --deb cloud-init_*_all.deb
-            
-          find results -name "*.qcow2" -delete
+
           # remove temporary keys
           find . -name "id_rsa*" -delete
