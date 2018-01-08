@@ -37,28 +37,6 @@
           release: xenial
 
 - job-template:
-    name: cloud-init-integration-proposed-trigger-z
-    node: metal-amd64
-    publishers: []
-    triggers:
-      - timed: "H 10 * * *"
-    builders:
-      - trigger-proposed-integration:
-          release: zesty
-          triggerwhat: cloud-init-integration-proposed-lxd-z
-
-- job-template:
-    name: cloud-init-integration-proposed-lxd-z
-    node: metal-amd64
-    auth-token: BUILD_ME
-    builders:
-      - proposed-integration:
-          release: zesty
-    publishers:
-        - email-server-crew
-        - archive-results
-
-- job-template:
     name: cloud-init-integration-proposed-trigger-a
     node: metal-amd64
     publishers: []

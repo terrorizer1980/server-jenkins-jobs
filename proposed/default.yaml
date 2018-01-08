@@ -20,7 +20,7 @@
     jobs:
       - proposed-regression-t
       - proposed-regression-x
-      - proposed-regression-z
+      - proposed-regression-a
 
 - defaults:
     name: global

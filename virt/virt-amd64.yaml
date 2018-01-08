@@ -50,7 +50,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-amd64-z
+          project: virt-in-release-amd64-a
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -65,7 +65,7 @@
           ./qemu-libvirt-test.sh -P -s 1 -r "xenial" -R "xenial"
 
 - job-template:
-    name: virt-in-release-amd64-z
+    name: virt-in-release-amd64-a
     node: metal-amd64
     publishers:
       - archive:
@@ -73,7 +73,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-amd64-a
+          project: virt-in-release-amd64-b
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -85,10 +85,10 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "zesty" -R "zesty"
+          ./qemu-libvirt-test.sh -P -s 1 -r "artful" -R "artful"
 
 - job-template:
-    name: virt-in-release-amd64-a
+    name: virt-in-release-amd64-b
     node: metal-amd64
     publishers:
       - archive:
@@ -108,7 +108,7 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "artful" -R "artful"
+          ./qemu-libvirt-test.sh -P -s 1 -r "bionic" -R "bionic"
 
 - job-template:
     name: virt-cross-release-amd64

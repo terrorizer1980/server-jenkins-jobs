@@ -27,7 +27,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-s390x-z
+          project: virt-in-release-s390x-a
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -42,7 +42,7 @@
           ./qemu-libvirt-test.sh -P -s 1 -r "xenial" -R "xenial"
 
 - job-template:
-    name: virt-in-release-s390x-z
+    name: virt-in-release-s390x-a
     node: metal-s390x
     publishers:
       - archive:
@@ -50,7 +50,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-s390x-a
+          project: virt-in-release-s390x-b
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -62,10 +62,10 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "zesty" -R "zesty"
+          ./qemu-libvirt-test.sh -P -s 1 -r "artful" -R "artful"
 
 - job-template:
-    name: virt-in-release-s390x-a
+    name: virt-in-release-s390x-b
     node: metal-s390x
     publishers:
       - archive:
@@ -85,7 +85,7 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "artful" -R "artful"
+          ./qemu-libvirt-test.sh -P -s 1 -r "bionic" -R "bionic"
 
 - job-template:
     name: virt-cross-release-s390x

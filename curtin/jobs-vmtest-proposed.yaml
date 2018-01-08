@@ -29,18 +29,6 @@
           triggerwhat: curtin-vmtest-proposed-x
 
 - job-template:
-    name: curtin-vmtest-proposed-z-trigger
-    node: metal-amd64
-    triggers:
-      - timed: "H 18 * * *"
-    publishers:
-        - email-server-crew
-    builders:
-      - vmtest-proposed-trigger:
-          release: zesty
-          triggerwhat: curtin-vmtest-proposed-z
-
-- job-template:
     name: curtin-vmtest-proposed-a-trigger
     node: metal-amd64
     triggers:
@@ -81,20 +69,6 @@
     builders:
       - vmtest-proposed:
           release: xenial
-
-- job-template:
-    name: curtin-vmtest-proposed-z
-    node: metal-amd64
-    auth-token: BUILD_ME
-    properties:
-      - build-discarder:
-          num-to-keep: 5
-    publishers:
-        - email-server-crew
-        - archive-results
-    builders:
-      - vmtest-proposed:
-          release: zesty
 
 - job-template:
     name: curtin-vmtest-proposed-a

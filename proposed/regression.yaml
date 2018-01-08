@@ -38,7 +38,7 @@
           ./proposed.py -r xenial
 
 - job-template:
-    name: proposed-regression-z
+    name: proposed-regression-a
     builders:
       - shell: |
           #!/bin/bash
@@ -46,4 +46,4 @@
           rm -rf *
           git clone https://github.com/canonical-server/test-proposed.git
           cd test-proposed
-          ./proposed.py -r zesty
+          ./proposed.py -r artful

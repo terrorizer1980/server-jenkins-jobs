@@ -33,5 +33,5 @@
 
           sudo sbuild-update -udcar source:trusty-amd64
           sudo sbuild-update -udcar source:xenial-amd64
-          sudo sbuild-update -udcar source:zesty-amd64
           sudo sbuild-update -udcar source:artful-amd64
+          sudo sbuild-update -udcar source:bionic-amd64

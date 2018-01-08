@@ -36,8 +36,6 @@
       - curtin-vmtest-proposed-a-trigger
       - curtin-vmtest-proposed-x
       - curtin-vmtest-proposed-x-trigger
-      - curtin-vmtest-proposed-z
-      - curtin-vmtest-proposed-z-trigger
 
 - defaults:
     name: global

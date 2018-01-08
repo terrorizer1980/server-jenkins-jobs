@@ -24,24 +24,11 @@
       - email-server-crew
       - archive-results
       - trigger:
-          project: cloud-init-integration-lxd-z
-          threshold: FAILURE
-    builders:
-      - integration-lxd:
-          release: xenial
-
-- job-template:
-    name: cloud-init-integration-lxd-z
-    node: metal-amd64
-    publishers:
-      - email-server-crew
-      - archive-results
-      - trigger:
           project: cloud-init-integration-lxd-a
           threshold: FAILURE
     builders:
       - integration-lxd:
-          release: zesty
+          release: xenial
 
 - job-template:
     name: cloud-init-integration-lxd-a

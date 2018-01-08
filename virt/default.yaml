@@ -20,20 +20,20 @@
     jobs:
       - virt-in-release-amd64-t
       - virt-in-release-amd64-x
-      - virt-in-release-amd64-z
       - virt-in-release-amd64-a
+      - virt-in-release-amd64-b
       - virt-cross-release-amd64
       - virt-qemu-qa-amd64
       - virt-libvirt-qa-amd64
       - virt-uca-m-in-release-amd64
       - virt-uca-m-cross-release-amd64
       - virt-in-release-s390x-x
-      - virt-in-release-s390x-z
       - virt-in-release-s390x-a
+      - virt-in-release-s390x-b
       - virt-cross-release-s390x
       - virt-in-release-ppc64el-x
-      - virt-in-release-ppc64el-z
       - virt-in-release-ppc64el-a
+      - virt-in-release-ppc64el-b
       - virt-cross-release-ppc64el
       - virt-cleanup
 
