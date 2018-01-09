@@ -33,8 +33,6 @@
 - job-template:
     name: cloud-init-integration-nocloud-kvm-a
     node: metal-amd64
-    triggers:
-      - timed: "H 12 * * *"
     publishers:
       - email-server-crew
       - archive-results
