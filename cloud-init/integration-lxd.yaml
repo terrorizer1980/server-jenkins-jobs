@@ -68,7 +68,7 @@
           ./packages/bddeb -S
           sbuild --nolog --dist=$release cloud-init_*.dsc
           set +e
-          python3 -m tests.cloud_tests run --os-name $release \
+          tox -e citest -- run --os-name $release \
             --preserve-data --data-dir results \
             --verbose --deb cloud-init_*_all.deb
 

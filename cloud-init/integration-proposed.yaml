@@ -76,7 +76,7 @@
           echo "Running with source for $d"
           mirror="http://archive.ubuntu.com/ubuntu/"
           set +e
-          python3 -m tests.cloud_tests run \
+          tox -e citest -- run \
               --os-name="$release" \
               --platform=lxd --platform=nocloud-kvm --platform=ec2 \
               --repo="deb $mirror $release-proposed main" \
