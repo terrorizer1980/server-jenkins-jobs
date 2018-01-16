@@ -118,9 +118,9 @@
           RET=$?
 
           cd ${{WORKSPACE}}
+          echo "cleanup: deleting links and image files"
           find output -type l -delete
-          echo "Jenkins Info - Finding 10 largest dirs consuming on-disk space:"
-          du -h output/ | sort -h | tail -n 10
+          find output -type f -name "*.img" -delete
 
           # Return Skipped as Passed
           [ $RET -eq 2 ] && RET=0
