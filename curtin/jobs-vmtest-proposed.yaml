@@ -103,14 +103,6 @@
           cd curtin-*
           PATH="$PWD/tools:$PATH"
 
-          echo "Downloading latest curtainer..."
-          wget -O tools/curtainer http://bazaar.launchpad.net/~curtin-dev/curtin/trunk/download/head:/curtainer-20170210154934-nykc16zc9pk6prgo-1/curtainer
-          chmod +x tools/curtainer
-
-          echo "Downloading latest curtin-from-container..."
-          wget -O tools/curtin-from-container http://bazaar.launchpad.net/~curtin-dev/curtin/trunk/download/head:/curtinfromcontainer-20170209170910-tk5ve41yqbi7s7im-1/curtin-from-container
-          chmod +x tools/curtin-from-container
-
           ./tools/vmtest-system-setup
           ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" "$LXC_NAME"
           set +e
