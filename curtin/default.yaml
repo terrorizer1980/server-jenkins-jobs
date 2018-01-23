@@ -24,6 +24,7 @@
       - curtin-style
       - curtin-tests
       - curtin-debug
+      - curtin-github-mirror
       - curtin-lp-build-status
       - curtin-vmtest-devel-debug
       - curtin-vmtest-devel-amd64
