@@ -58,4 +58,4 @@
 
           git remote add github git@github.com:cloud-init/cloud-init.git
           git fetch -q
-          git push -q --mirror github
+          GIT_SSH_COMMAND='ssh -i $HOME/.ssh/cloudinit_id_rsa' git push -q --mirror github
