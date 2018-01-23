@@ -142,3 +142,25 @@
           cd test-scripts/curtin
           ./lp_build_status.py
           cat results.xml
+
+- job-template:
+    name: curtin-github-mirror
+    node: metal-amd64
+    triggers:
+      - timed: "H */4 * * *"
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -eux
+          GIT_DIR="mirror"
+
+          if [ -d "$GIT_DIR" ]; then
+              rm -rf "$GIT_DIR"
+          fi
+
+          git clone --mirror https://git.launchpad.net/curtin "$GIT_DIR"
+          cd "$GIT_DIR" || exit 1
+
+          git remote add github git@github.com:curtin-dev/curtin.git
+          git fetch -q
+          GIT_SSH_COMMAND='ssh -i $HOME/.ssh/curtin_id_rsa' git push -q --mirror github
