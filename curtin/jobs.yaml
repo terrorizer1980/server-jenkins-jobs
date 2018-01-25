@@ -161,6 +161,6 @@
           git clone --mirror https://git.launchpad.net/curtin "$GIT_DIR"
           cd "$GIT_DIR" || exit 1
 
-          git remote add github git@github.com:curtin-dev/curtin.git
+          git remote add github git@github.com:CanonicalLtd/curtin.git
           git fetch -q
           GIT_SSH_COMMAND='ssh -i $HOME/.ssh/curtin_id_rsa' git push -q --mirror github
