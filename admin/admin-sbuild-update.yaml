@@ -29,9 +29,17 @@
           #!/bin/bash -eux
           rm -rf *
 
+          arch=$(dpkg --print-architecture)
+          schroot_dir="/var/lib/schroot/chroots"
+
           sudo schroot --end-session --all-sessions
 
-          sudo sbuild-update -udcar source:trusty-amd64
-          sudo sbuild-update -udcar source:xenial-amd64
-          sudo sbuild-update -udcar source:artful-amd64
-          sudo sbuild-update -udcar source:bionic-amd64
+          for release in $(distro-info --supported);
+          do
+              if [ ! -d "$schroot_dir/$release-$arch" ]; then
+                  mk-sbuild "$release" --arch="$arch"
+              fi
+              
+              sudo sbuild-update -udcar source:"$release-$arch"
+          done
+
