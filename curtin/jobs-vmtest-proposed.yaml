@@ -107,7 +107,7 @@
           ./tools/vmtest-system-setup
           ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" "$LXC_NAME"
           set +e
-          ./tools/jenkins-runner -p 4
+          ./tools/jenkins-runner -p 2
           RET=$?
 
           cd ${{WORKSPACE}}
