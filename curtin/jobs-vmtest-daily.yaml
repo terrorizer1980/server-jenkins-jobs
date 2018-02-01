@@ -74,7 +74,7 @@
           ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" --source=src "$LXC_NAME"
           cd src
           set +e
-          ./tools/jenkins-runner -p 4 ${nose_args}
+          ./tools/jenkins-runner -p 2 ${nose_args}
           RET=$?
 
           cd ${{WORKSPACE}}
