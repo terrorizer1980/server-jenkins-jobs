@@ -63,6 +63,7 @@
           export apt_proxy=http://squid.internal:3128
           export TMPDIR=/var/lib/jenkins/tmp/
           export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
+          export CURTIN_VMTEST_SKIP_BY_DATE_BUGS="*"
 
           rm -Rf curtin-* output
           git clone --branch=master https://git.launchpad.net/curtin curtin-${{BUILD_NUMBER}}
