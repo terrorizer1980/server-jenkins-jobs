@@ -129,7 +129,7 @@
 
             ./tools/vmtest-system-setup
             set +e
-            ./tools/jenkins-runner -p 4 ${nose_args}
+            ./tools/jenkins-runner -p 2 ${nose_args}
             RET=$?
 
             cd ${WORKSPACE}
