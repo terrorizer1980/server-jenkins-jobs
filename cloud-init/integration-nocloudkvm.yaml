@@ -64,7 +64,6 @@
           sudo rm -Rf *
           git clone https://git.launchpad.net/cloud-init
           cd cloud-init
-          sudo python3 ./tools/read-dependencies --distro ubuntu --test-distro
           ./packages/bddeb -S
           sbuild --nolog --dist=$release cloud-init_*.dsc
           set +e
