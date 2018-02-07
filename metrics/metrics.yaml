@@ -90,6 +90,13 @@
           metric_module: "docker_hub_images"
 
 - job-template:
+    name: metric-foundations-cloud-image-sizes
+    builders:
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "cloud_image_sizes"
+
+- job-template:
     name: metric-foundations-uploads
     builders:
         - builder-metric-uploads:
