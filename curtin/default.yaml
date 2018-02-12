@@ -65,4 +65,4 @@
     publishers:
       - archive:
           artifacts: 'output/**'
-          excludes: 'output/debug.log'
+          excludes: 'output/debug.log, **/*img'

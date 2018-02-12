@@ -49,7 +49,7 @@
     publishers:
         - archive:
             artifacts: 'output/**'
-            excludes: 'output/debug.log'
+            excludes: 'output/debug.log, **/*img'
         - email:
             recipients: server-crew-qa@lists.canonical.com
 
@@ -68,7 +68,7 @@
     publishers:
         - archive:
             artifacts: 'output/**'
-            excludes: 'output/debug.log'
+            excludes: 'output/debug.log, **/*img'
         - email:
             recipients: server-crew-qa@lists.canonical.com
 
@@ -87,7 +87,7 @@
     publishers:
         - archive:
             artifacts: 'output/**'
-            excludes: 'output/debug.log'
+            excludes: 'output/debug.log, **/*img'
         - email:
             recipients: server-crew-qa@lists.canonical.com
 
@@ -106,7 +106,7 @@
     publishers:
         - archive:
             artifacts: 'output/**'
-            excludes: 'output/debug.log'
+            excludes: 'output/debug.log, **/*img'
 
 - builder:
     name: curtin-vmtest
