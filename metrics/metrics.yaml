@@ -97,6 +97,13 @@
           metric_module: "cloud_image_sizes"
 
 - job-template:
+    name: metric-foundations-bugs
+    builders:
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "foundations_bugs"
+
+- job-template:
     name: metric-foundations-uploads
     builders:
         - builder-metric-uploads:

@@ -25,6 +25,7 @@
       - metric-foundations-proposed-migration
       - metric-foundations-autopkgtest-queue
       - metric-foundations-sru-queues
+      - metric-foundations-bugs
       - metric-foundations-uploads
       - metric-merges
       - metric-openstack-uploads
