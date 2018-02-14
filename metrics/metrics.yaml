@@ -38,7 +38,7 @@
           cd metrics
           bzr branch lp:kpi-metrics-tools
           source kpi-metrics-tools/{team}-kpi-influxdb.txt
-          python3 -m metrics.{metric_module}
+          python3 -m metrics.{metric_module} {metric_arguments}
 
 - builder:
     name: builder-metric-uploads
@@ -101,7 +101,8 @@
     builders:
       - metric-influxdb:
           team: "foundations"
-          metric_module: "foundations_bugs"
+          metric_module: "team_bugs"
+          metric_arguments: "canonical-foundations"
 
 - job-template:
     name: metric-foundations-uploads
