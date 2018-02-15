@@ -38,7 +38,7 @@
           cd metrics
           bzr branch lp:kpi-metrics-tools
           source kpi-metrics-tools/{team}-kpi-influxdb.txt
-          python3 -m metrics.{metric_module}
+          python3 -m metrics.{metric_module} {metric_arguments}
 
 - builder:
     name: builder-metric-uploads
@@ -88,6 +88,7 @@
       - metric-influxdb:
           team: "foundations"
           metric_module: "docker_hub_images"
+          metric_arguments: ""
 
 - job-template:
     name: metric-foundations-cloud-image-sizes
@@ -95,6 +96,15 @@
       - metric-influxdb:
           team: "foundations"
           metric_module: "cloud_image_sizes"
+          metric_arguments: ""
+
+- job-template:
+    name: metric-foundations-bugs
+    builders:
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "team_assigned_bugs"
+          metric_arguments: "canonical-foundations"
 
 - job-template:
     name: metric-foundations-uploads
@@ -163,6 +173,7 @@
       - metric-influxdb:
           team: "server"
           metric_module: "iso"
+          metric_arguments: ""
 
 - job-template:
     name: metric-merges
