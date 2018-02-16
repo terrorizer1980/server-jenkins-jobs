@@ -47,8 +47,8 @@
 - job-template:
     name: '{team}-{release}-{arch}-build'
     node: metal-{arch}
-    trigger:
-      - H H * * 0
+    triggers:
+      - timed: "H H * * 0"
     builders:
       - package-build:
           release: '{release}'
