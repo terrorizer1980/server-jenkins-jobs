@@ -61,6 +61,7 @@
           results: test-build/results.xml
     builders:
       - shell: |
+          rm -rf test-build
           git clone https://github.com/canonical-server/test-build.git
           cd test-build
 
