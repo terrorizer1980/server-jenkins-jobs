@@ -1,0 +1,69 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2018 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- defaults:
+    name: global
+    description: |
+        Package Build Ubuntu Server QA Jenkins Job
+
+        *** STOP ***
+        Do NOT edit this job through the web
+        This job is managed by Jenkins Job Builder and stored on Github via the URL below:
+        https://github.com/canonical-server/jenkins-jobs
+        *** STOP ***
+    properties:
+      - build-discarder:
+          num-to-keep: 25
+
+- project:
+    name: 'package-build'
+    release:
+      - 'bionic'
+      - 'xenial'
+      - 'trusty'
+    arch:
+      - 'amd64'
+      - 'ppc64el'
+      - 's390x'
+    team:
+      - 'ubuntu-server'
+    jobs:
+      - '{team}-{release}-{arch}-build'
+
+- job-template:
+    name: '{team}-{release}-{arch}-build'
+    node: metal-{arch}
+    trigger:
+      - H H * * 0
+    builders:
+      - package-build:
+          release: '{release}'
+          team: '{team}'
+
+- builder:
+    name: package-build
+    publishers:
+      - junit:
+          results: test-build/results.xml
+    builders:
+      - shell: |
+          git clone https://github.com/canonical-server/test-build.git
+          cd test-build
+
+          PACKAGES=$(./get_team_packages {team})
+          ./build-packages {release} $PACKAGES
+          ./parse_results
