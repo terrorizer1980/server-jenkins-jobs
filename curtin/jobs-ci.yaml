@@ -80,6 +80,7 @@
             branch=${{landing_candidate//lp:/https://git.launchpad.net/}}
             git clone --branch=${{landing_candidate_branch}} $branch curtin-${{BUILD_NUMBER}}
             cd curtin-${{BUILD_NUMBER}}
+            git rev-parse HEAD
             git remote add upstream https://git.launchpad.net/curtin
             git fetch upstream --tags
 
