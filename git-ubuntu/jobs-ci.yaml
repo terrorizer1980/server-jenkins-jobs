@@ -68,70 +68,69 @@
                 name : 'use_description_for_commit')
         }}
 
-        stages {{
-            stage ('Checkout') {{
-                steps {{
-                    script {{
-                        env.git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
-                    }}
+        environment {{
+            VM_NAME = 'gitubuntu-ci-${{currentBuild.getNumber()}}'
+        }}
 
+        stages {{
+            stage ('VM Setup') {{
+                steps {{
                     deleteDir()
-                    git url: "${{env.git_url}}", branch: "${{params.landing_candidate_branch}}"
-                    sh 'git remote add master https://git.launchpad.net/usd-importer'
-                    sh 'git fetch master --tags'
+                    git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
+                    sh 'http_proxy="http://squid.internal:3128" https_proxy="http://squid.internal:3128" ./git-ubuntu/vm_setup "$VM_NAME"'
                 }}
             }}
 
-            stage ('Style Check') {{
-              steps {{
-                sh 'tox'
-              }}
+            stage ('Build') {{
+                steps {{
+                    sh "uvt-kvm ssh --insecure $VM_NAME -- git clone -b ${params.landing_candidate_branch} ${params.landing_candidate} git-ubuntu"
+                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "cd git-ubuntu; snapcraft cleanbuild"'
+                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "sudo snap install --dangerous --classic git-ubuntu/git-ubuntu_*_amd64.snap"'
+                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "snap list"'
+                }}
             }}
 
             stage ('Unit Tests') {{
-              steps {{
-                sh 'python3 -m pytest --cov=gitubuntu gitubuntu/*'
-              }}
+                steps {{
+                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "bash -l -c git-ubuntu.self-test"'
+                }}
             }}
 
             stage ('Integration Tests') {{
-              steps {{
-                  script {{
-                      env.git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
-                  }}
-
-                  deleteDir()
-                  git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
-                  sh "https_proxy=http://squid.internal:3128 http_proxy=http://squid.internal:3128  ./git-ubuntu/integration_test -u ${{env.git_url}} -b ${{params.landing_candidate_branch}}"
-              }}
+                steps {{
+                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "bash -l -c ./git-ubuntu/tests/bin/integration-test"'
+                }}
             }}
-          }}
+        }}
 
-      post {{
-          success {{
-              build job: 'admin-lp-vote-git',
-              parameters: [string(name: 'CI_RESULT', value: 'PASSED'),
+        post {{
+            always {{
+                sh 'uvt-kvm destroy "$VM_NAME"'
+            }}
+
+            success {{
+                build job: 'admin-lp-vote-git',
+                parameters: [string(name: 'CI_RESULT', value: 'PASSED'),
                            string(name: 'CI_BUILD', value: env.BUILD_URL),
                            string(name: 'CI_BRANCH', value: params.landing_candidate),
                            string(name: 'CI_MERGE_PROPOSAL', value: params.merge_proposal),
                            string(name: 'CI_REVISION', value: params.candidate_revision),
                            ],
-              propagate: false
-          }}
+                propagate: false
+            }}
 
-          failure {{
-              build job: 'admin-lp-vote-git',
-              parameters: [string(name: 'CI_RESULT', value: 'FAILED'),
+            failure {{
+                build job: 'admin-lp-vote-git',
+                parameters: [string(name: 'CI_RESULT', value: 'FAILED'),
                            string(name: 'CI_BUILD', value: env.BUILD_URL),
                            string(name: 'CI_BRANCH', value: params.landing_candidate),
                            string(name: 'CI_MERGE_PROPOSAL', value: params.merge_proposal),
                            string(name: 'CI_REVISION', value: params.candidate_revision),
                            ],
-              propagate: false
-          }}
+                 propagate: false
+            }}
         }}
       }}
-
 
 - job-template:
     name: git-ubuntu-ci-nightly
@@ -140,24 +139,47 @@
       - timed: "H 23 * * *"
     sandbox: True
     dsl: |
-      node('metal-amd64') {{
-        stage ('Checkout') {{
-          deleteDir()
-          git url: 'https://git.launchpad.net/usd-importer', branch: 'master'
+      pipeline {{
+        agent {{ label 'metal-amd64' }}
+
+        environment {{
+            VM_NAME = 'gitubuntu-ci-nightly-${{currentBuild.getNumber()}}'
         }}
 
-        stage ('Style Check') {{
-          sh 'tox'
+        stages {{
+            stage ('VM Setup') {{
+                steps {{
+                    deleteDir()
+                    git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
+                    sh 'http_proxy="http://squid.internal:3128" https_proxy="http://squid.internal:3128" ./git-ubuntu/vm_setup "$VM_NAME"'
+                }}
+            }}
+
+            stage ('Build') {{
+                steps {{
+                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "git clone -b master https://git.launchpad.net/usd-importer git-ubuntu"'
+                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "cd git-ubuntu; snapcraft cleanbuild"'
+                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "sudo snap install --dangerous --classic git-ubuntu/git-ubuntu_*_amd64.snap"'
+                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "snap list"'
+                }}
+            }}
+
+            stage ('Unit Tests') {{
+                steps {{
+                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "bash -l -c git-ubuntu.self-test"'
+                }}
+            }}
+
+            stage ('Integration Tests') {{
+                steps {{
+                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "bash -l -c ./git-ubuntu/tests/bin/integration-test"'
+                }}
+            }}
         }}
 
-        stage ('Unit Tests') {{
-          sh 'python3 -m pytest --cov=gitubuntu gitubuntu/*'
+        post {{
+            always {{
+                sh 'uvt-kvm destroy "$VM_NAME"'
+            }}
         }}
-
-        stage ('Integration Tests') {{
-          deleteDir()
-          git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
-          sh 'https_proxy=http://squid.internal:3128 http_proxy=http://squid.internal:3128 ./git-ubuntu/integration_test'
-        }}
-
       }}
