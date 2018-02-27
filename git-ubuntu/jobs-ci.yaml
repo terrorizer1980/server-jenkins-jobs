@@ -83,7 +83,7 @@
 
             stage ('Build') {{
                 steps {{
-                    sh "uvt-kvm ssh --insecure $VM_NAME -- git clone -b ${params.landing_candidate_branch} ${params.landing_candidate} git-ubuntu"
+                    sh "uvt-kvm ssh --insecure $VM_NAME -- git clone -b ${{params.landing_candidate_branch}} ${{params.landing_candidate}} git-ubuntu"
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "cd git-ubuntu; snapcraft cleanbuild"'
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "sudo snap install --dangerous --classic git-ubuntu/git-ubuntu_*_amd64.snap"'
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "snap list"'
