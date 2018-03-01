@@ -48,10 +48,12 @@
     release:
       - 'bionic'
       - 'xenial'
+    arch:
+      - 's390x'
     team:
       - 'ubuntu-server'
     jobs:
-      - '{team}-{release}-s390x-build'
+      - '{team}-{release}-{arch}-build'
 
 - job-template:
     name: '{team}-{release}-{arch}-build'
