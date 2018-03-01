@@ -38,11 +38,20 @@
     arch:
       - 'amd64'
       - 'ppc64el'
-      - 's390x'
     team:
       - 'ubuntu-server'
     jobs:
       - '{team}-{release}-{arch}-build'
+      
+- project:
+    name: 'package-build-s390x'
+    release:
+      - 'bionic'
+      - 'xenial'
+    team:
+      - 'ubuntu-server'
+    jobs:
+      - '{team}-{release}-s390x-build'
 
 - job-template:
     name: '{team}-{release}-{arch}-build'
