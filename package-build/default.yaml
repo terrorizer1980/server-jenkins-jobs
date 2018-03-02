@@ -58,8 +58,9 @@
 - job-template:
     name: '{team}-{release}-{arch}-build'
     node: metal-{arch}
-    triggers:
-      - timed: "H H * * 0"
+    publishers:
+      - archive:
+          artifacts: 'logs/**'
     builders:
       - package-build:
           release: '{release}'
