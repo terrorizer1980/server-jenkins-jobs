@@ -20,7 +20,7 @@
     name: curtin-vmtest-proposed-x-trigger
     node: metal-amd64
     triggers:
-      - timed: "H 16 * * *"
+      - timed: "H 14 * * *"
     publishers:
         - email-server-crew
     builders:
