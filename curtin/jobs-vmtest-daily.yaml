@@ -21,7 +21,7 @@
     parameters:
         - nose-args
     triggers:
-        - timed: "H 2 * * *"
+        - timed: "H 4 * * *"
     properties:
       - build-discarder:
           num-to-keep: 5
@@ -39,7 +39,7 @@
     parameters:
         - nose-args
     triggers:
-        - timed: "H 4 * * *"
+        - timed: "H 8 * * *"
     properties:
       - build-discarder:
           num-to-keep: 5
