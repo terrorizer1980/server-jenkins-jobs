@@ -19,6 +19,7 @@
     name: curtin
     jobs:
       - curtin-ci
+      - curtin-ci-lander
       - curtin-ci-trigger
       - curtin-build
       - curtin-style

@@ -31,6 +31,19 @@
             exit 0
 
 - job-template:
+    name: curtin-ci-lander
+    node: metal-amd64
+    triggers:
+        - timed: H/15 * * * *
+    builders:
+        - shell: |
+            #!/bin/bash -x
+            rm -rf *
+            git clone https://github.com/canonical-server/test-scripts.git
+            cd test-scripts/launchpad
+            ./land_merge_proposals.py curtin
+
+- job-template:
     name: curtin-ci
     parameters:
         - landing-candidate
