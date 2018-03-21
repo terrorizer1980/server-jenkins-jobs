@@ -27,7 +27,7 @@
         *** STOP ***
     properties:
       - build-discarder:
-          num-to-keep: 25
+          num-to-keep: 10
 
 - project:
     name: 'package-build'
@@ -60,7 +60,9 @@
     node: metal-{arch}
     publishers:
       - archive:
-          artifacts: 'logs/**'
+          artifacts: 'test-build/logs/**'
+      - junit:
+          results: test-build/results.xml
     builders:
       - package-build:
           release: '{release}'
@@ -68,15 +70,15 @@
 
 - builder:
     name: package-build
-    publishers:
-      - junit:
-          results: test-build/results.xml
     builders:
       - shell: |
+          #!/bin/bash
+          set -eux
           rm -rf test-build
           git clone https://github.com/canonical-server/test-build.git
           cd test-build
 
           PACKAGES=$(./get_team_packages {team})
+          set +e
           ./build-packages {release} $PACKAGES
           ./parse_results
