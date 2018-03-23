@@ -24,7 +24,7 @@
       - email-server-crew
       - archive-results
       - trigger:
-          project: cloud-init-integration-ec2-a
+          project: cloud-init-integration-ec2-terminate
           threshold: FAILURE
     builders:
       - integration-ec2:
@@ -33,11 +33,13 @@
 - job-template:
     name: cloud-init-integration-ec2-a
     node: metal-amd64
+    triggers:
+      - timed: "H 0 * * 1"
     publishers:
       - email-server-crew
       - archive-results
       - trigger:
-          project: cloud-init-integration-ec2-b
+          project: cloud-init-integration-ec2-terminate
           threshold: FAILURE
     builders:
       - integration-ec2:
@@ -46,9 +48,14 @@
 - job-template:
     name: cloud-init-integration-ec2-b
     node: metal-amd64
+    triggers:
+      - timed: "H 0 * * 2"
     publishers:
       - email-server-crew
       - archive-results
+      - trigger:
+          project: cloud-init-integration-ec2-terminate
+          threshold: FAILURE
     builders:
       - integration-ec2:
           release: bionic
