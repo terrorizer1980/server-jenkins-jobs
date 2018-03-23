@@ -73,3 +73,17 @@
 
           # remove temporary keys
           find . -name "id_rsa*" -delete
+
+- job-template:
+    name: cloud-init-integration-ec2-terminate
+    node: metal-amd64
+    publishers:
+      - email-server-crew
+    builders:
+      - shell: |
+          export http_proxy=http://squid.internal:3128
+          export apt_proxy=http://squid.internal:3128
+
+          sudo rm -Rf *
+          git clone https://github.com/canonical-server/test-scripts
+          ./test-scripts/cloud-init/ec2_cleanup.py
