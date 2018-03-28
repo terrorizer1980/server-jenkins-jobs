@@ -47,7 +47,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-cleanup
+          project: virt-cleanup-amd64
       - junit:
           results: result.xml
     builders:

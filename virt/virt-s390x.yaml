@@ -95,6 +95,9 @@
           artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
       - email:
           recipients: josh.powers@canonical.com
+      - trigger:
+          project: virt-cleanup-s390x
+          threshold: FAILURE
       - junit:
           results: result.xml
     builders:
@@ -106,3 +109,17 @@
           cd qemu-migration-test
 
           ./qemu-libvirt-test.sh -P -s 2
+
+- job-template:
+    name: virt-cleanup-s390x
+    node: metal-s390x
+    publishers:
+      - email:
+          recipients: josh.powers@canonical.com
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          rm -rf *
+          git clone https://github.com/canonical-server/test-scripts.git
+          cd test-scripts
+          ./virt/cleanup.sh

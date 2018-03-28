@@ -95,6 +95,9 @@
           artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
       - email:
           recipients: josh.powers@canonical.com
+      - trigger:
+          project: virt-cleanup-ppc64el
+          threshold: FAILURE
       - junit:
           results: result.xml
     builders:
@@ -107,3 +110,16 @@
 
           ./qemu-libvirt-test.sh -P -s 2
 
+- job-template:
+    name: virt-cleanup-ppc64el
+    node: metal-ppc64el
+    publishers:
+      - email:
+          recipients: josh.powers@canonical.com
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          rm -rf *
+          git clone https://github.com/canonical-server/test-scripts.git
+          cd test-scripts
+          ./virt/cleanup.sh

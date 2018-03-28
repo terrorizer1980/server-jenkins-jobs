@@ -180,7 +180,7 @@
           ./qemu-libvirt-test.sh -r "xenial" -P -s 5
 
 - job-template:
-    name: virt-cleanup
+    name: virt-cleanup-amd64
     node: metal-amd64
     publishers:
       - email:
@@ -188,7 +188,7 @@
     builders:
       - shell: |
           #!/bin/bash -eu
-
-          lxc stop $(lxc list | grep "testkvm" | cut -f 2 -d " " | xargs)
-          lxc delete $(lxc list | grep "testkvm" | cut -f 2 -d " " | xargs)
-          rm /tmp/qemu-libvirt-test.sh.lock
+          rm -rf *
+          git clone https://github.com/canonical-server/test-scripts.git
+          cd test-scripts
+          ./virt/cleanup.sh

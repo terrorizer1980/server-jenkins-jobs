@@ -35,7 +35,9 @@
       - virt-in-release-ppc64el-a
       - virt-in-release-ppc64el-b
       - virt-cross-release-ppc64el
-      - virt-cleanup
+      - virt-cleanup-amd64
+      - virt-cleanup-ppc64el
+      - virt-cleanup-s390x
 
 - defaults:
     name: global
