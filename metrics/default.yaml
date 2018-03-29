@@ -32,11 +32,13 @@
       - metric-rls-bug-tasks
       - metric-server-cloudinit
       - metric-server-curtin
+      - metric-server-docker-downloads
       - metric-server-google-analytics
       - metric-server-iso
       - metric-server-simplestreams
       - metric-server-triage
       - metric-server-uploads
+      - metric-server-vagrant-downloads
 
 - defaults:
     name: global
