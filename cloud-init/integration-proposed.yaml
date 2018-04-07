@@ -55,7 +55,7 @@
     builders:
       - proposed-integration:
           release: artful
-          release-ver: 17.04
+          release-ver: 17.10
     publishers:
         - email-server-crew
         - archive-results
