@@ -35,6 +35,7 @@
     builders:
       - proposed-integration:
           release: xenial
+          release-ver: 16.04
 
 - job-template:
     name: cloud-init-integration-proposed-trigger-a
@@ -54,6 +55,7 @@
     builders:
       - proposed-integration:
           release: artful
+          release-ver: 17.04
     publishers:
         - email-server-crew
         - archive-results
@@ -63,17 +65,17 @@
     builders:
       - shell: |
           release="{release}"
+          release_ver="{release-ver}"
           export http_proxy=http://squid.internal:3128
           export apt_proxy=http://squid.internal:3128
 
           set -e
           sudo rm -Rf cloud-init
-          mkdir cloud-init
+          git clone https://git.launchpad.net/cloud-init
           cd cloud-init
-          pull-lp-source cloud-init $release-proposed
-          d=$(for d in *; do [ -d "$d" ] && echo "$d" && exit 0; done)
-          cd "$d"
-          echo "Running with source for $d"
+          tag=$(get tag --list | grep "$release_ver" | tail -1)
+          echo "Running with source from tag $tag"
+          git checkout $tag
           mirror="http://archive.ubuntu.com/ubuntu/"
           set +e
           tox -e citest -- run \
