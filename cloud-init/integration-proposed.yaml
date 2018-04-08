@@ -82,7 +82,7 @@
               --os-name="$release" \
               --platform=lxd --platform=nocloud-kvm --platform=ec2 \
               --repo=\'deb $mirror $release-proposed main\' \
-              --preserve-data --data-dir="../results" \
+              --preserve-data --data-dir="./results" \
               --verbose
               
           # remove temporary keys
