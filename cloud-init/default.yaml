@@ -69,3 +69,4 @@
     publishers:
       - archive:
           artifacts: 'cloud-init/results/**'
+          excludes: 'cloud-init/results/*log, **/*img, **/*qcow2'
