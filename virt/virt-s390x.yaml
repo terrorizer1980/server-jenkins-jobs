@@ -160,12 +160,18 @@
     name: virt-cleanup-s390x
     node: metal-s390x
     publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
+      - junit:
+          results: result.xml
     builders:
       - shell: |
           #!/bin/bash -eu
-          rm -rf *
-          git clone https://github.com/canonical-server/test-scripts.git
-          cd test-scripts
-          ./virt/cleanup.sh
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -P -s "purge"
