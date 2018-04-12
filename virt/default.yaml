@@ -24,6 +24,7 @@
       - virt-migrate-amd64-a
       - virt-migrate-amd64-b
       - virt-cross-release-amd64
+      - virt-misc-amd64
       - virt-qemu-qa-amd64
       - virt-libvirt-qa-amd64
       - virt-migrate-s390x-x
@@ -31,11 +32,13 @@
       - virt-migrate-s390x-a
       - virt-migrate-s390x-b
       - virt-cross-release-s390x
+      - virt-misc-s390x
       - virt-prep-ppc64el
       - virt-migrate-ppc64el-x
       - virt-migrate-ppc64el-a
       - virt-migrate-ppc64el-b
       - virt-cross-release-ppc64el
+      - virt-misc-ppc64el
       - virt-cleanup-amd64
       - virt-cleanup-ppc64el
       - virt-cleanup-s390x

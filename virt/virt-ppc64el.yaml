@@ -119,7 +119,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-cleanup-ppc64el
+          project: virt-misc-ppc64el
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -132,6 +132,29 @@
           cd qemu-migration-test
 
           ./qemu-libvirt-test.sh -P -s "cross"
+
+- job-template:
+    name: virt-misc-ppc64el
+    node: metal-ppc64el
+    publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: virt-cleanup-ppc64el
+          threshold: FAILURE
+      - junit:
+          results: result.xml
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -P -s "misc"
 
 - job-template:
     name: virt-cleanup-ppc64el

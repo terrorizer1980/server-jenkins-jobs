@@ -142,7 +142,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-qemu-qa-amd64
+          project: virt-misc-amd64
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -155,6 +155,29 @@
           cd qemu-migration-test
 
           ./qemu-libvirt-test.sh -P -s "cross"
+
+- job-template:
+    name: virt-misc-amd64
+    node: metal-amd64
+    publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: virt-qemu-qa-amd64
+          threshold: FAILURE
+      - junit:
+          results: result.xml
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -P -s "misc"
 
 - job-template:
     name: virt-qemu-qa-amd64
