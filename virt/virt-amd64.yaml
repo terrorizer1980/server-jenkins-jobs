@@ -165,7 +165,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-uca-m-in-release-amd64
+          project: virt-cleanup-amd64
           threshold: FAILURE
       - junit:
           results: result.xml

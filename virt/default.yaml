@@ -25,8 +25,6 @@
       - virt-cross-release-amd64
       - virt-qemu-qa-amd64
       - virt-libvirt-qa-amd64
-      - virt-uca-m-in-release-amd64
-      - virt-uca-m-cross-release-amd64
       - virt-in-release-s390x-x
       - virt-in-release-s390x-a
       - virt-in-release-s390x-b
