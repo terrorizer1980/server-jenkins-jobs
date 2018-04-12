@@ -16,11 +16,34 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job-template:
-    name: virt-migrate-ppc64el-x
+    name: virt-prep-ppc64el
     node: metal-ppc64el
     triggers:
       # 3am UTC every Wednesday/Saturday
       - timed: "H 3 * * 3,6"
+    publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: virt-migrate-ppc64el-x
+          threshold: FAILURE
+      - junit:
+          results: result.xml
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -P -s "prep"
+
+- job-template:
+    name: virt-migrate-ppc64el-x
+    node: metal-ppc64el
     publishers:
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'

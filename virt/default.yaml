@@ -18,6 +18,7 @@
 - project:
     name: virt
     jobs:
+      - virt-prep-amd64
       - virt-migrate-amd64-t
       - virt-migrate-amd64-x
       - virt-migrate-amd64-a
@@ -26,9 +27,11 @@
       - virt-qemu-qa-amd64
       - virt-libvirt-qa-amd64
       - virt-migrate-s390x-x
+      - virt-prep-s390x
       - virt-migrate-s390x-a
       - virt-migrate-s390x-b
       - virt-cross-release-s390x
+      - virt-prep-ppc64el
       - virt-migrate-ppc64el-x
       - virt-migrate-ppc64el-a
       - virt-migrate-ppc64el-b

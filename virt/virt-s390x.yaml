@@ -14,13 +14,36 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
-#
+
 - job-template:
-    name: virt-migrate-s390x-x
+    name: virt-prep-s390x
     node: metal-s390x
     triggers:
       # 3am UTC every Wednesday/Saturday
       - timed: "H 3 * * 3,6"
+    publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: virt-migrate-s390x-x
+          threshold: FAILURE
+      - junit:
+          results: result.xml
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -P -s "prep"
+
+- job-template:
+    name: virt-migrate-s390x-x
+    node: metal-s390x
     publishers:
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
