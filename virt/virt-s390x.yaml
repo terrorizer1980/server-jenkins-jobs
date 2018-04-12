@@ -16,7 +16,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 #
 - job-template:
-    name: virt-in-release-s390x-x
+    name: virt-migrate-s390x-x
     node: metal-s390x
     triggers:
       # 3am UTC every Wednesday/Saturday
@@ -27,7 +27,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-s390x-a
+          project: virt-migrate-s390x-a
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -42,7 +42,7 @@
           ./qemu-libvirt-test.sh -P -s 1 -r "xenial" -R "xenial"
 
 - job-template:
-    name: virt-in-release-s390x-a
+    name: virt-migrate-s390x-a
     node: metal-s390x
     publishers:
       - archive:
@@ -50,7 +50,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-s390x-b
+          project: virt-migrate-s390x-b
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -65,7 +65,7 @@
           ./qemu-libvirt-test.sh -P -s 1 -r "artful" -R "artful"
 
 - job-template:
-    name: virt-in-release-s390x-b
+    name: virt-migrate-s390x-b
     node: metal-s390x
     publishers:
       - archive:

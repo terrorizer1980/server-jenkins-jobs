@@ -16,7 +16,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job-template:
-    name: virt-in-release-ppc64el-x
+    name: virt-migrate-ppc64el-x
     node: metal-ppc64el
     triggers:
       # 3am UTC every Wednesday/Saturday
@@ -27,7 +27,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-ppc64el-a
+          project: virt-migrate-ppc64el-a
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -42,7 +42,7 @@
           ./qemu-libvirt-test.sh -P -s 1 -r "xenial" -R "xenial"
 
 - job-template:
-    name: virt-in-release-ppc64el-a
+    name: virt-migrate-ppc64el-a
     node: metal-ppc64el
     publishers:
       - archive:
@@ -50,7 +50,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-ppc64el-b
+          project: virt-migrate-ppc64el-b
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -65,7 +65,7 @@
           ./qemu-libvirt-test.sh -P -s 1 -r "artful" -R "artful"
 
 - job-template:
-    name: virt-in-release-ppc64el-b
+    name: virt-migrate-ppc64el-b
     node: metal-ppc64el
     publishers:
       - archive:
