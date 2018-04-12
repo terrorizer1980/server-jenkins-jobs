@@ -39,7 +39,7 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "xenial" -R "xenial"
+          ./qemu-libvirt-test.sh -P -s "migrate" -r "xenial" -R "xenial"
 
 - job-template:
     name: virt-migrate-s390x-a
@@ -62,7 +62,7 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "artful" -R "artful"
+          ./qemu-libvirt-test.sh -P -s "migrate" -r "artful" -R "artful"
 
 - job-template:
     name: virt-migrate-s390x-b
@@ -85,7 +85,7 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "bionic" -R "bionic"
+          ./qemu-libvirt-test.sh -P -s "migrate" -r "bionic" -R "bionic"
 
 - job-template:
     name: virt-cross-release-s390x
@@ -108,7 +108,7 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 2
+          ./qemu-libvirt-test.sh -P -s "cross"
 
 - job-template:
     name: virt-cleanup-s390x
