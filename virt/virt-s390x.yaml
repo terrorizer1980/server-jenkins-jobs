@@ -23,7 +23,7 @@
       - timed: "H 3 * * 3,6"
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
@@ -46,7 +46,7 @@
     node: metal-s390x
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
@@ -69,7 +69,7 @@
     node: metal-s390x
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
@@ -92,7 +92,7 @@
     node: metal-s390x
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
