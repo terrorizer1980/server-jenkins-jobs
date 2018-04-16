@@ -14,20 +14,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
-#
+
 - job-template:
-    name: virt-in-release-s390x-x
+    name: virt-prep-s390x
     node: metal-s390x
     triggers:
-      # 3am UTC every Wednesday/Saturday
-      - timed: "H 3 * * 3,6"
+      # 3am UTC every Saturday
+      - timed: "H 3 * * 6"
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-s390x-a
+          project: virt-migrate-s390x-x
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -39,18 +39,18 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "xenial" -R "xenial"
+          ./qemu-libvirt-test.sh -P -s "prep"
 
 - job-template:
-    name: virt-in-release-s390x-a
+    name: virt-migrate-s390x-x
     node: metal-s390x
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-s390x-b
+          project: virt-migrate-s390x-a
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -62,14 +62,37 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "artful" -R "artful"
+          ./qemu-libvirt-test.sh -P -s "migrate" -r "xenial" -R "xenial"
 
 - job-template:
-    name: virt-in-release-s390x-b
+    name: virt-migrate-s390x-a
     node: metal-s390x
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: virt-migrate-s390x-b
+          threshold: FAILURE
+      - junit:
+          results: result.xml
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -P -s "migrate" -r "artful" -R "artful"
+
+- job-template:
+    name: virt-migrate-s390x-b
+    node: metal-s390x
+    publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
@@ -85,14 +108,37 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "bionic" -R "bionic"
+          ./qemu-libvirt-test.sh -P -s "migrate" -r "bionic" -R "bionic"
 
 - job-template:
     name: virt-cross-release-s390x
     node: metal-s390x
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: virt-misc-s390x
+          threshold: FAILURE
+      - junit:
+          results: result.xml
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -P -s "cross"
+
+- job-template:
+    name: virt-misc-s390x
+    node: metal-s390x
+    publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
@@ -108,18 +154,24 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 2
+          ./qemu-libvirt-test.sh -P -s "misc"
 
 - job-template:
     name: virt-cleanup-s390x
     node: metal-s390x
     publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
+      - junit:
+          results: result.xml
     builders:
       - shell: |
           #!/bin/bash -eu
-          rm -rf *
-          git clone https://github.com/canonical-server/test-scripts.git
-          cd test-scripts
-          ./virt/cleanup.sh
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -P -s "purge"

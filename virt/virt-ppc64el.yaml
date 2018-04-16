@@ -16,18 +16,18 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job-template:
-    name: virt-in-release-ppc64el-x
+    name: virt-prep-ppc64el
     node: metal-ppc64el
     triggers:
-      # 3am UTC every Wednesday/Saturday
-      - timed: "H 3 * * 3,6"
+      # 3am UTC every Saturday
+      - timed: "H 3 * * 6"
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-ppc64el-a
+          project: virt-migrate-ppc64el-x
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -39,18 +39,18 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "xenial" -R "xenial"
+          ./qemu-libvirt-test.sh -P -s "prep"
 
 - job-template:
-    name: virt-in-release-ppc64el-a
+    name: virt-migrate-ppc64el-x
     node: metal-ppc64el
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-ppc64el-b
+          project: virt-migrate-ppc64el-a
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -62,14 +62,37 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "artful" -R "artful"
+          ./qemu-libvirt-test.sh -P -s "migrate" -r "xenial" -R "xenial"
 
 - job-template:
-    name: virt-in-release-ppc64el-b
+    name: virt-migrate-ppc64el-a
     node: metal-ppc64el
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: virt-migrate-ppc64el-b
+          threshold: FAILURE
+      - junit:
+          results: result.xml
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -P -s "migrate" -r "artful" -R "artful"
+
+- job-template:
+    name: virt-migrate-ppc64el-b
+    node: metal-ppc64el
+    publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
@@ -85,14 +108,37 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "bionic" -R "bionic"
+          ./qemu-libvirt-test.sh -P -s "migrate" -r "bionic" -R "bionic"
 
 - job-template:
     name: virt-cross-release-ppc64el
     node: metal-ppc64el
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: virt-misc-ppc64el
+          threshold: FAILURE
+      - junit:
+          results: result.xml
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -P -s "cross"
+
+- job-template:
+    name: virt-misc-ppc64el
+    node: metal-ppc64el
+    publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
@@ -108,18 +154,24 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 2
+          ./qemu-libvirt-test.sh -P -s "misc"
 
 - job-template:
     name: virt-cleanup-ppc64el
     node: metal-ppc64el
     publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
+      - junit:
+          results: result.xml
     builders:
       - shell: |
           #!/bin/bash -eu
-          rm -rf *
-          git clone https://github.com/canonical-server/test-scripts.git
-          cd test-scripts
-          ./virt/cleanup.sh
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -P -s "purge"

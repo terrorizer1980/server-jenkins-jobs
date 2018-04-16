@@ -16,18 +16,18 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job-template:
-    name: virt-in-release-amd64-t
+    name: virt-prep-amd64
     node: metal-amd64
     triggers:
       # 3am UTC every Saturday
       - timed: "H 3 * * 6"
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-amd64-x
+          project: virt-migrate-amd64-t
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -39,18 +39,18 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "trusty" -R "trusty"
+          ./qemu-libvirt-test.sh -P -s "prep"
 
 - job-template:
-    name: virt-in-release-amd64-x
+    name: virt-migrate-amd64-t
     node: metal-amd64
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-amd64-a
+          project: virt-migrate-amd64-x
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -62,18 +62,18 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "xenial" -R "xenial"
+          ./qemu-libvirt-test.sh -P -s "migrate" -r "trusty" -R "trusty"
 
 - job-template:
-    name: virt-in-release-amd64-a
+    name: virt-migrate-amd64-x
     node: metal-amd64
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-in-release-amd64-b
+          project: virt-migrate-amd64-a
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -85,14 +85,37 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "artful" -R "artful"
+          ./qemu-libvirt-test.sh -P -s "migrate" -r "xenial" -R "xenial"
 
 - job-template:
-    name: virt-in-release-amd64-b
+    name: virt-migrate-amd64-a
     node: metal-amd64
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: virt-migrate-amd64-b
+          threshold: FAILURE
+      - junit:
+          results: result.xml
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -P -s "migrate" -r "artful" -R "artful"
+
+- job-template:
+    name: virt-migrate-amd64-b
+    node: metal-amd64
+    publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
@@ -108,18 +131,18 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 1 -r "bionic" -R "bionic"
+          ./qemu-libvirt-test.sh -P -s "migrate" -r "bionic" -R "bionic"
 
 - job-template:
     name: virt-cross-release-amd64
     node: metal-amd64
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-qemu-qa-amd64
+          project: virt-misc-amd64
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -131,18 +154,18 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s 2
+          ./qemu-libvirt-test.sh -P -s "cross"
 
 - job-template:
-    name: virt-qemu-qa-amd64
+    name: virt-misc-amd64
     node: metal-amd64
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-libvirt-qa-amd64
+          project: virt-qemu-qa-amd64-x
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -154,18 +177,18 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -r "xenial" -P -s 4
+          ./qemu-libvirt-test.sh -P -s "misc"
 
 - job-template:
-    name: virt-libvirt-qa-amd64
+    name: virt-qemu-qa-amd64-x
     node: metal-amd64
     publishers:
       - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.status'
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-uca-m-in-release-amd64
+          project: virt-libvirt-qa-amd64-x
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -177,18 +200,93 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -r "xenial" -P -s 5
+          ./qemu-libvirt-test.sh -r "xenial" -P -s "qaQemu"
+
+- job-template:
+    name: virt-libvirt-qa-amd64-x
+    node: metal-amd64
+    publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: virt-qemu-qa-amd64-b
+          threshold: FAILURE
+      - junit:
+          results: result.xml
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -r "xenial" -P -s "qaLibvirt"
+
+- job-template:
+    name: virt-qemu-qa-amd64-b
+    node: metal-amd64
+    publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: virt-libvirt-qa-amd64-b
+          threshold: FAILURE
+      - junit:
+          results: result.xml
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -r "bionic" -P -s "qaQemu"
+
+- job-template:
+    name: virt-libvirt-qa-amd64-b
+    node: metal-amd64
+    publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
+      - email:
+          recipients: josh.powers@canonical.com
+      - trigger:
+          project: virt-cleanup-amd64
+          threshold: FAILURE
+      - junit:
+          results: result.xml
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -r "bionic" -P -s "qaLibvirt"
 
 - job-template:
     name: virt-cleanup-amd64
     node: metal-amd64
     publishers:
+      - archive:
+          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
           recipients: josh.powers@canonical.com
+      - junit:
+          results: result.xml
     builders:
       - shell: |
           #!/bin/bash -eu
-          rm -rf *
-          git clone https://github.com/canonical-server/test-scripts.git
-          cd test-scripts
-          ./virt/cleanup.sh
+          #
+          rm -rf qemu-migration-test
+          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
+          cd qemu-migration-test
+
+          ./qemu-libvirt-test.sh -r "xenial" -P -s "purge"
