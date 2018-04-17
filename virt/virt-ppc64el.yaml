@@ -28,7 +28,6 @@
           recipients: josh.powers@canonical.com
       - trigger:
           project: virt-migrate-ppc64el-x
-          threshold: FAILURE
       - junit:
           results: result.xml
     builders:
