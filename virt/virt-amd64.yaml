@@ -28,7 +28,6 @@
           recipients: josh.powers@canonical.com
       - trigger:
           project: virt-migrate-amd64-t
-          threshold: FAILURE
       - junit:
           results: result.xml
     builders:
