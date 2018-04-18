@@ -16,7 +16,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job-template:
-    name: virt-amd64-prep
+    name: virt-amd64-0-prep
     node: metal-amd64
     triggers:
       # 3am UTC every Saturday
@@ -27,7 +27,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-amd64-migrate-t
+          project: virt-amd64-1-migrate-t
       - junit:
           results: result.xml
     builders:
@@ -41,7 +41,7 @@
           ./qemu-libvirt-test.sh -P -s "prep"
 
 - job-template:
-    name: virt-amd64-migrate-t
+    name: virt-amd64-1-migrate-t
     node: metal-amd64
     publishers:
       - archive:
@@ -49,7 +49,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-amd64-migrate-x
+          project: virt-amd64-1-migrate-x
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -64,7 +64,7 @@
           ./qemu-libvirt-test.sh -P -s "migrate" -r "trusty" -R "trusty"
 
 - job-template:
-    name: virt-amd64-migrate-x
+    name: virt-amd64-1-migrate-x
     node: metal-amd64
     publishers:
       - archive:
@@ -72,7 +72,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-amd64-migrate-a
+          project: virt-amd64-1-migrate-a
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -87,7 +87,7 @@
           ./qemu-libvirt-test.sh -P -s "migrate" -r "xenial" -R "xenial"
 
 - job-template:
-    name: virt-amd64-migrate-a
+    name: virt-amd64-1-migrate-a
     node: metal-amd64
     publishers:
       - archive:
@@ -95,7 +95,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-amd64-migrate-b
+          project: virt-amd64-1-migrate-b
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -110,7 +110,7 @@
           ./qemu-libvirt-test.sh -P -s "migrate" -r "artful" -R "artful"
 
 - job-template:
-    name: virt-amd64-migrate-b
+    name: virt-amd64-1-migrate-b
     node: metal-amd64
     publishers:
       - archive:
@@ -118,7 +118,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-amd64-cross-release
+          project: virt-amd64-2-cross-rel
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -133,7 +133,7 @@
           ./qemu-libvirt-test.sh -P -s "migrate" -r "bionic" -R "bionic"
 
 - job-template:
-    name: virt-amd64-cross-release
+    name: virt-amd64-2-cross-rel
     node: metal-amd64
     publishers:
       - archive:
@@ -141,7 +141,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-amd64-misc
+          project: virt-amd64-3-misc
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -156,7 +156,7 @@
           ./qemu-libvirt-test.sh -P -s "cross"
 
 - job-template:
-    name: virt-amd64-misc
+    name: virt-amd64-3-misc
     node: metal-amd64
     publishers:
       - archive:
@@ -164,7 +164,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-amd64-qemu-qa-x
+          project: virt-amd64-4-qemuqa-x
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -179,7 +179,7 @@
           ./qemu-libvirt-test.sh -P -s "misc"
 
 - job-template:
-    name: virt-amd64-qemu-qa-x
+    name: virt-amd64-4-qemuqa-x
     node: metal-amd64
     publishers:
       - archive:
@@ -187,7 +187,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-amd64-libvirt-qa-x
+          project: virt-amd64-5-libvirtqa-x
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -202,7 +202,7 @@
           ./qemu-libvirt-test.sh -r "xenial" -P -s "qaQemu"
 
 - job-template:
-    name: virt-amd64-libvirt-qa-x
+    name: virt-amd64-5-libvirtqa-x
     node: metal-amd64
     publishers:
       - archive:
@@ -210,7 +210,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-amd64-qemu-qa-b
+          project: virt-amd64-4-qemuqa-b
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -225,7 +225,7 @@
           ./qemu-libvirt-test.sh -r "xenial" -P -s "qaLibvirt"
 
 - job-template:
-    name: virt-amd64-qemu-qa-b
+    name: virt-amd64-4-qemuqa-b
     node: metal-amd64
     publishers:
       - archive:
@@ -233,7 +233,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-amd64-libvirt-qa-b
+          project: virt-amd64-5-libvirtqa-b
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -248,7 +248,7 @@
           ./qemu-libvirt-test.sh -r "bionic" -P -s "qaQemu"
 
 - job-template:
-    name: virt-amd64-libvirt-qa-b
+    name: virt-amd64-5-libvirtqa-b
     node: metal-amd64
     publishers:
       - archive:
@@ -256,7 +256,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-amd64-cleanup
+          project: virt-amd64-6-cleanup
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -271,7 +271,7 @@
           ./qemu-libvirt-test.sh -r "bionic" -P -s "qaLibvirt"
 
 - job-template:
-    name: virt-amd64-cleanup
+    name: virt-amd64-6-cleanup
     node: metal-amd64
     publishers:
       - archive:
