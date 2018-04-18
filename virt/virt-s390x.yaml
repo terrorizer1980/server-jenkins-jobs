@@ -16,7 +16,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job-template:
-    name: virt-prep-s390x
+    name: virt-s390x-prep
     node: metal-s390x
     triggers:
       # 3am UTC every Saturday
@@ -27,7 +27,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-migrate-s390x-x
+          project: virt-s390x-migrate-x
       - junit:
           results: result.xml
     builders:
@@ -41,7 +41,7 @@
           ./qemu-libvirt-test.sh -P -s "prep"
 
 - job-template:
-    name: virt-migrate-s390x-x
+    name: virt-s390x-migrate-x
     node: metal-s390x
     publishers:
       - archive:
@@ -49,7 +49,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-migrate-s390x-a
+          project: virt-s390x-migrate-a
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -64,7 +64,7 @@
           ./qemu-libvirt-test.sh -P -s "migrate" -r "xenial" -R "xenial"
 
 - job-template:
-    name: virt-migrate-s390x-a
+    name: virt-s390x-migrate-a
     node: metal-s390x
     publishers:
       - archive:
@@ -72,7 +72,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-migrate-s390x-b
+          project: virt-s390x-migrate-b
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -87,7 +87,7 @@
           ./qemu-libvirt-test.sh -P -s "migrate" -r "artful" -R "artful"
 
 - job-template:
-    name: virt-migrate-s390x-b
+    name: virt-s390x-migrate-b
     node: metal-s390x
     publishers:
       - archive:
@@ -95,7 +95,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-cross-release-s390x
+          project: virt-s390x-cross-release
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -110,7 +110,7 @@
           ./qemu-libvirt-test.sh -P -s "migrate" -r "bionic" -R "bionic"
 
 - job-template:
-    name: virt-cross-release-s390x
+    name: virt-s390x-cross-release
     node: metal-s390x
     publishers:
       - archive:
@@ -118,7 +118,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-misc-s390x
+          project: virt-s390x-misc
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -133,7 +133,7 @@
           ./qemu-libvirt-test.sh -P -s "cross"
 
 - job-template:
-    name: virt-misc-s390x
+    name: virt-s390x-misc
     node: metal-s390x
     publishers:
       - archive:
@@ -141,7 +141,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-cleanup-s390x
+          project: virt-s390x-cleanup
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -156,7 +156,7 @@
           ./qemu-libvirt-test.sh -P -s "misc"
 
 - job-template:
-    name: virt-cleanup-s390x
+    name: virt-s390x-cleanup
     node: metal-s390x
     publishers:
       - archive:

@@ -16,7 +16,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job-template:
-    name: virt-prep-ppc64el
+    name: virt-s390x-prep
     node: metal-ppc64el
     triggers:
       # 3am UTC every Saturday
@@ -27,7 +27,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-migrate-ppc64el-x
+          project: virt-ppc64-migrate-x
       - junit:
           results: result.xml
     builders:
@@ -41,7 +41,7 @@
           ./qemu-libvirt-test.sh -P -s "prep"
 
 - job-template:
-    name: virt-migrate-ppc64el-x
+    name: virt-ppc64-migrate-x
     node: metal-ppc64el
     publishers:
       - archive:
@@ -49,7 +49,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-migrate-ppc64el-a
+          project: virt-ppc64-migrate-a
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -64,7 +64,7 @@
           ./qemu-libvirt-test.sh -P -s "migrate" -r "xenial" -R "xenial"
 
 - job-template:
-    name: virt-migrate-ppc64el-a
+    name: virt-ppc64-migrate-a
     node: metal-ppc64el
     publishers:
       - archive:
@@ -72,7 +72,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-migrate-ppc64el-b
+          project: virt-ppc64-migrate-b
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -87,7 +87,7 @@
           ./qemu-libvirt-test.sh -P -s "migrate" -r "artful" -R "artful"
 
 - job-template:
-    name: virt-migrate-ppc64el-b
+    name: virt-ppc64-migrate-b
     node: metal-ppc64el
     publishers:
       - archive:
@@ -95,7 +95,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-cross-release-ppc64el
+          project: virt-ppc64-cross-release
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -110,7 +110,7 @@
           ./qemu-libvirt-test.sh -P -s "migrate" -r "bionic" -R "bionic"
 
 - job-template:
-    name: virt-cross-release-ppc64el
+    name: virt-ppc64-cross-release
     node: metal-ppc64el
     publishers:
       - archive:
@@ -118,7 +118,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-misc-ppc64el
+          project: virt-ppc64-misc
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -133,7 +133,7 @@
           ./qemu-libvirt-test.sh -P -s "cross"
 
 - job-template:
-    name: virt-misc-ppc64el
+    name: virt-ppc64-misc
     node: metal-ppc64el
     publishers:
       - archive:
@@ -141,7 +141,7 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-cleanup-ppc64el
+          project: virt-ppc64-cleanup
           threshold: FAILURE
       - junit:
           results: result.xml
@@ -156,7 +156,7 @@
           ./qemu-libvirt-test.sh -P -s "misc"
 
 - job-template:
-    name: virt-cleanup-ppc64el
+    name: virt-ppc64-cleanup
     node: metal-ppc64el
     publishers:
       - archive:
