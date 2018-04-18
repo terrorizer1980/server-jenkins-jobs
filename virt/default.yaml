@@ -36,8 +36,8 @@
       - virt-s390x-1-migrate-b
       - virt-s390x-2-cross-rel
       - virt-s390x-3-misc
-      - virt-s390x-0-prep
       - virt-s390x-6-cleanup
+      - virt-ppc64-0-prep
       - virt-ppc64-1-migrate-x
       - virt-ppc64-1-migrate-a
       - virt-ppc64-1-migrate-b

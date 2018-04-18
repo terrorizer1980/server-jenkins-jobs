@@ -16,7 +16,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job-template:
-    name: virt-s390x-0-prep
+    name: virt-ppc64-0-prep
     node: metal-ppc64el
     triggers:
       # 3am UTC every Saturday
