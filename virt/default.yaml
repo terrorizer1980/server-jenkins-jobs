@@ -29,6 +29,7 @@
       - virt-amd64-libvirt-qa-x
       - virt-amd64-qemu-qa-b
       - virt-amd64-libvirt-qa-b
+      - virt-amd64-cleanup
       - virt-s390x-migrate-x
       - virt-s390x-prep
       - virt-s390x-migrate-a
@@ -36,14 +37,13 @@
       - virt-s390x-cross-release
       - virt-s390x-misc
       - virt-s390x-prep
+      - virt-s390x-cleanup
       - virt-ppc64-migrate-x
       - virt-ppc64-migrate-a
       - virt-ppc64-migrate-b
       - virt-ppc64-cross-release
       - virt-ppc64-misc
-      - virt-amd64-cleanup
       - virt-ppc64-cleanup
-      - virt-s390x-cleanup
 
 - defaults:
     name: global
