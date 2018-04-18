@@ -18,32 +18,32 @@
 - project:
     name: virt
     jobs:
-      - virt-prep-amd64
-      - virt-migrate-amd64-t
-      - virt-migrate-amd64-x
-      - virt-migrate-amd64-a
-      - virt-migrate-amd64-b
-      - virt-cross-release-amd64
-      - virt-misc-amd64
-      - virt-qemu-qa-amd64-x
-      - virt-libvirt-qa-amd64-x
-      - virt-qemu-qa-amd64-b
-      - virt-libvirt-qa-amd64-b
-      - virt-migrate-s390x-x
-      - virt-prep-s390x
-      - virt-migrate-s390x-a
-      - virt-migrate-s390x-b
-      - virt-cross-release-s390x
-      - virt-misc-s390x
-      - virt-prep-ppc64el
-      - virt-migrate-ppc64el-x
-      - virt-migrate-ppc64el-a
-      - virt-migrate-ppc64el-b
-      - virt-cross-release-ppc64el
-      - virt-misc-ppc64el
-      - virt-cleanup-amd64
-      - virt-cleanup-ppc64el
-      - virt-cleanup-s390x
+      - virt-amd64-0-prep
+      - virt-amd64-1-migrate-t
+      - virt-amd64-1-migrate-x
+      - virt-amd64-1-migrate-a
+      - virt-amd64-1-migrate-b
+      - virt-amd64-2-cross-rel
+      - virt-amd64-3-misc
+      - virt-amd64-4-qemuqa-x
+      - virt-amd64-5-libvirtqa-x
+      - virt-amd64-4-qemuqa-b
+      - virt-amd64-5-libvirtqa-b
+      - virt-amd64-6-cleanup
+      - virt-s390x-1-migrate-x
+      - virt-s390x-0-prep
+      - virt-s390x-1-migrate-a
+      - virt-s390x-1-migrate-b
+      - virt-s390x-2-cross-rel
+      - virt-s390x-3-misc
+      - virt-s390x-6-cleanup
+      - virt-ppc64-0-prep
+      - virt-ppc64-1-migrate-x
+      - virt-ppc64-1-migrate-a
+      - virt-ppc64-1-migrate-b
+      - virt-ppc64-2-cross-rel
+      - virt-ppc64-3-misc
+      - virt-ppc64-6-cleanup
 
 - defaults:
     name: global
