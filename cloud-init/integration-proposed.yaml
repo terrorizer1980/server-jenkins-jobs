@@ -60,6 +60,29 @@
         - email-server-crew
         - archive-results
 
+- job-template:
+    name: cloud-init-integration-proposed-trigger-b
+    node: metal-amd64
+    publishers: []
+    triggers:
+      - timed: "H 10 * * *"
+    builders:
+      - trigger-proposed-integration:
+          release: bionic
+          triggerwhat: cloud-init-integration-proposed-b
+
+- job-template:
+    name: cloud-init-integration-proposed-b
+    node: metal-amd64
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: bionic
+          release-ver: 18.04
+    publishers:
+        - email-server-crew
+        - archive-results
+
 - builder:
     name: proposed-integration
     builders:
@@ -84,7 +107,7 @@
               --repo=\'deb $mirror $release-proposed main\' \
               --preserve-data --data-dir="./results" \
               --verbose
-              
+
           # remove temporary keys
           find . -name "id_rsa*" -delete
 
