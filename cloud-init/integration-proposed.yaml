@@ -136,7 +136,6 @@
             exit 0
           fi
 
-          pre="cloud-init-integration-proposed--"
           for t in $triggerwhat; do
-              curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/$pre$t/build?token=BUILD_ME
+              curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/$t/build?token=BUILD_ME
           done
