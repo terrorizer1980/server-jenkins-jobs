@@ -31,26 +31,3 @@
           #!/bin/bash -eux
           rm -rf *
           ${{COMMAND}}
-
-- job-template:
-    name: admin-slave-exec-all
-    project-type: matrix
-    axes:
-      - axis:
-          type: slave
-          name: nodes
-          values:
-            - metal-amd64
-            - metal-arm64
-            - metal-ppc64el
-            - metal-s390x
-            - vm-i386
-    parameters:
-      - string:
-          name: COMMAND
-          description: Bash shell command to execute.
-    builders:
-      - shell: |
-          #!/bin/bash -eux
-          rm -rf *
-          ${{COMMAND}}

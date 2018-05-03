@@ -17,7 +17,7 @@
 
 - job-template:
     name: images-cloud-devel-daily
-    node: metal-amd64
+    node: any
     triggers:
       - timed: "H 3 * * *"
     publishers:
@@ -37,7 +37,7 @@
 
 - job-template:
     name: images-cloud-xenial-daily
-    node: metal-amd64
+    node: any
     triggers:
       - timed: "H 3 * * *"
     publishers:

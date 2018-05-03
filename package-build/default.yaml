@@ -42,7 +42,7 @@
       - 'ubuntu-server'
     jobs:
       - '{team}-{release}-{arch}-build'
-      
+
 - project:
     name: 'package-build-s390x'
     release:

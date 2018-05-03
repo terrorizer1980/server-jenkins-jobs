@@ -20,9 +20,7 @@
     jobs:
       - admin-jobs-update
       - admin-master-enable
-      - admin-sbuild-update
       - admin-slave-exec
-      - admin-slave-exec-all
       - admin-lp-vote
       - admin-lp-vote-git
 
