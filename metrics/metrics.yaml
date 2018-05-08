@@ -84,7 +84,6 @@
 
 - job-template:
     name: metric-foundations-docker-hub-images
-    node: metal-amd64
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -178,7 +177,6 @@
 
 - job-template:
     name: metric-server-docker-downloads
-    node: metal-amd64
     builders:
       - shell: |
           #!/bin/bash
@@ -193,7 +191,6 @@
 
 - job-template:
     name: metric-server-vagrant-downloads
-    node: metal-amd64
     builders:
       - shell: |
           #!/bin/bash
