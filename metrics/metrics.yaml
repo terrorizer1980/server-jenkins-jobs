@@ -85,10 +85,16 @@
 - job-template:
     name: metric-foundations-docker-hub-images
     builders:
-      - metric-influxdb:
-          team: "foundations"
-          metric_module: "docker_hub_images"
-          metric_arguments: ""
+      - shell: |
+          #!/bin/bash
+          set -e
+          export https_proxy=http://squid.internal:3128
+          rm -rf *
+          git clone https://github.com/canonical-server/metrics.git
+          cd metrics
+          bzr branch lp:kpi-metrics-tools
+          source kpi-metrics-tools/foundations-kpi-influxdb.txt
+          python3 -m metrics.docker_hub_images
 
 - job-template:
     name: metric-foundations-cloud-image-sizes
