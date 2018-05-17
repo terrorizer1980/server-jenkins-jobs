@@ -18,6 +18,7 @@
 - project:
     name: images
     jobs:
+      - images-cloud-bionic-daily
       - images-cloud-devel-daily
       - images-cloud-xenial-daily
 

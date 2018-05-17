@@ -49,9 +49,22 @@
     publishers:
       - email-server-crew
       - archive-results
+      - trigger:
+          project: cloud-init-integration-lxd-c
+          threshold: FAILURE
     builders:
       - integration-lxd:
           release: bionic
+
+- job-template:
+    name: cloud-init-integration-lxd-c
+    node: metal-amd64
+    publishers:
+      - email-server-crew
+      - archive-results
+    builders:
+      - integration-lxd:
+          release: cosmic
 
 - builder:
     name: integration-lxd

@@ -83,6 +83,29 @@
         - email-server-crew
         - archive-results
 
+- job-template:
+    name: cloud-init-integration-proposed-trigger-c
+    node: metal-amd64
+    publishers: []
+    triggers:
+      - timed: "H 10 * * *"
+    builders:
+      - trigger-proposed-integration:
+          release: cosmic
+          triggerwhat: cloud-init-integration-proposed-c
+
+- job-template:
+    name: cloud-init-integration-proposed-c
+    node: metal-amd64
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: cosmic
+          release-ver: 18.10
+    publishers:
+        - email-server-crew
+        - archive-results
+
 - builder:
     name: proposed-integration
     builders:

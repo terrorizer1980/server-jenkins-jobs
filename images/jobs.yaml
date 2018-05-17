@@ -54,3 +54,23 @@
           git clone https://github.com/canonical-server/test-scripts
           cd test-scripts/simplestreams
           ./cloud_image_age.py -d xenial
+
+- job-template:
+    name: images-cloud-bionic-daily
+    node: any
+    triggers:
+      - timed: "H 3 * * *"
+    publishers:
+      - junit:
+          results: test-scripts/simplestreams/results.xml
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -e
+          export http_proxy=http://squid.internal:3128
+          export https_proxy=http://squid.internal:3128
+
+          rm -rf *
+          git clone https://github.com/canonical-server/test-scripts
+          cd test-scripts/simplestreams
+          ./cloud_image_age.py -d bionic

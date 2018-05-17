@@ -49,6 +49,19 @@
     publishers:
       - email-server-crew
       - archive-results
+      - trigger:
+          project: cloud-init-integration-nocloud-kvm-c
+          threshold: FAILURE
+    builders:
+      - integration-nocloud-kvm:
+          release: bionic
+
+- job-template:
+    name: cloud-init-integration-nocloud-kvm-c
+    node: metal-amd64
+    publishers:
+      - email-server-crew
+      - archive-results
     builders:
       - integration-nocloud-kvm:
           release: bionic
@@ -70,7 +83,7 @@
           tox -e citest -- run --os-name $release \
             --platform nocloud-kvm --preserve-data --data-dir results \
             --verbose --deb cloud-init_*_all.deb
-            
+
           find results -name "*.qcow2" -delete
           # remove temporary keys
           find . -name "id_rsa*" -delete

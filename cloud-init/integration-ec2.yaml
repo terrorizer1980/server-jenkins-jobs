@@ -60,6 +60,21 @@
       - integration-ec2:
           release: bionic
 
+- job-template:
+    name: cloud-init-integration-ec2-c
+    node: metal-amd64
+    triggers:
+      - timed: "H 0 * * 3"
+    publishers:
+      - email-server-crew
+      - archive-results
+      - trigger:
+          project: cloud-init-integration-ec2-terminate
+          threshold: FAILURE
+    builders:
+      - integration-ec2:
+          release: cosmic
+
 - builder:
     name: integration-ec2
     builders:
