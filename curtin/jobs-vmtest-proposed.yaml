@@ -40,6 +40,19 @@
           release: artful
           triggerwhat: curtin-vmtest-proposed-a
 
+- job-template:
+    name: curtin-vmtest-proposed-b-trigger
+    node: metal-amd64
+    triggers:
+      - timed: "H 22 * * *"
+    publishers:
+        - email-server-crew
+    builders:
+      - vmtest-proposed-trigger:
+          release: bionic
+          triggerwhat: curtin-vmtest-proposed-b
+
+
 - builder:
     name: vmtest-proposed-trigger
     builders:
@@ -83,6 +96,20 @@
     builders:
       - vmtest-proposed:
           release: artful
+
+- job-template:
+    name: curtin-vmtest-proposed-b
+    node: metal-amd64
+    auth-token: BUILD_ME
+    properties:
+      - build-discarder:
+          num-to-keep: 5
+    publishers:
+        - email-server-crew
+        - archive-results
+    builders:
+      - vmtest-proposed:
+          release: bionic
 
 - builder:
     name: vmtest-proposed
