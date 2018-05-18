@@ -36,6 +36,8 @@
       - curtin-vmtest-daily-x
       - curtin-vmtest-proposed-a
       - curtin-vmtest-proposed-a-trigger
+      - curtin-vmtest-proposed-b
+      - curtin-vmtest-proposed-b-trigger
       - curtin-vmtest-proposed-x
       - curtin-vmtest-proposed-x-trigger
 
