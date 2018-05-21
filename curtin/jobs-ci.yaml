@@ -63,6 +63,9 @@
             - metal-s390x
     auth-token: BUILD_ME
     publishers:
+      - archive:
+          artifacts: 'output/**'
+          excludes: 'output/debug.log, **/*img'
       - trigger-parameterized-builds:
         - project: admin-lp-vote-git
           predefined-parameters: |
@@ -85,7 +88,8 @@
           condition: SUCCESS
     builders:
         - shell: |
-            #!/bin/bash -x
+            #!/bin/bash
+            set -eux
             export https_proxy=http://squid.internal:3128
             export no_proxy=launchpad.net
 
@@ -99,3 +103,6 @@
 
             tox
 
+            if [ "$(arch)" == "x86_64" ]; then
+                ./tools/jenkins-runner -p 4 tests/vmtests/test_basic.py:XenialGATestBasic tests/vmtests/test_basic.py:BionicTestBasic
+            fi
