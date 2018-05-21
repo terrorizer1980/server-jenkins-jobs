@@ -125,7 +125,7 @@
 
       post {{
           always {{
-              archiveArtifacts artifacts: 'cloud-init/results/**', excludes: 'cloud-init/results/*log, **/*img, **/*qcow2', allowEmptyArchive: true, onlyIfSuccessful: false
+              archiveArtifacts artifacts: 'results/**', excludes: 'results/*log, **/*img, **/*qcow2', allowEmptyArchive: true, onlyIfSuccessful: false
           }}
 
           success {{
@@ -186,6 +186,6 @@
                 sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 7'
             }}
         }} finally {{
-            archiveArtifacts artifacts: 'cloud-init/results/**', excludes: 'cloud-init/results/*log, **/*img, **/*qcow2', allowEmptyArchive: true, onlyIfSuccessful: false
+            archiveArtifacts artifacts: 'results/**', excludes: 'results/*log, **/*img, **/*qcow2', allowEmptyArchive: true, onlyIfSuccessful: false
         }}
       }}
