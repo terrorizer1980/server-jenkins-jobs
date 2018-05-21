@@ -124,6 +124,10 @@
         }}
 
       post {{
+          always {{
+              archiveArtifacts artifacts: 'cloud-init/results/**', excludes: 'cloud-init/results/*log, **/*img, **/*qcow2', allowEmptyArchive: true, onlyIfSuccessful: false
+          }}
+
           success {{
               build job: 'admin-lp-vote-git',
               parameters: [string(name: 'CI_RESULT', value: 'PASSED'),
@@ -157,27 +161,31 @@
     sandbox: True
     dsl: |
       node('metal-amd64') {{
-        stage ('Checkout') {{
-          deleteDir()
-          git url: 'https://git.launchpad.net/cloud-init', branch: 'master'
-        }}
+        try {{
+            stage ('Checkout') {{
+                deleteDir()
+                git url: 'https://git.launchpad.net/cloud-init', branch: 'master'
+            }}
 
-        stage ('Unit & Style Tests') {{
-          sh 'tox'
-        }}
+            stage ('Unit & Style Tests') {{
+                sh 'tox'
+            }}
 
-        stage ('Ubuntu LTS: Build') {{
-          sh 'git checkout .'
-          sh './packages/bddeb -S'
-          sh 'sbuild --nolog --verbose --dist=xenial cloud-init_*.dsc'
-        }}
+            stage ('Ubuntu LTS: Build') {{
+                sh 'git checkout .'
+                sh './packages/bddeb -S'
+                sh 'sbuild --nolog --verbose --dist=xenial cloud-init_*.dsc'
+            }}
 
-        stage ('Ubuntu LTS: Integration') {{
-          sh 'tox -e citest -- run --verbose --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
-        }}
+            stage ('Ubuntu LTS: Integration') {{
+                sh 'tox -e citest -- run --verbose --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
+            }}
 
-        stage ('MAAS Compatability Testing') {{
-          sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 6'
-          sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 7'
+            stage ('MAAS Compatability Testing') {{
+                sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 6'
+                sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 7'
+            }}
+        }} finally {{
+            archiveArtifacts artifacts: 'cloud-init/results/**', excludes: 'cloud-init/results/*log, **/*img, **/*qcow2', allowEmptyArchive: true, onlyIfSuccessful: false
         }}
       }}
