@@ -164,9 +164,6 @@
 
         stage ('Unit & Style Tests') {{
           sh 'tox'
-          sh 'tox -e tip-pycodestyle'
-          sh 'tox -e tip-pyflakes'
-          sh 'tox -e tip-pylint'
         }}
 
         stage ('Ubuntu LTS: Build') {{
