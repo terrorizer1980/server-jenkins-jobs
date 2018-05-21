@@ -111,7 +111,7 @@
 
             stage ('Ubuntu LTS: Integration') {{
                 steps {{
-                    sh 'tox -e citest -- run --verbose --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
+                    sh 'tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
                 }}
             }}
 
@@ -178,7 +178,7 @@
             }}
 
             stage ('Ubuntu LTS: Integration') {{
-                sh 'tox -e citest -- run --verbose --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
+                sh 'tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
             }}
 
             stage ('MAAS Compatability Testing') {{
