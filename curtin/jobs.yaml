@@ -62,7 +62,7 @@
           tox ${{tox_parameters}}
 
 - job-template:
-    name: curtin-style
+    name: curtin-style-tip
     node: metal-amd64
     publishers:
       - trigger:

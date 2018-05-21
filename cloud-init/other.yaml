@@ -16,7 +16,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job-template:
-    name: cloud-init-tip
+    name: cloud-init-style-tip
     node: metal-amd64
     triggers:
       - timed: "H 23 * * *"

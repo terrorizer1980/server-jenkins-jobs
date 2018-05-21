@@ -48,7 +48,7 @@
       - cloud-init-integration-proposed-trigger-c
       - cloud-init-integration-proposed-trigger-x
       - cloud-init-lp-build-status
-      - cloud-init-tip
+      - cloud-init-style-tip
 
 - defaults:
     name: global

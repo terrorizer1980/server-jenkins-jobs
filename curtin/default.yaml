@@ -22,7 +22,7 @@
       - curtin-ci-lander
       - curtin-ci-trigger
       - curtin-build
-      - curtin-style
+      - curtin-style-tip
       - curtin-tests
       - curtin-debug
       - curtin-github-mirror
