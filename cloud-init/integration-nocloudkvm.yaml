@@ -75,15 +75,10 @@
           export apt_proxy=http://squid.internal:3128
 
           sudo rm -Rf *
+          git clone https://github.com/canonical-server/test-scripts.git
           git clone https://git.launchpad.net/cloud-init
           cd cloud-init
-          ./packages/bddeb -S
-          sbuild --nolog --dist=$release cloud-init_*.dsc
-          set +e
+          ../test-scripts/cloud-init/daily_deb.sh -v $release
           tox -e citest -- run --os-name $release \
             --platform nocloud-kvm --preserve-data --data-dir results \
             --verbose --deb cloud-init_*_all.deb
-
-          find results -name "*.qcow2" -delete
-          # remove temporary keys
-          find . -name "id_rsa*" -delete
