@@ -66,6 +66,7 @@
       - archive:
           artifacts: 'output/**'
           excludes: 'output/debug.log, **/*img'
+          allow-empty: true
       - trigger-parameterized-builds:
         - project: admin-lp-vote-git
           predefined-parameters: |
