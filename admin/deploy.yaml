@@ -27,8 +27,8 @@
       - shell: |
           #!/bin/bash -eux
           rm -rf *
-          git clone https://github.com/canonical-server/jenkins-jobs
-          cd jenkins-jobs
+          git clone https://github.com/CanonicalLtd/server-jenkins-jobs
+          cd server-jenkins-jobs
 
           for dir in `find * -type d`
           do

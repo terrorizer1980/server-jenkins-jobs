@@ -22,7 +22,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
+          git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.{metric_module}
@@ -34,7 +34,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
+          git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           bzr branch lp:kpi-metrics-tools
           source kpi-metrics-tools/{team}-kpi-influxdb.txt
@@ -47,7 +47,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
+          git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.uploads {team_name}
@@ -59,7 +59,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
+          git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.foundations_errors --teams {team_name}
@@ -71,7 +71,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
+          git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.foundations_autopkgtest_queue --queues {queue_name}
@@ -90,7 +90,7 @@
           set -e
           export https_proxy=http://squid.internal:3128
           rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
+          git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           bzr branch lp:kpi-metrics-tools
           source kpi-metrics-tools/foundations-kpi-influxdb.txt
@@ -155,7 +155,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
+          git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.package cloud-init \
@@ -168,7 +168,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
+          git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.package curtin --repo lp:curtin
@@ -188,7 +188,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
+          git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           bzr branch lp:kpi-metrics-tools
           source kpi-metrics-tools/server-kpi-influxdb.txt
@@ -202,7 +202,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
+          git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           bzr branch lp:kpi-metrics-tools
           source kpi-metrics-tools/server-kpi-influxdb.txt
@@ -219,7 +219,7 @@
 
           team_names="foundations server openstack"
 
-          git clone https://github.com/canonical-server/metrics.git
+          git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.25.2.225:9091
           for team_name in $team_names; do
@@ -233,7 +233,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
+          git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.package simplestreams --repo lp:simplestreams
@@ -245,7 +245,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
+          git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.triage server
@@ -263,7 +263,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/metrics.git
+          git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python -m metrics.google_analytics

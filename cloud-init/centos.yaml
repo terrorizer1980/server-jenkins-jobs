@@ -40,8 +40,8 @@
           ./tools/run-centos 7 --srpm --artifact
 
           cd "$WORKSPACE"
-          git clone https://github.com/canonical-server/test-scripts
-          cd test-scripts/cloud-init
+          git clone https://github.com/CanonicalLtd/server-test-scripts
+          cd server-test-scripts/cloud-init
           SRPM=$(ls $WORKSPACE/cloud-init/*.src.rpm)
           ./copr_build.py --dev --srpm "$SRPM"
 
@@ -62,8 +62,8 @@
           export https_proxy=http://squid.internal:3128
 
           rm -rf *
-          git clone https://github.com/canonical-server/test-scripts
-          cd test-scripts/cloud-init
+          git clone https://github.com/CanonicalLtd/server-test-scripts
+          cd server-test-scripts/cloud-init
           ./copr_test -vv 6
 
 - job-template:
@@ -77,6 +77,6 @@
           export https_proxy=http://squid.internal:3128
 
           rm -rf *
-          git clone https://github.com/canonical-server/test-scripts
-          cd test-scripts/cloud-init
+          git clone https://github.com/CanonicalLtd/server-test-scripts
+          cd server-test-scripts/cloud-init
           ./copr_test -vv 7

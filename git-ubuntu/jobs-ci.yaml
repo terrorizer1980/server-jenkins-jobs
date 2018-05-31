@@ -76,7 +76,7 @@
             stage ('VM Setup') {{
                 steps {{
                     deleteDir()
-                    git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
+                    git url: 'https://github.com/CanonicalLtd/server-test-scripts', branch: 'master'
                     sh 'http_proxy="http://squid.internal:3128" https_proxy="http://squid.internal:3128" ./git-ubuntu/vm_setup "$VM_NAME"'
                 }}
             }}
@@ -150,7 +150,7 @@
             stage ('VM Setup') {{
                 steps {{
                     deleteDir()
-                    git url: 'https://github.com/canonical-server/test-scripts', branch: 'master'
+                    git url: 'https://github.com/CanonicalLtd/server-test-scripts', branch: 'master'
                     sh 'http_proxy="http://squid.internal:3128" https_proxy="http://squid.internal:3128" ./git-ubuntu/vm_setup "$VM_NAME"'
                 }}
             }}

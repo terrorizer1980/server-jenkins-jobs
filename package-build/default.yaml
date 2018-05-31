@@ -23,7 +23,7 @@
         *** STOP ***
         Do NOT edit this job through the web
         This job is managed by Jenkins Job Builder and stored on Github via the URL below:
-        https://github.com/canonical-server/jenkins-jobs
+        https://github.com/CanonicalLtd/server-jenkins-jobs
         *** STOP ***
     properties:
       - build-discarder:
@@ -75,7 +75,7 @@
           #!/bin/bash
           set -eux
           rm -rf test-build
-          git clone https://github.com/canonical-server/test-build.git
+          git clone https://github.com/CanonicalLtd/server-test-build
           cd test-build
 
           PACKAGES=$(./get_team_packages {team})
