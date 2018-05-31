@@ -103,5 +103,5 @@
           export apt_proxy=http://squid.internal:3128
 
           sudo rm -Rf *
-          git clone https://github.com/canonical-server/test-scripts
-          ./test-scripts/cloud-init/ec2_cleanup.py
+          git clone https://github.com/CanonicalLtd/server-test-scripts
+          ./server-test-scripts/cloud-init/ec2_cleanup.py

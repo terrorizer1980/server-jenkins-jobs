@@ -31,8 +31,8 @@
           export https_proxy=http://squid.internal:3128
 
           rm -rf *
-          git clone https://github.com/canonical-server/test-scripts
-          cd test-scripts/simplestreams
+          git clone https://github.com/CanonicalLtd/server-test-scripts
+          cd server-test-scripts/simplestreams
           ./cloud_image_age.py -d
 
 - job-template:
@@ -51,8 +51,8 @@
           export https_proxy=http://squid.internal:3128
 
           rm -rf *
-          git clone https://github.com/canonical-server/test-scripts
-          cd test-scripts/simplestreams
+          git clone https://github.com/CanonicalLtd/server-test-scripts
+          cd server-test-scripts/simplestreams
           ./cloud_image_age.py -d xenial
 
 - job-template:

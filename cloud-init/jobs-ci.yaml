@@ -40,8 +40,8 @@
         - shell: |
             #!/bin/bash -x
             rm -rf *
-            git clone https://github.com/canonical-server/test-scripts.git
-            cd test-scripts/launchpad
+            git clone https://github.com/CanonicalLtd/server-test-scripts
+            cd server-test-scripts/launchpad
             ./land_merge_proposals.py cloud-init
 
 - job-template:

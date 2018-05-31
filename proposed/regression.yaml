@@ -22,8 +22,8 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/test-proposed.git
-          cd test-proposed
+          git clone https://github.com/CanonicalLtd/server-test-proposed
+          cd server-test-proposed
           ./proposed.py -r trusty
 
 - job-template:
@@ -33,8 +33,8 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/test-proposed.git
-          cd test-proposed
+          git clone https://github.com/CanonicalLtd/server-test-proposed
+          cd server-test-proposed
           ./proposed.py -r xenial
 
 - job-template:
@@ -44,6 +44,6 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/canonical-server/test-proposed.git
-          cd test-proposed
+          git clone https://github.com/CanonicalLtd/server-test-proposed
+          cd server-test-proposed
           ./proposed.py -r artful

@@ -1,10 +1,8 @@
 # Jenkins Jobs
 
-[![Build Status](https://travis-ci.org/canonical-server/jenkins-jobs.svg?branch=master)](https://travis-ci.org/canonical-server/jenkins-jobs)
-
 This repo contains the Jenkins Job Builder definitions. This is
 split into various folders based on the project. This way specific
-projects can be updated without affecting the other projects. 
+projects can be updated without affecting the other projects.
 
 ## Automated Deployment
 
@@ -28,7 +26,7 @@ To install Jenkins Job Builder, use pip as the version in the
 distro is too old. You *must* also specify the version as the
 default installed version is too old to support all features:
 
-```
+```shell
 pip install --user jenkins-job-builder==2.0.0.0b2
 PATH=$PATH:/home/$USER/.local/bin
 ```
@@ -39,7 +37,7 @@ Jenkins job builder needs a configuration file to know where
 to point to update jobs. Here is an example file, which should
 be kept in `/home/$USER/.config/jenkins_jobs/jenkins_jobs.ini`:
 
-```
+```ini
 [jenkins]
 user=jenkins
 password=1234567890abcdef1234567890abcdef
@@ -51,7 +49,7 @@ query_plugins_info=False
 
 To test changes use jenkins-jobs:
 
-```
+```shell
 jenkins-jobs test <directory of tests>
 ```
 
@@ -65,9 +63,9 @@ printed.
 
 To manually update jobs run the following:
 
-```
-git clone https://github.com/canonical-server/jenkins-jobs
-cd jenkins-jobs
+```shell
+git clone https://github.com/CanonicalLtd/server-jenkins-jobs
+cd server-jenkins-jobs
 jenkins-jobs --ignore-cache update <directory of tests>
 ```
 

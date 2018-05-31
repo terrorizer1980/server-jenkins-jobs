@@ -142,7 +142,7 @@
           rel={release}
           triggerwhat="{triggerwhat}"
           sudo rm -f version_lookup.py
-          wget https://raw.githubusercontent.com/canonical-server/test-scripts/master/launchpad/version_lookup.py
+          wget https://raw.githubusercontent.com/CanonicalLtd/server-test-scripts/master/launchpad/version_lookup.py
           chmod +x version_lookup.py
           pkg="cloud-init"
 
