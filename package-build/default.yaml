@@ -78,7 +78,7 @@
           set -eux
           rm -rf test-build
           git clone https://github.com/CanonicalLtd/server-test-build
-          cd test-build
+          cd server-test-build
 
           PACKAGES=$(./get_team_packages {team})
           set +e
