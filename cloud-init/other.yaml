@@ -31,7 +31,7 @@
           export https_proxy=http://squid.internal:3128
 
           rm -rf *
-          git clone https://github.com/cloud-init
+          git clone https://git.launchpad.net/cloud-init
           cd cloud-init
           tox -e tip-pycodestyle
           tox -e tip-pyflakes
