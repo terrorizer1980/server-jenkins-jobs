@@ -76,7 +76,7 @@
       - shell: |
           #!/bin/bash
           set -eux
-          rm -rf test-build
+          rm -rf server-test-build
           git clone https://github.com/CanonicalLtd/server-test-build
           cd server-test-build
 
