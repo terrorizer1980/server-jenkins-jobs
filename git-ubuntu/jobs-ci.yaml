@@ -161,6 +161,7 @@
                 steps {{
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "git clone -b master https://git.launchpad.net/usd-importer git-ubuntu"'
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "cd git-ubuntu; snapcraft cleanbuild"'
+                    sh 'scp -oStrictHostKeyChecking=no "ubuntu@$(uvt-kvm ip "$VM_NAME"):/home/ubuntu/git-ubuntu/git-ubuntu_*_amd64.snap .'
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "sudo snap install --dangerous --classic git-ubuntu/git-ubuntu_*_amd64.snap"'
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "snap list"'
                 }}
@@ -182,6 +183,7 @@
         post {{
             always {{
                 sh 'uvt-kvm destroy "$VM_NAME"'
+                archiveArtifacts artifacts: '*.snap', allowEmptyArchive: true, onlyIfSuccessful: false
             }}
         }}
       }}
