@@ -64,7 +64,7 @@
       - archive-results
     builders:
       - integration-nocloud-kvm:
-          release: bionic
+          release: cosmic
 
 - builder:
     name: integration-nocloud-kvm
