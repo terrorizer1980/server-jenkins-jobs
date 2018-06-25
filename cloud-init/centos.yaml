@@ -34,13 +34,13 @@
           export https_proxy=http://squid.internal:3128
 
           rm -rf *
+          git clone https://github.com/CanonicalLtd/server-test-scripts
           git clone https://git.launchpad.net/cloud-init
           cd cloud-init
           export PYVER=python2
           ./tools/run-centos 7 --srpm --artifact
 
           cd "$WORKSPACE"
-          git clone https://github.com/CanonicalLtd/server-test-scripts
           cd server-test-scripts/cloud-init
           SRPM=$(ls $WORKSPACE/cloud-init/*.src.rpm)
           ./copr_build.py --dev --srpm "$SRPM"
