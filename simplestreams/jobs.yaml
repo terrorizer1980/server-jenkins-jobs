@@ -88,7 +88,6 @@
           export no_proxy=launchpad.net
 
           rm -rf *
-          git clone https://git.launchpad.net/simplestreams tests
-          cd tests
-
+          git clone https://git.launchpad.net/simplestreams tests-$BUILD_NUMBER
+          cd tests-$BUILD_NUMBER
           tox
