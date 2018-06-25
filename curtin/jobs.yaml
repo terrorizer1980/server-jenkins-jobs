@@ -25,8 +25,8 @@
           export no_proxy=launchpad.net
 
           rm -rf *
-          git clone https://git.launchpad.net/curtin build
-          cd build
+          git clone https://git.launchpad.net/curtin build-$BUILD_NUMBER
+          cd build-$BUILD_NUMBER
 
           ./tools/build-deb -S -us -uc
           sbuild --nolog --verbose --dist=xenial curtin_*.dsc
