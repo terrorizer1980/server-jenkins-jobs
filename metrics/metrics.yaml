@@ -236,7 +236,7 @@
           git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.25.2.225:9091
-          python3 -m metrics.package simplestreams --repo lp:simplestreams
+          python3 -m metrics.package simplestreams --repo http://git.launchpad.net/simplestreams
 
 - job-template:
     name: metric-server-triage
