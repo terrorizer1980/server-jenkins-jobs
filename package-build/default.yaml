@@ -43,23 +43,11 @@
     jobs:
       - '{team}-{release}-{arch}-build'
 
-- project:
-    name: 'package-build-s390x'
-    release:
-      - 'bionic'
-      - 'xenial'
-    arch:
-      - 's390x'
-    team:
-      - 'ubuntu-server'
-    jobs:
-      - '{team}-{release}-{arch}-build'
-
 - job-template:
     name: '{team}-{release}-{arch}-build'
     node: metal-{arch}
     triggers:
-      - timed: "H 2 * * 0"
+      - timed: "H H * * 6"
     publishers:
       - archive:
           artifacts: 'server-test-build/logs/**'
