@@ -62,9 +62,9 @@
       - timed: "H 2 * * 0"
     publishers:
       - archive:
-          artifacts: 'test-build/logs/**'
+          artifacts: 'server-test-build/logs/**'
       - junit:
-          results: test-build/results.xml
+          results: server-test-build/results.xml
     builders:
       - package-build:
           release: '{release}'
