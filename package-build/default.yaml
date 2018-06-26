@@ -34,7 +34,6 @@
     release:
       - 'bionic'
       - 'xenial'
-      - 'trusty'
     arch:
       - 'amd64'
       - 'ppc64el'
