@@ -18,7 +18,11 @@
 - project:
     name: pycloudlib
     jobs:
-      - pycloudlib-ci
+      - admin-lp-git-autoland
+      - admin-lp-git-vote
+      - pycloudlib-autoland-test
+      - pycloudlib-autoland-trigger
+      - pycloudlib-ci-test
       - pycloudlib-ci-trigger
 
 - defaults:
