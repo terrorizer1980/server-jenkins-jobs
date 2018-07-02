@@ -51,25 +51,23 @@
     auth-token: BUILD_ME
     publishers:
       - trigger-parameterized-builds:
-        - project: admin-lp-vote-git
-          predefined-parameters: |
-            CI_RESULT=FAILED
-            CI_BUILD=${BUILD_URL}
-            CI_BRANCH=${landing_candidate}
-            CI_MERGE_PROPOSAL=${merge_proposal}
-            CI_REVISION=${candidate_revision}
-          current-parameters: true
+        - project: admin-lp-git-vote
           condition: UNSTABLE_OR_WORSE
-      - trigger-parameterized-builds:
-        - project: admin-lp-vote
           predefined-parameters: |
-            CI_RESULT=PASSED
-            CI_BUILD=${BUILD_URL}
-            CI_BRANCH=${landing_candidate}
-            CI_MERGE_PROPOSAL=${merge_proposal}
-            CI_REVISION=${candidate_revision}
-          current-parameters: true
+            MERGE_BRANCH=${landing_candidate}
+            MERGE_REVISION=${candidate_revision}
+            MERGE_URL=${merge_proposal}
+            TEST_RESULT=FAILED
+            TEST_URL=${BUILD_URL}
+      - trigger-parameterized-builds:
+        - project: admin-lp-git-vote
           condition: SUCCESS
+          predefined-parameters: |
+            MERGE_BRANCH=${landing_candidate}
+            MERGE_REVISION=${candidate_revision}
+            MERGE_URL=${merge_proposal}
+            TEST_RESULT=PASSED
+            TEST_URL=${BUILD_URL}
     builders:
       - shell: |
           #!/bin/bash

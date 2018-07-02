@@ -79,36 +79,6 @@
             tox
 
 - job:
-    name: admin-lp-git-vote
-    node: any
-    parameters:
-      - string:
-          name: MERGE_BRANCH
-          description: Branch name
-      - string:
-          name: MERGE_REVISION
-          description: Revision of the git branch
-      - string:
-          name: MERGE_URL
-          description: Merge proposal URL
-      - string:
-          name: TEST_RESULT
-          description: Result of the CI job
-      - string:
-          name: TEST_URL
-          description: Jenkins URL of the test job run
-    builders:
-      - shell: |
-          #!/bin/bash
-          set -eux
-
-          voteOnMergeProposal --status=${TEST_RESULT} \
-                              --build-url=${TEST_URL} \
-                              --branch=${MERGE_BRANCH} \
-                              --merge-proposal=${MERGE_URL} \
-                              --revision=${MERGE_REVISION}
-
-- job:
     name: pycloudlib-autoland-trigger
     node: any
     triggers:
@@ -173,30 +143,3 @@
           git merge autoland/${landing_candidate_branch} --squash
 
           tox
-
-- job:
-    name: admin-lp-git-autoland
-    node: any
-    parameters:
-      - string:
-          name: MERGE_REVISION
-          description: Revision of the git branch
-      - string:
-          name: MERGE_URL
-          description: Merge proposal URL
-      - string:
-          name: TEST_RESULT
-          description: Result of the CI job
-      - string:
-          name: TEST_URL
-          description: Jenkins URL of the test job run
-    builders:
-      - shell: |
-          #!/bin/bash
-          set -eux
-
-          autoland --merge-proposal ${MERGE_URL} \
-                   --revision ${MERGE_REVISION} \
-                   --test-result ${TEST_RESULT} \
-                   --build-job-url ${TEST_URL} \
-                   --use-description-for-commit

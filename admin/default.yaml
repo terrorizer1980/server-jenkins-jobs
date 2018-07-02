@@ -21,8 +21,8 @@
       - admin-jobs-update
       - admin-master-enable
       - admin-slave-exec
-      - admin-lp-vote
-      - admin-lp-vote-git
+      - admin-lp-git-autoland
+      - admin-lp-git-vote
 
 - defaults:
     name: global

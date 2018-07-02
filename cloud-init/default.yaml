@@ -18,8 +18,9 @@
 - project:
     name: cloud-init
     jobs:
+      - cloud-init-autoland-test
+      - cloud-init-autoland-trigger
       - cloud-init-ci
-      - cloud-init-ci-lander
       - cloud-init-ci-nightly
       - cloud-init-ci-trigger
       - cloud-init-copr-build

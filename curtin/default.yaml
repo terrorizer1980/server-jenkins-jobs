@@ -18,8 +18,9 @@
 - project:
     name: curtin
     jobs:
+      - curtin-autoland-test
+      - curtin-autoland-trigger
       - curtin-ci
-      - curtin-ci-lander
       - curtin-ci-trigger
       - curtin-build
       - curtin-style-tip

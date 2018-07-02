@@ -31,17 +31,19 @@
             exit 0
 
 - job:
-    name: curtin-ci-lander
-    node: metal-amd64
+    name: curtin-autoland-trigger
+    node: any
     triggers:
         - timed: H/15 * * * *
     builders:
         - shell: |
-            #!/bin/bash -x
-            rm -rf *
-            git clone https://github.com/CanonicalLtd/server-test-scripts
-            cd server-test-scripts/launchpad
-            ./land_merge_proposals.py curtin
+            #!/bin/bash
+            set -eux
+
+            launchpadTrigger --lock-name=${JOB_NAME} \
+                             --job=curtin-autoland-test \
+                             --branch=lp:curtin \
+                             --autoland
 
 - job:
     name: curtin-ci
@@ -68,25 +70,23 @@
           excludes: 'output/debug.log, **/*img'
           allow-empty: true
       - trigger-parameterized-builds:
-        - project: admin-lp-vote-git
-          predefined-parameters: |
-            CI_RESULT=FAILED
-            CI_BUILD=${BUILD_URL}
-            CI_BRANCH=${landing_candidate}
-            CI_MERGE_PROPOSAL=${merge_proposal}
-            CI_REVISION=${candidate_revision}
-          current-parameters: true
+        - project: admin-lp-git-vote
           condition: UNSTABLE_OR_WORSE
-      - trigger-parameterized-builds:
-        - project: admin-lp-vote-git
           predefined-parameters: |
-            CI_RESULT=PASSED
-            CI_BUILD=${BUILD_URL}
-            CI_BRANCH=${landing_candidate}
-            CI_MERGE_PROPOSAL=${merge_proposal}
-            CI_REVISION=${candidate_revision}
-          current-parameters: true
+            MERGE_BRANCH=${landing_candidate}
+            MERGE_REVISION=${candidate_revision}
+            MERGE_URL=${merge_proposal}
+            TEST_RESULT=FAILED
+            TEST_URL=${BUILD_URL}
+      - trigger-parameterized-builds:
+        - project: admin-lp-git-vote
           condition: SUCCESS
+          predefined-parameters: |
+            MERGE_BRANCH=${landing_candidate}
+            MERGE_REVISION=${candidate_revision}
+            MERGE_URL=${merge_proposal}
+            TEST_RESULT=PASSED
+            TEST_URL=${BUILD_URL}
     builders:
         - shell: |
             #!/bin/bash
@@ -107,3 +107,56 @@
             if [ "$(arch)" == "x86_64" ]; then
                 ./tools/jenkins-runner -p 4 tests/vmtests/test_basic.py:XenialGATestBasic tests/vmtests/test_basic.py:BionicTestBasic
             fi
+
+- job:
+    name: curtin-autoland-test
+    node: any
+    parameters:
+      - string:
+          name: candidate_revision
+          description: Revision of the git branch
+      - string:
+          name: landing_candidate
+          description: Launchpad git repo
+      - string:
+          name: landing_candidate_branch
+          description: Branch name
+      - string:
+          name: merge_proposal
+          description: Merge proposal URL
+    auth-token: BUILD_ME
+    publishers:
+      - trigger-parameterized-builds:
+        - project: admin-lp-git-autoland
+          condition: UNSTABLE_OR_WORSE
+          predefined-parameters: |
+            MERGE_REVISION=${candidate_revision}
+            MERGE_URL=${merge_proposal}
+            TEST_RESULT=FAILED
+            TEST_URL=${BUILD_URL}
+      - trigger-parameterized-builds:
+        - project: admin-lp-git-autoland
+          condition: SUCCESS
+          predefined-parameters: |
+            MERGE_REVISION=${candidate_revision}
+            MERGE_URL=${merge_proposal}
+            TEST_RESULT=PASSED
+            TEST_URL=${BUILD_URL}
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -eux
+
+          rm -rf *
+          git clone lp:curtin
+          cd curtin
+
+          git remote add autoland ${landing_candidate}
+          git fetch autoland
+          git merge autoland/${landing_candidate_branch} --squash
+
+          tox
+
+          if [ "$(arch)" == "x86_64" ]; then
+              ./tools/jenkins-runner -p 4 tests/vmtests/test_basic.py:XenialGATestBasic tests/vmtests/test_basic.py:BionicTestBasic
+          fi

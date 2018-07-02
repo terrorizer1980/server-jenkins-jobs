@@ -32,17 +32,19 @@
             exit 0
 
 - job:
-    name: cloud-init-ci-lander
-    node: metal-amd64
+    name: cloud-init-autoland-trigger
+    node: any
     triggers:
         - timed: H/15 * * * *
     builders:
         - shell: |
-            #!/bin/bash -x
-            rm -rf *
-            git clone https://github.com/CanonicalLtd/server-test-scripts
-            cd server-test-scripts/launchpad
-            ./land_merge_proposals.py cloud-init
+            #!/bin/bash
+            set -eux
+
+            launchpadTrigger --lock-name=${JOB_NAME} \
+                             --job=cloud-init-autoland-test \
+                             --branch=lp:cloud-init \
+                             --autoland
 
 - job:
     name: cloud-init-ci
@@ -124,31 +126,31 @@
         }
 
       post {
-          always {
-              archiveArtifacts artifacts: 'results/**', excludes: 'results/*log, **/*img, **/*qcow2', allowEmptyArchive: true, onlyIfSuccessful: false
-          }
+            always {
+                archiveArtifacts artifacts: 'results/**', excludes: 'results/*log, **/*img, **/*qcow2', allowEmptyArchive: true, onlyIfSuccessful: false
+            }
 
-          success {
-              build job: 'admin-lp-vote-git',
-              parameters: [string(name: 'CI_RESULT', value: 'PASSED'),
-                           string(name: 'CI_BUILD', value: env.BUILD_URL),
-                           string(name: 'CI_BRANCH', value: params.landing_candidate),
-                           string(name: 'CI_MERGE_PROPOSAL', value: params.merge_proposal),
-                           string(name: 'CI_REVISION', value: params.candidate_revision),
+            success {
+                build job: 'admin-lp-git-vote',
+                parameters: [string(name: 'TEST_RESULT', value: 'PASSED'),
+                           string(name: 'TEST_URL', value: env.BUILD_URL),
+                           string(name: 'MERGE_BRANCH', value: params.landing_candidate),
+                           string(name: 'MERGE_URL', value: params.merge_proposal),
+                           string(name: 'MERGE_REVISION', value: params.candidate_revision),
                            ],
-              propagate: false
-          }
+                propagate: false
+            }
 
-          failure {
-              build job: 'admin-lp-vote-git',
-              parameters: [string(name: 'CI_RESULT', value: 'FAILED'),
-                           string(name: 'CI_BUILD', value: env.BUILD_URL),
-                           string(name: 'CI_BRANCH', value: params.landing_candidate),
-                           string(name: 'CI_MERGE_PROPOSAL', value: params.merge_proposal),
-                           string(name: 'CI_REVISION', value: params.candidate_revision),
+            failure {
+                build job: 'admin-lp-git-vote',
+                parameters: [string(name: 'TEST_RESULT', value: 'FAILED'),
+                           string(name: 'TEST_URL', value: env.BUILD_URL),
+                           string(name: 'MERGE_BRANCH', value: params.landing_candidate),
+                           string(name: 'MERGE_URL', value: params.merge_proposal),
+                           string(name: 'MERGE_REVISION', value: params.candidate_revision),
                            ],
-              propagate: false
-          }
+                propagate: false
+            }
         }
       }
 
@@ -187,5 +189,115 @@
             }
         } finally {
             archiveArtifacts artifacts: 'results/**', excludes: 'results/*log, **/*img, **/*qcow2', allowEmptyArchive: true, onlyIfSuccessful: false
+        }
+      }
+
+- job:
+    name: cloud-init-autoland-test
+    parameters:
+      - landing-candidate
+      - candidate-revision
+      - merge-proposal
+      - landing-candidate-branch
+      - use-description-for-commit
+    project-type: pipeline
+    auth-token: BUILD_ME
+    sandbox: True
+    dsl: |
+      pipeline {
+        agent { label 'metal-amd64' }
+        parameters {
+            string (
+                defaultValue: 'lp:cloud-init',
+                description: 'Candidate git repo to test (e.g. lp:~smoser/cloud-init)',
+                name : 'landing_candidate')
+            string (
+                defaultValue: 'master',
+                description: 'Git branch name for testing (e.g. master)',
+                name : 'landing_candidate_branch')
+            string (
+                defaultValue: '',
+                description: 'Hash revision of the branch to test (e.g. c6af5b9a1648c208c82b3a2704668391abadd8ab)',
+                name : 'candidate_revision')
+            string (
+                defaultValue: '',
+                description: 'URL of merge proposal to process to test (e.g. https://code.launchpad.net/~smoser/cloud-init/+git/cloud-init/+merge/325760)',
+                name : 'merge_proposal')
+            booleanParam (
+                defaultValue: true,
+                description: 'Use or not use the merge proposal description as commit message.',
+                name : 'use_description_for_commit')
+        }
+
+        stages {
+            stage ('Checkout') {
+                steps {
+                    script {
+                        env.git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
+                    }
+
+                    deleteDir()
+                    git url: "https://git.launchpad.net/cloud-init", branch: "master"
+
+                    sh 'git remote add autoland ${env.git_url}'
+                    sh 'git fetch autoland'
+                    sh 'git merge autoland/${params.landing_candidate_branch} --squash'
+                }
+            }
+
+            stage ('Unit & Style Tests') {
+                steps {
+                    sh 'tox'
+                }
+            }
+
+            stage ('Ubuntu LTS: Build') {
+                steps {
+                    sh 'git checkout .'
+                    sh './packages/bddeb -S'
+                    sh 'sbuild --nolog --verbose --dist=xenial cloud-init_*.dsc'
+                }
+            }
+
+            stage ('Ubuntu LTS: Integration') {
+                steps {
+                    sh 'tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
+                }
+            }
+
+            stage ('MAAS Compatability Testing') {
+                steps {
+                    sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 6'
+                    sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 7'
+                }
+            }
+        }
+
+      post {
+            always {
+                archiveArtifacts artifacts: 'results/**', excludes: 'results/*log, **/*img, **/*qcow2', allowEmptyArchive: true, onlyIfSuccessful: false
+            }
+
+            success {
+                build job: 'admin-lp-git-autoland',
+                parameters: [string(name: 'TEST_RESULT', value: 'PASSED'),
+                           string(name: 'TEST_URL', value: env.BUILD_URL),
+                           string(name: 'MERGE_BRANCH', value: params.landing_candidate),
+                           string(name: 'MERGE_URL', value: params.merge_proposal),
+                           string(name: 'MERGE_REVISION', value: params.candidate_revision),
+                           ],
+                propagate: false
+            }
+
+            failure {
+                build job: 'admin-lp-git-autoland',
+                parameters: [string(name: 'TEST_RESULT', value: 'FAILED'),
+                           string(name: 'TEST_URL', value: env.BUILD_URL),
+                           string(name: 'MERGE_BRANCH', value: params.landing_candidate),
+                           string(name: 'MERGE_URL', value: params.merge_proposal),
+                           string(name: 'MERGE_REVISION', value: params.candidate_revision),
+                           ],
+                propagate: false
+            }
         }
       }

@@ -111,23 +111,23 @@
             }
 
             success {
-                build job: 'admin-lp-vote-git',
-                parameters: [string(name: 'CI_RESULT', value: 'PASSED'),
-                           string(name: 'CI_BUILD', value: env.BUILD_URL),
-                           string(name: 'CI_BRANCH', value: params.landing_candidate),
-                           string(name: 'CI_MERGE_PROPOSAL', value: params.merge_proposal),
-                           string(name: 'CI_REVISION', value: params.candidate_revision),
+                build job: 'admin-lp-git-vote',
+                parameters: [string(name: 'TEST_RESULT', value: 'PASSED'),
+                           string(name: 'TEST_URL', value: env.BUILD_URL),
+                           string(name: 'MERGE_BRANCH', value: params.landing_candidate),
+                           string(name: 'MERGE_URL', value: params.merge_proposal),
+                           string(name: 'MERGE_REVISION', value: params.candidate_revision),
                            ],
                 propagate: false
             }
 
             failure {
-                build job: 'admin-lp-vote-git',
-                parameters: [string(name: 'CI_RESULT', value: 'FAILED'),
-                           string(name: 'CI_BUILD', value: env.BUILD_URL),
-                           string(name: 'CI_BRANCH', value: params.landing_candidate),
-                           string(name: 'CI_MERGE_PROPOSAL', value: params.merge_proposal),
-                           string(name: 'CI_REVISION', value: params.candidate_revision),
+                build job: 'admin-lp-git-vote',
+                parameters: [string(name: 'TEST_RESULT', value: 'FAILED'),
+                           string(name: 'TEST_URL', value: env.BUILD_URL),
+                           string(name: 'MERGE_BRANCH', value: params.landing_candidate),
+                           string(name: 'MERGE_URL', value: params.merge_proposal),
+                           string(name: 'MERGE_REVISION', value: params.candidate_revision),
                            ],
                  propagate: false
             }
