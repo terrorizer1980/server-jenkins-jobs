@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: curtin-ci-trigger
     triggers:
         - timed: H/15 * * * *
@@ -23,14 +23,14 @@
         - shell: |
             #!/bin/bash -x
             rm -rf *
-            launchpadTrigger --lock-name=${{JOB_NAME}} \
+            launchpadTrigger --lock-name=${JOB_NAME} \
                              --job=curtin-ci \
                              --branch=lp:curtin \
                              --trigger-ci
 
             exit 0
 
-- job-template:
+- job:
     name: curtin-ci-lander
     node: metal-amd64
     triggers:
@@ -43,7 +43,7 @@
             cd server-test-scripts/launchpad
             ./land_merge_proposals.py curtin
 
-- job-template:
+- job:
     name: curtin-ci
     parameters:
         - landing-candidate
@@ -71,20 +71,20 @@
         - project: admin-lp-vote-git
           predefined-parameters: |
             CI_RESULT=FAILED
-            CI_BUILD=${{BUILD_URL}}
-            CI_BRANCH=${{landing_candidate}}
-            CI_MERGE_PROPOSAL=${{merge_proposal}}
-            CI_REVISION=${{candidate_revision}}
+            CI_BUILD=${BUILD_URL}
+            CI_BRANCH=${landing_candidate}
+            CI_MERGE_PROPOSAL=${merge_proposal}
+            CI_REVISION=${candidate_revision}
           current-parameters: true
           condition: UNSTABLE_OR_WORSE
       - trigger-parameterized-builds:
         - project: admin-lp-vote-git
           predefined-parameters: |
             CI_RESULT=PASSED
-            CI_BUILD=${{BUILD_URL}}
-            CI_BRANCH=${{landing_candidate}}
-            CI_MERGE_PROPOSAL=${{merge_proposal}}
-            CI_REVISION=${{candidate_revision}}
+            CI_BUILD=${BUILD_URL}
+            CI_BRANCH=${landing_candidate}
+            CI_MERGE_PROPOSAL=${merge_proposal}
+            CI_REVISION=${candidate_revision}
           current-parameters: true
           condition: SUCCESS
     builders:
@@ -95,9 +95,9 @@
             export no_proxy=launchpad.net
 
             rm -rf *
-            branch=${{landing_candidate//lp:/https://git.launchpad.net/}}
-            git clone --branch=${{landing_candidate_branch}} $branch curtin-${{BUILD_NUMBER}}
-            cd curtin-${{BUILD_NUMBER}}
+            branch=${landing_candidate//lp:/https://git.launchpad.net/}
+            git clone --branch=${landing_candidate_branch} $branch curtin-${BUILD_NUMBER}
+            cd curtin-${BUILD_NUMBER}
             git rev-parse HEAD
             git remote add upstream https://git.launchpad.net/curtin
             git fetch upstream --tags

@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: virt-amd64-0-prep
     node: metal-amd64
     triggers:
@@ -40,7 +40,7 @@
 
           ./qemu-libvirt-test.sh -P -s "prep"
 
-- job-template:
+- job:
     name: virt-amd64-1-migrate-t
     node: metal-amd64
     publishers:
@@ -63,7 +63,7 @@
 
           ./qemu-libvirt-test.sh -P -s "migrate" -r "trusty" -R "trusty"
 
-- job-template:
+- job:
     name: virt-amd64-1-migrate-x
     node: metal-amd64
     publishers:
@@ -86,7 +86,7 @@
 
           ./qemu-libvirt-test.sh -P -s "migrate" -r "xenial" -R "xenial"
 
-- job-template:
+- job:
     name: virt-amd64-1-migrate-a
     node: metal-amd64
     publishers:
@@ -109,7 +109,7 @@
 
           ./qemu-libvirt-test.sh -P -s "migrate" -r "artful" -R "artful"
 
-- job-template:
+- job:
     name: virt-amd64-1-migrate-b
     node: metal-amd64
     publishers:
@@ -132,7 +132,7 @@
 
           ./qemu-libvirt-test.sh -P -s "migrate" -r "bionic" -R "bionic"
 
-- job-template:
+- job:
     name: virt-amd64-2-cross-rel
     node: metal-amd64
     publishers:
@@ -155,7 +155,7 @@
 
           ./qemu-libvirt-test.sh -P -s "cross"
 
-- job-template:
+- job:
     name: virt-amd64-3-misc
     node: metal-amd64
     publishers:
@@ -178,7 +178,7 @@
 
           ./qemu-libvirt-test.sh -P -s "misc"
 
-- job-template:
+- job:
     name: virt-amd64-4-qemuqa-x
     node: metal-amd64
     publishers:
@@ -201,7 +201,7 @@
 
           ./qemu-libvirt-test.sh -r "xenial" -P -s "qaQemu"
 
-- job-template:
+- job:
     name: virt-amd64-5-libvirtqa-x
     node: metal-amd64
     publishers:
@@ -224,7 +224,7 @@
 
           ./qemu-libvirt-test.sh -r "xenial" -P -s "qaLibvirt"
 
-- job-template:
+- job:
     name: virt-amd64-4-qemuqa-b
     node: metal-amd64
     publishers:
@@ -247,7 +247,7 @@
 
           ./qemu-libvirt-test.sh -r "bionic" -P -s "qaQemu"
 
-- job-template:
+- job:
     name: virt-amd64-5-libvirtqa-b
     node: metal-amd64
     publishers:
@@ -270,7 +270,7 @@
 
           ./qemu-libvirt-test.sh -r "bionic" -P -s "qaLibvirt"
 
-- job-template:
+- job:
     name: virt-amd64-6-cleanup
     node: metal-amd64
     publishers:

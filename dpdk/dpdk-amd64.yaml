@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: dpdk-tools-x
     node: metal-amd64
     publishers:
@@ -35,7 +35,7 @@
           cd dpdk-testing
           ./test.sh -P -t 3 -r "xenial" -R "xenial"
 
-- job-template:
+- job:
     name: dpdk-virt-tools-x
     node: metal-amd64
     publishers:
@@ -55,7 +55,7 @@
           cd dpdk-testing
           ./test.sh -P -t 56 -r "xenial" -R "xenial"
 
-- job-template:
+- job:
     name: dpdk-benchmark-x
     node: metal-amd64
     publishers:
@@ -75,7 +75,7 @@
           cd dpdk-testing
           ./test.sh -P -t 896 -r "xenial" -R "xenial"
 
-- job-template:
+- job:
     name: dpdk-endurance-x
     node: metal-amd64
     publishers:

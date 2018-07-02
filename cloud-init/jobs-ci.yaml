@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: cloud-init-ci-trigger
     node: metal-amd64
     triggers:
@@ -24,14 +24,14 @@
         - shell: |
             #!/bin/bash -x
             rm -rf *
-            launchpadTrigger --lock-name=${{JOB_NAME}}s \
+            launchpadTrigger --lock-name=${JOB_NAME} \
                              --job=cloud-init-ci \
                              --branch=lp:cloud-init \
                              --trigger-ci
 
             exit 0
 
-- job-template:
+- job:
     name: cloud-init-ci-lander
     node: metal-amd64
     triggers:
@@ -44,7 +44,7 @@
             cd server-test-scripts/launchpad
             ./land_merge_proposals.py cloud-init
 
-- job-template:
+- job:
     name: cloud-init-ci
     parameters:
       - landing-candidate
@@ -56,9 +56,9 @@
     auth-token: BUILD_ME
     sandbox: True
     dsl: |
-      pipeline {{
-        agent {{ label 'metal-amd64' }}
-        parameters {{
+      pipeline {
+        agent { label 'metal-amd64' }
+        parameters {
             string (
                 defaultValue: 'lp:cloud-init',
                 description: 'Candidate git repo to test (e.g. lp:~smoser/cloud-init)',
@@ -79,56 +79,56 @@
                 defaultValue: true,
                 description: 'Use or not use the merge proposal description as commit message.',
                 name : 'use_description_for_commit')
-        }}
+        }
 
-        stages {{
-            stage ('Checkout') {{
-                steps {{
-                    script {{
+        stages {
+            stage ('Checkout') {
+                steps {
+                    script {
                         env.git_url = params.landing_candidate.replace('lp:', 'https://git.launchpad.net/') as String
-                    }}
+                    }
 
                     deleteDir()
-                    git url: "${{env.git_url}}", branch: "${{params.landing_candidate_branch}}"
+                    git url: "${env.git_url}", branch: "${params.landing_candidate_branch}"
                     sh 'git remote add master https://git.launchpad.net/cloud-init'
                     sh 'git fetch master --tags'
-                }}
-            }}
+                }
+            }
 
-            stage ('Unit & Style Tests') {{
-                steps {{
+            stage ('Unit & Style Tests') {
+                steps {
                     sh 'tox'
-                }}
-            }}
+                }
+            }
 
-            stage ('Ubuntu LTS: Build') {{
-                steps {{
+            stage ('Ubuntu LTS: Build') {
+                steps {
                     sh 'git checkout .'
                     sh './packages/bddeb -S'
                     sh 'sbuild --nolog --verbose --dist=xenial cloud-init_*.dsc'
-                }}
-            }}
+                }
+            }
 
-            stage ('Ubuntu LTS: Integration') {{
-                steps {{
+            stage ('Ubuntu LTS: Integration') {
+                steps {
                     sh 'tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
-                }}
-            }}
+                }
+            }
 
-            stage ('MAAS Compatability Testing') {{
-                steps {{
+            stage ('MAAS Compatability Testing') {
+                steps {
                     sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 6'
                     sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 7'
-                }}
-            }}
-        }}
+                }
+            }
+        }
 
-      post {{
-          always {{
+      post {
+          always {
               archiveArtifacts artifacts: 'results/**', excludes: 'results/*log, **/*img, **/*qcow2', allowEmptyArchive: true, onlyIfSuccessful: false
-          }}
+          }
 
-          success {{
+          success {
               build job: 'admin-lp-vote-git',
               parameters: [string(name: 'CI_RESULT', value: 'PASSED'),
                            string(name: 'CI_BUILD', value: env.BUILD_URL),
@@ -137,9 +137,9 @@
                            string(name: 'CI_REVISION', value: params.candidate_revision),
                            ],
               propagate: false
-          }}
+          }
 
-          failure {{
+          failure {
               build job: 'admin-lp-vote-git',
               parameters: [string(name: 'CI_RESULT', value: 'FAILED'),
                            string(name: 'CI_BUILD', value: env.BUILD_URL),
@@ -148,44 +148,44 @@
                            string(name: 'CI_REVISION', value: params.candidate_revision),
                            ],
               propagate: false
-          }}
-        }}
-      }}
+          }
+        }
+      }
 
 
-- job-template:
+- job:
     name: cloud-init-ci-nightly
     project-type: pipeline
     triggers:
       - timed: "H 23 * * *"
     sandbox: True
     dsl: |
-      node('metal-amd64') {{
-        try {{
-            stage ('Checkout') {{
+      node('metal-amd64') {
+        try {
+            stage ('Checkout') {
                 deleteDir()
                 git url: 'https://git.launchpad.net/cloud-init', branch: 'master'
-            }}
+            }
 
-            stage ('Unit & Style Tests') {{
+            stage ('Unit & Style Tests') {
                 sh 'tox'
-            }}
+            }
 
-            stage ('Ubuntu LTS: Build') {{
+            stage ('Ubuntu LTS: Build') {
                 sh 'git checkout .'
                 sh './packages/bddeb -S'
                 sh 'sbuild --nolog --verbose --dist=xenial cloud-init_*.dsc'
-            }}
+            }
 
-            stage ('Ubuntu LTS: Integration') {{
+            stage ('Ubuntu LTS: Integration') {
                 sh 'tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
-            }}
+            }
 
-            stage ('MAAS Compatability Testing') {{
+            stage ('MAAS Compatability Testing') {
                 sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 6'
                 sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 7'
-            }}
-        }} finally {{
+            }
+        } finally {
             archiveArtifacts artifacts: 'results/**', excludes: 'results/*log, **/*img, **/*qcow2', allowEmptyArchive: true, onlyIfSuccessful: false
-        }}
-      }}
+        }
+      }

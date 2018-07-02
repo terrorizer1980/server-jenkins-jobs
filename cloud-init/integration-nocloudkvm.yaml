@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: cloud-init-integration-nocloud-kvm-x
     node: metal-amd64
     triggers:
@@ -30,7 +30,7 @@
       - integration-nocloud-kvm:
           release: xenial
 
-- job-template:
+- job:
     name: cloud-init-integration-nocloud-kvm-a
     node: metal-amd64
     publishers:
@@ -43,7 +43,7 @@
       - integration-nocloud-kvm:
           release: artful
 
-- job-template:
+- job:
     name: cloud-init-integration-nocloud-kvm-b
     node: metal-amd64
     publishers:
@@ -56,7 +56,7 @@
       - integration-nocloud-kvm:
           release: bionic
 
-- job-template:
+- job:
     name: cloud-init-integration-nocloud-kvm-c
     node: metal-amd64
     publishers:

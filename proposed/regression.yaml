@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: proposed-regression-t
     builders:
       - shell: |
@@ -26,7 +26,7 @@
           cd server-test-proposed
           ./proposed.py -r trusty
 
-- job-template:
+- job:
     name: proposed-regression-x
     builders:
       - shell: |
@@ -37,7 +37,7 @@
           cd server-test-proposed
           ./proposed.py -r xenial
 
-- job-template:
+- job:
     name: proposed-regression-a
     builders:
       - shell: |

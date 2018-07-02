@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: git-ubuntu-ci-trigger
     node: metal-amd64
     triggers:
@@ -24,14 +24,14 @@
         - shell: |
             #!/bin/bash -x
             rm -rf *
-            launchpadTrigger --lock-name=${{JOB_NAME}} \
+            launchpadTrigger --lock-name=${JOB_NAME} \
                              --job=git-ubuntu-ci \
                              --branch=lp:usd-importer \
                              --trigger-ci
 
             exit 0
 
-- job-template:
+- job:
     name: git-ubuntu-ci
     parameters:
       - candidate-revision
@@ -43,9 +43,9 @@
     auth-token: BUILD_ME
     sandbox: True
     dsl: |
-      pipeline {{
-        agent {{ label 'metal-amd64' }}
-        parameters {{
+      pipeline {
+        agent { label 'metal-amd64' }
+        parameters {
             string (
                 defaultValue: '',
                 description: 'Hash revision of the branch to test (e.g. c6af5b9a1648c208c82b3a2704668391abadd8ab)',
@@ -66,51 +66,51 @@
                 defaultValue: true,
                 description: 'Use or not use the merge proposal description as commit message.',
                 name : 'use_description_for_commit')
-        }}
+        }
 
-        environment {{
-            VM_NAME = 'gitubuntu-ci-${{currentBuild.getNumber()}}'
-        }}
+        environment {
+            VM_NAME = 'gitubuntu-ci-${currentBuild.getNumber()}'
+        }
 
-        stages {{
-            stage ('VM Setup') {{
-                steps {{
+        stages {
+            stage ('VM Setup') {
+                steps {
                     deleteDir()
                     git url: 'https://github.com/CanonicalLtd/server-test-scripts', branch: 'master'
                     sh 'http_proxy="http://squid.internal:3128" https_proxy="http://squid.internal:3128" ./git-ubuntu/vm_setup "$VM_NAME" --snapcraft-snap'
-                }}
-            }}
+                }
+            }
 
-            stage ('Build') {{
-                steps {{
-                    sh "uvt-kvm ssh --insecure $VM_NAME -- git clone -b ${{params.landing_candidate_branch}} ${{params.landing_candidate}} git-ubuntu"
+            stage ('Build') {
+                steps {
+                    sh "uvt-kvm ssh --insecure $VM_NAME -- git clone -b ${params.landing_candidate_branch} ${params.landing_candidate} git-ubuntu"
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "cd git-ubuntu; snapcraft cleanbuild"'
                     sh 'scp -oStrictHostKeyChecking=no ubuntu@$(uvt-kvm ip "$VM_NAME"):/home/ubuntu/git-ubuntu/git-ubuntu_*_amd64.snap .'
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "sudo snap install --dangerous --classic git-ubuntu/git-ubuntu_*_amd64.snap"'
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "snap list"'
-                }}
-            }}
+                }
+            }
 
-            stage ('Unit Tests') {{
-                steps {{
+            stage ('Unit Tests') {
+                steps {
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "bash -l -c git-ubuntu.self-test"'
-                }}
-            }}
+                }
+            }
 
-            stage ('Integration Tests') {{
-                steps {{
+            stage ('Integration Tests') {
+                steps {
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "bash -l -c ./git-ubuntu/tests/bin/integration-test"'
-                }}
-            }}
-        }}
+                }
+            }
+        }
 
-        post {{
-            always {{
+        post {
+            always {
                 sh 'uvt-kvm destroy "$VM_NAME"'
                 archiveArtifacts artifacts: '*.snap', allowEmptyArchive: true, onlyIfSuccessful: false
-            }}
+            }
 
-            success {{
+            success {
                 build job: 'admin-lp-vote-git',
                 parameters: [string(name: 'CI_RESULT', value: 'PASSED'),
                            string(name: 'CI_BUILD', value: env.BUILD_URL),
@@ -119,9 +119,9 @@
                            string(name: 'CI_REVISION', value: params.candidate_revision),
                            ],
                 propagate: false
-            }}
+            }
 
-            failure {{
+            failure {
                 build job: 'admin-lp-vote-git',
                 parameters: [string(name: 'CI_RESULT', value: 'FAILED'),
                            string(name: 'CI_BUILD', value: env.BUILD_URL),
@@ -130,60 +130,60 @@
                            string(name: 'CI_REVISION', value: params.candidate_revision),
                            ],
                  propagate: false
-            }}
-        }}
-      }}
+            }
+        }
+      }
 
-- job-template:
+- job:
     name: git-ubuntu-ci-nightly
     project-type: pipeline
     triggers:
       - timed: "H 23 * * *"
     sandbox: True
     dsl: |
-      pipeline {{
-        agent {{ label 'metal-amd64' }}
+      pipeline {
+        agent { label 'metal-amd64' }
 
-        environment {{
-            VM_NAME = 'gitubuntu-ci-nightly-${{currentBuild.getNumber()}}'
-        }}
+        environment {
+            VM_NAME = 'gitubuntu-ci-nightly-${currentBuild.getNumber()}'
+        }
 
-        stages {{
-            stage ('VM Setup') {{
-                steps {{
+        stages {
+            stage ('VM Setup') {
+                steps {
                     deleteDir()
                     git url: 'https://github.com/CanonicalLtd/server-test-scripts', branch: 'master'
                     sh 'http_proxy="http://squid.internal:3128" https_proxy="http://squid.internal:3128" ./git-ubuntu/vm_setup "$VM_NAME" --snapcraft-snap'
-                }}
-            }}
+                }
+            }
 
-            stage ('Build') {{
-                steps {{
+            stage ('Build') {
+                steps {
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "git clone -b master https://git.launchpad.net/usd-importer git-ubuntu"'
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "cd git-ubuntu; snapcraft cleanbuild"'
                     sh 'scp -oStrictHostKeyChecking=no ubuntu@$(uvt-kvm ip "$VM_NAME"):/home/ubuntu/git-ubuntu/git-ubuntu_*_amd64.snap .'
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "sudo snap install --dangerous --classic git-ubuntu/git-ubuntu_*_amd64.snap"'
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "snap list"'
-                }}
-            }}
+                }
+            }
 
-            stage ('Unit Tests') {{
-                steps {{
+            stage ('Unit Tests') {
+                steps {
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "bash -l -c git-ubuntu.self-test"'
-                }}
-            }}
+                }
+            }
 
-            stage ('Integration Tests') {{
-                steps {{
+            stage ('Integration Tests') {
+                steps {
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "bash -l -c ./git-ubuntu/tests/bin/integration-test"'
-                }}
-            }}
-        }}
+                }
+            }
+        }
 
-        post {{
-            always {{
+        post {
+            always {
                 sh 'uvt-kvm destroy "$VM_NAME"'
                 archiveArtifacts artifacts: '*.snap', allowEmptyArchive: true, onlyIfSuccessful: false
-            }}
-        }}
-      }}
+            }
+        }
+      }

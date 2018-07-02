@@ -16,7 +16,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 
-- job-template:
+- job:
     name: curtin-vmtest-proposed-x-trigger
     node: metal-amd64
     triggers:
@@ -28,7 +28,7 @@
           release: xenial
           triggerwhat: curtin-vmtest-proposed-x
 
-- job-template:
+- job:
     name: curtin-vmtest-proposed-a-trigger
     node: metal-amd64
     triggers:
@@ -40,7 +40,7 @@
           release: artful
           triggerwhat: curtin-vmtest-proposed-a
 
-- job-template:
+- job:
     name: curtin-vmtest-proposed-b-trigger
     node: metal-amd64
     triggers:
@@ -69,7 +69,7 @@
             curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/$triggerwhat/build?token=BUILD_ME
           fi
 
-- job-template:
+- job:
     name: curtin-vmtest-proposed-x
     node: metal-amd64
     auth-token: BUILD_ME
@@ -83,7 +83,7 @@
       - vmtest-proposed:
           release: xenial
 
-- job-template:
+- job:
     name: curtin-vmtest-proposed-a
     node: metal-amd64
     auth-token: BUILD_ME
@@ -97,7 +97,7 @@
       - vmtest-proposed:
           release: artful
 
-- job-template:
+- job:
     name: curtin-vmtest-proposed-b
     node: metal-amd64
     auth-token: BUILD_ME
@@ -117,7 +117,7 @@
       - shell: |
           RELEASE={release}
           TYPE="proposed"
-          LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
+          LXC_NAME="$JOB_NAME-$BUILD_NUMBER"
 
           export http_proxy=http://squid.internal:3128
           export apt_proxy=http://squid.internal:3128
@@ -137,7 +137,7 @@
           ./tools/jenkins-runner -p 2
           RET=$?
 
-          cd ${{WORKSPACE}}
+          cd $WORKSPACE
           echo "cleanup: deleting links and image files"
           find output -type l -delete
           find output -type f -name "*.img" -delete

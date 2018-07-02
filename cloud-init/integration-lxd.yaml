@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: cloud-init-integration-lxd-x
     node: metal-amd64
     triggers:
@@ -30,7 +30,7 @@
       - integration-lxd:
           release: xenial
 
-- job-template:
+- job:
     name: cloud-init-integration-lxd-a
     node: metal-amd64
     publishers:
@@ -43,7 +43,7 @@
       - integration-lxd:
           release: artful
 
-- job-template:
+- job:
     name: cloud-init-integration-lxd-b
     node: metal-amd64
     publishers:
@@ -56,7 +56,7 @@
       - integration-lxd:
           release: bionic
 
-- job-template:
+- job:
     name: cloud-init-integration-lxd-c
     node: metal-amd64
     publishers:

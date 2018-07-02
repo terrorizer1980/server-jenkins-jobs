@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: cloud-init-style-tip
     node: metal-amd64
     triggers:
@@ -37,7 +37,7 @@
           tox -e tip-pyflakes
           tox -e tip-pylint
 
-- job-template:
+- job:
     name: cloud-init-lp-build-status
     node: metal-amd64
     triggers:
@@ -60,7 +60,7 @@
           ./lp_build_status.py
           cat results.xml
 
-- job-template:
+- job:
     name: cloud-init-github-mirror
     node: metal-amd64
     triggers:

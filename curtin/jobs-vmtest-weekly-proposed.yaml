@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: curtin-vmtest-weekly-proposed-t
     node: metal-amd64
     parameters:
@@ -36,7 +36,7 @@
           release: trusty
           nose_args: nose_args
 
-- job-template:
+- job:
     name: curtin-vmtest-weekly-proposed-x
     node: metal-amd64
     parameters:
@@ -55,7 +55,7 @@
           release: xenial
           nose_args: nose_args
 
-- job-template:
+- job:
     name: curtin-vmtest-weekly-proposed-a
     node: metal-amd64
     parameters:
@@ -74,7 +74,7 @@
           release: artful
           nose_args: nose_args
 
-- job-template:
+- job:
     name: curtin-vmtest-weekly-proposed-b
     node: metal-amd64
     parameters:
@@ -96,7 +96,7 @@
       - shell: |
           RELEASE={release}
           TYPE="daily"
-          LXC_NAME="${{JOB_NAME}}-${{BUILD_NUMBER}}"
+          LXC_NAME="$JOB_NAME-$BUILD_NUMBER"
 
           export http_proxy=http://squid.internal:3128
           export apt_proxy=http://squid.internal:3128
@@ -106,8 +106,8 @@
           export CURTIN_VMTEST_ADD_REPO="proposed"
 
           rm -Rf curtin-* output
-          git clone --branch=master https://git.launchpad.net/curtin curtin-${{BUILD_NUMBER}}
-          cd curtin-${{BUILD_NUMBER}}
+          git clone --branch=master https://git.launchpad.net/curtin curtin-$BUILD_NUMBER
+          cd curtin-$BUILD_NUMBER
           PATH="$PWD/tools:$PATH"
 
           ./tools/vmtest-system-setup
@@ -117,7 +117,7 @@
           ./tools/jenkins-runner -p 2 ${nose_args}
           RET=$?
 
-          cd ${{WORKSPACE}}
+          cd $WORKSPACE
           echo "cleanup: deleting links and image files"
           find output -type l -delete
           find output -type f -name "*.img" -delete

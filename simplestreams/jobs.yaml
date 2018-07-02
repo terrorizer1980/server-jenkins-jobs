@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: simplestreams-build
     node: metal-amd64
     builders:
@@ -31,7 +31,7 @@
           ./tools/build-deb -S -us -uc
           sbuild --nolog --verbose --dist=xenial simplestreams_*.dsc
 
-- job-template:
+- job:
     name: simplestreams-debug
     parameters:
       - branch
@@ -56,12 +56,12 @@
           export no_proxy=launchpad.net
 
           rm -rf *
-          git clone https://git.launchpad.net/simplestreams -b ${{branch}} debug
+          git clone https://git.launchpad.net/simplestreams -b ${branch} debug
           cd debug
 
-          tox ${{tox_parameters}}
+          tox ${tox_parameters}
 
-- job-template:
+- job:
     name: simplestreams-tests
     project-type: matrix
     triggers:

@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: cloud-init-integration-proposed-trigger-x
     node: metal-amd64
     triggers:
@@ -25,7 +25,7 @@
           release: xenial
           triggerwhat: cloud-init-integration-proposed-x
 
-- job-template:
+- job:
     name: cloud-init-integration-proposed-x
     node: metal-amd64
     auth-token: BUILD_ME
@@ -37,7 +37,7 @@
           release: xenial
           release-ver: 16.04
 
-- job-template:
+- job:
     name: cloud-init-integration-proposed-trigger-a
     node: metal-amd64
     publishers: []
@@ -48,7 +48,7 @@
           release: artful
           triggerwhat: cloud-init-integration-proposed-a
 
-- job-template:
+- job:
     name: cloud-init-integration-proposed-a
     node: metal-amd64
     auth-token: BUILD_ME
@@ -60,7 +60,7 @@
         - email-server-crew
         - archive-results
 
-- job-template:
+- job:
     name: cloud-init-integration-proposed-trigger-b
     node: metal-amd64
     publishers: []
@@ -71,7 +71,7 @@
           release: bionic
           triggerwhat: cloud-init-integration-proposed-b
 
-- job-template:
+- job:
     name: cloud-init-integration-proposed-b
     node: metal-amd64
     auth-token: BUILD_ME
@@ -83,7 +83,7 @@
         - email-server-crew
         - archive-results
 
-- job-template:
+- job:
     name: cloud-init-integration-proposed-trigger-c
     node: metal-amd64
     publishers: []
@@ -94,7 +94,7 @@
           release: cosmic
           triggerwhat: cloud-init-integration-proposed-c
 
-- job-template:
+- job:
     name: cloud-init-integration-proposed-c
     node: metal-amd64
     auth-token: BUILD_ME

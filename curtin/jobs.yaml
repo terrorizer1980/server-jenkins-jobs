@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: curtin-build
     node: metal-amd64
     builders:
@@ -31,7 +31,7 @@
           ./tools/build-deb -S -us -uc
           sbuild --nolog --verbose --dist=xenial curtin_*.dsc
 
-- job-template:
+- job:
     name: curtin-debug
     parameters:
       - branch
@@ -56,12 +56,12 @@
           export no_proxy=launchpad.net
 
           rm -rf *
-          git clone --branch=${{branch}} https://git.launchpad.net/curtin debug
+          git clone --branch=${branch} https://git.launchpad.net/curtin debug
           cd debug
 
-          tox ${{tox_parameters}}
+          tox ${tox_parameters}
 
-- job-template:
+- job:
     name: curtin-style-tip
     node: metal-amd64
     publishers:
@@ -88,7 +88,7 @@
 
           ! (( $exit_1 || $exit_2))
 
-- job-template:
+- job:
     name: curtin-tests
     project-type: matrix
     triggers:
@@ -120,7 +120,7 @@
 
           tox
 
-- job-template:
+- job:
     name: curtin-lp-build-status
     node: metal-amd64
     triggers:
@@ -143,7 +143,7 @@
           ./lp_build_status.py
           cat results.xml
 
-- job-template:
+- job:
     name: curtin-github-mirror
     node: metal-amd64
     triggers:

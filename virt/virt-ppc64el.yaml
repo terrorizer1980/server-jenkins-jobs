@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: virt-ppc64-0-prep
     node: metal-ppc64el
     triggers:
@@ -40,7 +40,7 @@
 
           ./qemu-libvirt-test.sh -P -s "prep"
 
-- job-template:
+- job:
     name: virt-ppc64-1-migrate-x
     node: metal-ppc64el
     publishers:
@@ -63,7 +63,7 @@
 
           ./qemu-libvirt-test.sh -P -s "migrate" -r "xenial" -R "xenial"
 
-- job-template:
+- job:
     name: virt-ppc64-1-migrate-a
     node: metal-ppc64el
     publishers:
@@ -86,7 +86,7 @@
 
           ./qemu-libvirt-test.sh -P -s "migrate" -r "artful" -R "artful"
 
-- job-template:
+- job:
     name: virt-ppc64-1-migrate-b
     node: metal-ppc64el
     publishers:
@@ -109,7 +109,7 @@
 
           ./qemu-libvirt-test.sh -P -s "migrate" -r "bionic" -R "bionic"
 
-- job-template:
+- job:
     name: virt-ppc64-2-cross-rel
     node: metal-ppc64el
     publishers:
@@ -132,7 +132,7 @@
 
           ./qemu-libvirt-test.sh -P -s "cross"
 
-- job-template:
+- job:
     name: virt-ppc64-3-misc
     node: metal-ppc64el
     publishers:
@@ -155,7 +155,7 @@
 
           ./qemu-libvirt-test.sh -P -s "misc"
 
-- job-template:
+- job:
     name: virt-ppc64-6-cleanup
     node: metal-ppc64el
     publishers:

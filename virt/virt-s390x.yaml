@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: virt-s390x-0-prep
     node: metal-s390x
     triggers:
@@ -40,7 +40,7 @@
 
           ./qemu-libvirt-test.sh -P -s "prep"
 
-- job-template:
+- job:
     name: virt-s390x-1-migrate-x
     node: metal-s390x
     publishers:
@@ -63,7 +63,7 @@
 
           ./qemu-libvirt-test.sh -P -s "migrate" -r "xenial" -R "xenial"
 
-- job-template:
+- job:
     name: virt-s390x-1-migrate-a
     node: metal-s390x
     publishers:
@@ -86,7 +86,7 @@
 
           ./qemu-libvirt-test.sh -P -s "migrate" -r "artful" -R "artful"
 
-- job-template:
+- job:
     name: virt-s390x-1-migrate-b
     node: metal-s390x
     publishers:
@@ -109,7 +109,7 @@
 
           ./qemu-libvirt-test.sh -P -s "migrate" -r "bionic" -R "bionic"
 
-- job-template:
+- job:
     name: virt-s390x-2-cross-rel
     node: metal-s390x
     publishers:
@@ -132,7 +132,7 @@
 
           ./qemu-libvirt-test.sh -P -s "cross"
 
-- job-template:
+- job:
     name: virt-s390x-3-misc
     node: metal-s390x
     publishers:
@@ -155,7 +155,7 @@
 
           ./qemu-libvirt-test.sh -P -s "misc"
 
-- job-template:
+- job:
     name: virt-s390x-6-cleanup
     node: metal-s390x
     publishers:

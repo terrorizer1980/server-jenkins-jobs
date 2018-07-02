@@ -76,13 +76,13 @@
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.foundations_autopkgtest_queue --queues {queue_name}
 
-- job-template:
+- job:
     name: metric-foundations-cloud-images
     builders:
       - simple-metric:
           metric_module: "cloud_images"
 
-- job-template:
+- job:
     name: metric-foundations-docker-hub-images
     builders:
       - shell: |
@@ -96,7 +96,7 @@
           source kpi-metrics-tools/foundations-kpi-influxdb.txt
           python3 -m metrics.docker_hub_images
 
-- job-template:
+- job:
     name: metric-foundations-cloud-image-sizes
     builders:
       - metric-influxdb:
@@ -104,7 +104,7 @@
           metric_module: "cloud_image_sizes"
           metric_arguments: ""
 
-- job-template:
+- job:
     name: metric-foundations-bugs
     builders:
       - metric-influxdb:
@@ -112,43 +112,43 @@
           metric_module: "team_assigned_bugs"
           metric_arguments: "canonical-foundations"
 
-- job-template:
+- job:
     name: metric-foundations-uploads
     builders:
         - builder-metric-uploads:
             team_name: "foundations"
 
-- job-template:
+- job:
     name: metric-foundations-error-reports
     builders:
         - errors-most-common-problems:
             team_name: "foundations-bugs"
 
-- job-template:
+- job:
     name: metric-foundations-proposed-migration
     builders:
       - simple-metric:
           metric_module: "foundations_proposed_migration"
 
-- job-template:
+- job:
     name: metric-foundations-autopkgtest-queue
     builders:
       - autopkgtest_queues:
           queue_name: "ubuntu ppa huge upstream"
 
-- job-template:
+- job:
     name: metric-foundations-sru-queues
     builders:
         - simple-metric:
             metric_module: "foundations_sru"
 
-- job-template:
+- job:
     name: metric-rls-bug-tasks
     builders:
         - simple-metric:
             metric_module: "rls_bug_tasks"
 
-- job-template:
+- job:
     name: metric-server-cloudinit
     builders:
       - shell: |
@@ -161,7 +161,7 @@
           python3 -m metrics.package cloud-init \
             --repo https://git.launchpad.net/cloud-init
 
-- job-template:
+- job:
     name: metric-server-curtin
     builders:
       - shell: |
@@ -173,7 +173,7 @@
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.package curtin --repo lp:curtin
 
-- job-template:
+- job:
     name: metric-server-iso
     builders:
       - metric-influxdb:
@@ -181,7 +181,7 @@
           metric_module: "iso"
           metric_arguments: ""
 
-- job-template:
+- job:
     name: metric-server-docker-downloads
     builders:
       - shell: |
@@ -195,7 +195,7 @@
           export https_proxy=http://squid.internal:3128
           python3 -m metrics.docker_downloads
 
-- job-template:
+- job:
     name: metric-server-vagrant-downloads
     builders:
       - shell: |
@@ -209,7 +209,7 @@
           export https_proxy=http://squid.internal:3128
           python3 -m metrics.vagrant_downloads
 
-- job-template:
+- job:
     name: metric-merges
     builders:
       - shell: |
@@ -226,7 +226,7 @@
               python3 -m metrics.merges $team_name
           done
 
-- job-template:
+- job:
     name: metric-server-simplestreams
     builders:
       - shell: |
@@ -238,7 +238,7 @@
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.package simplestreams --repo http://git.launchpad.net/simplestreams
 
-- job-template:
+- job:
     name: metric-server-triage
     builders:
       - shell: |
@@ -250,13 +250,13 @@
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.triage server
 
-- job-template:
+- job:
     name: metric-server-uploads
     builders:
         - builder-metric-uploads:
             team_name: "server"
 
-- job-template:
+- job:
     name: metric-server-google-analytics
     builders:
       - shell: |
@@ -280,7 +280,7 @@
             credential-id: ga-view-id
             variable: GA_VIEW_ID
 
-- job-template:
+- job:
     name: metric-openstack-uploads
     builders:
         - builder-metric-uploads:

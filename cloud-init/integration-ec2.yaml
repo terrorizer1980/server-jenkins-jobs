@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: cloud-init-integration-ec2-x
     node: metal-amd64
     triggers:
@@ -30,7 +30,7 @@
       - integration-ec2:
           release: xenial
 
-- job-template:
+- job:
     name: cloud-init-integration-ec2-a
     node: metal-amd64
     triggers:
@@ -45,7 +45,7 @@
       - integration-ec2:
           release: artful
 
-- job-template:
+- job:
     name: cloud-init-integration-ec2-b
     node: metal-amd64
     triggers:
@@ -60,7 +60,7 @@
       - integration-ec2:
           release: bionic
 
-- job-template:
+- job:
     name: cloud-init-integration-ec2-c
     node: metal-amd64
     triggers:
@@ -92,7 +92,7 @@
             --platform ec2 --preserve-data --data-dir results \
             --verbose --deb cloud-init_*_all.deb
 
-- job-template:
+- job:
     name: cloud-init-integration-ec2-terminate
     node: metal-amd64
     publishers:

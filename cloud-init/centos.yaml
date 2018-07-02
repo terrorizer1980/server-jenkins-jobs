@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job-template:
+- job:
     name: cloud-init-copr-build
     node: metal-amd64
     triggers:
@@ -45,7 +45,7 @@
           SRPM=$(ls $WORKSPACE/cloud-init/*.src.rpm)
           ./copr_build.py --dev --srpm "$SRPM"
 
-- job-template:
+- job:
     name: cloud-init-copr-test-6
     node: metal-amd64
     publishers:
@@ -66,7 +66,7 @@
           cd server-test-scripts/cloud-init
           ./copr_test -vv 6
 
-- job-template:
+- job:
     name: cloud-init-copr-test-7
     node: metal-amd64
     builders:
