@@ -242,6 +242,7 @@
                     sh "git remote add autoland ${env.git_url}"
                     sh 'git fetch autoland'
                     sh "git merge autoland/${params.landing_candidate_branch} --squash"
+                    sh 'git commit -am "test commit"'
                 }
             }
 
