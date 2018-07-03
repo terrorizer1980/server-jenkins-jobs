@@ -239,9 +239,9 @@
                     deleteDir()
                     git url: "https://git.launchpad.net/cloud-init", branch: "master"
 
-                    sh 'git remote add autoland ${env.git_url}'
+                    sh "git remote add autoland ${env.git_url}"
                     sh 'git fetch autoland'
-                    sh 'git merge autoland/${params.landing_candidate_branch} --squash'
+                    sh "git merge autoland/${params.landing_candidate_branch} --squash"
                 }
             }
 
