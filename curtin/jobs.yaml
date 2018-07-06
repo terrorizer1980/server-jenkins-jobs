@@ -95,7 +95,7 @@
       - timed: "H 23 * * *"
     publishers:
       - trigger:
-          project: curtin-style
+          project: curtin-style-tip
           threshold: FAILURE
       - email:
           recipients: server-crew-qa@lists.canonical.com
