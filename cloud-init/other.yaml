@@ -17,7 +17,7 @@
 
 - job:
     name: cloud-init-style-tip
-    node: metal-amd64
+    node: any
     triggers:
       - timed: "H 23 * * *"
     publishers:
@@ -39,7 +39,7 @@
 
 - job:
     name: cloud-init-lp-build-status
-    node: metal-amd64
+    node: any
     triggers:
       - timed: "H */5 * * *"
     publishers:
@@ -62,7 +62,7 @@
 
 - job:
     name: cloud-init-github-mirror
-    node: metal-amd64
+    node: any
     triggers:
       - timed: "H */4 * * *"
     builders:

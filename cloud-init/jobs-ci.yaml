@@ -17,7 +17,7 @@
 
 - job:
     name: cloud-init-ci-trigger
-    node: metal-amd64
+    node: any
     triggers:
         - timed: H/15 * * * *
     builders:

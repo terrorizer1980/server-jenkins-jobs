@@ -40,11 +40,27 @@
     team:
       - 'ubuntu-server'
     jobs:
-      - '{team}-{release}-{arch}-build'
+      - '{team}-{release}-amd64-build'
+      - '{team}-{release}-ppc64el-build'
 
 - job-template:
-    name: '{team}-{release}-{arch}-build'
-    node: metal-{arch}
+    name: '{team}-{release}-amd64-build'
+    node: any
+    triggers:
+      - timed: "H H * * 6"
+    publishers:
+      - archive:
+          artifacts: 'server-test-build/logs/**'
+      - junit:
+          results: server-test-build/results.xml
+    builders:
+      - package-build:
+          release: '{release}'
+          team: '{team}'
+
+- job-template:
+    name: '{team}-{release}-ppc64el-build'
+    node: any
     triggers:
       - timed: "H H * * 6"
     publishers:
