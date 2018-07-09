@@ -29,4 +29,4 @@
           rm -rf *
 
           wget https://jenkins.ubuntu.com/server/jnlpJars/jenkins-cli.jar
-          java -jar jenkins-cli.jar -s http://server-team-jenkins-be.internal:8080/server/ -auth @/home/ubuntu/.jenkins/credentials online-node ""
+          java -jar jenkins-cli.jar -s http://server-team-jenkins-be.internal:8080/server/ -auth @/home/ubuntu/.jenkins/auth online-node ""
