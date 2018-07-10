@@ -20,10 +20,8 @@
     node: any
     builders:
       - shell: |
-          #!/bin/bash -x
-          export https_proxy=http://squid.internal:3128
-          export no_proxy=launchpad.net
-
+          #!/bin/bash
+          set -x
           rm -rf *
           git clone https://git.launchpad.net/curtin build-$BUILD_NUMBER
           cd build-$BUILD_NUMBER
@@ -72,10 +70,8 @@
           recipients: server-crew-qa@lists.canonical.com
     builders:
       - shell: |
-          #!/bin/bash -x
-          export https_proxy=http://squid.internal:3128
-          export no_proxy=launchpad.net
-
+          #!/bin/bash
+          set -x
           rm -rf *
           git clone https://git.launchpad.net/curtin style
           cd style
