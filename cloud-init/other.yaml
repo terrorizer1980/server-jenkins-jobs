@@ -27,9 +27,6 @@
       - shell: |
           #!/bin/bash
           set -e
-          export http_proxy=http://squid.internal:3128
-          export https_proxy=http://squid.internal:3128
-
           rm -rf *
           git clone https://git.launchpad.net/cloud-init
           cd cloud-init
