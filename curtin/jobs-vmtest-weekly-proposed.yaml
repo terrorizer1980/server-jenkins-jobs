@@ -103,7 +103,7 @@
           export TMPDIR=/var/lib/jenkins/tmp/
           export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
           export CURTIN_VMTEST_SKIP_BY_DATE_BUGS="*"
-          export CURTIN_VMTEST_ADD_REPO="proposed"
+          export CURTIN_VMTEST_ADD_REPOS="proposed"
 
           rm -Rf curtin-* output
           git clone --branch=master https://git.launchpad.net/curtin curtin-$BUILD_NUMBER
