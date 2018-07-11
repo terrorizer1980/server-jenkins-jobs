@@ -30,6 +30,7 @@
       - curtin-lp-build-status
       - curtin-vmtest-devel-debug
       - curtin-vmtest-devel-amd64
+      - curtin-vmtest-devel-amd64-proposed
       - curtin-vmtest-devel-ppc64el
       - curtin-vmtest-devel-s390x
       - curtin-vmtest-sync-images
@@ -41,10 +42,7 @@
       - curtin-vmtest-proposed-b-trigger
       - curtin-vmtest-proposed-x
       - curtin-vmtest-proposed-x-trigger
-      - curtin-vmtest-weekly-proposed-a
-      - curtin-vmtest-weekly-proposed-b
-      - curtin-vmtest-weekly-proposed-t
-      - curtin-vmtest-weekly-proposed-x
+
 
 - defaults:
     name: global

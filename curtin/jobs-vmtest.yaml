@@ -39,6 +39,7 @@
         - landing-candidate
         - landing-candidate-branch
         - nose-args
+        - vmtest-add-repos
     triggers:
         - timed: "H 0 * * *"
     builders:
@@ -60,6 +61,7 @@
         - landing-candidate
         - landing-candidate-branch
         - nose-args
+        - vmtest-add-repos
     builders:
         - curtin-vmtest
     properties:
@@ -79,6 +81,7 @@
         - landing-candidate
         - landing-candidate-branch
         - nose-args
+        - vmtest-add-repos
     builders:
         - curtin-vmtest
     properties:
@@ -98,6 +101,7 @@
         - landing-candidate
         - landing-candidate-branch
         - nose-args
+        - vmtest-add-repos
     builders:
         - curtin-vmtest
     properties:
@@ -107,6 +111,25 @@
         - archive:
             artifacts: 'output/**'
             excludes: 'output/debug.log, **/*img'
+
+- job:
+    name: curtin-vmtest-devel-amd64-proposed
+    node: metal-amd64
+    triggers:
+        - timed: "H 4 * * 7"
+    parameters:
+        - nose-args
+        - string:
+            name: vmtest_add_repos
+            default: "proposed"
+    properties:
+      - build-discarder:
+          num-to-keep: 5
+    publishers:
+        - email-server-crew
+        - archive-results
+    builders:
+      - curtin-vmtest
 
 - builder:
     name: curtin-vmtest
@@ -118,6 +141,10 @@
             if [ "$(hostname)" = "torkoal" ]; then
                 export TMPDIR=/var/lib/jenkins/tmp/
             fi
+            if [ -n "${vmtest_add_repos}" ]; then
+                export CURTIN_VMTEST_ADD_REPOS=${vmtest_add_repos}
+            fi
+
             export CURTIN_VMTEST_TAR_DISKS=1
 
             rm -Rf curtin-*
