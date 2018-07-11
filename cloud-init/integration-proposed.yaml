@@ -130,9 +130,12 @@
               --repo=\'deb $mirror $release-proposed main\' \
               --preserve-data --data-dir="./results" \
               --verbose
+          RET=$?
 
           # remove temporary keys
           find . -name "id_rsa*" -delete
+
+          exit $RET
 
 - builder:
     name: trigger-proposed-integration
