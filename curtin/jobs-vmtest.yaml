@@ -118,6 +118,8 @@
     triggers:
         - timed: "H 4 * * 7"
     parameters:
+        - landing-candidate
+        - landing-candidate-branch
         - nose-args
         - string:
             name: vmtest_add_repos
