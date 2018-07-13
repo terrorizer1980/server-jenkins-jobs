@@ -110,7 +110,7 @@
 
 - job:
     name: curtin-autoland-test
-    node: any
+    node: metal-amd64
     parameters:
       - string:
           name: candidate_revision
