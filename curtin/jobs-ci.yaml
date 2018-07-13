@@ -59,7 +59,7 @@
           type: slave
           name: nodes
           values:
-            - any
+            - metal-amd64
             - metal-ppc64el
             - metal-arm64
             - metal-s390x
