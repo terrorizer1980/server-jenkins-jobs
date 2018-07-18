@@ -49,8 +49,8 @@
     parameters:
       - string:
           name: branch
-          default: lp:simplestreams
-          description: LaunchPad branch to use for running the test.
+          default: https://git.launchpad.net/simplestreams
+          description: git url to clone (e.g. 'https://git.launchpad.net/simplestreams[@COMMITISH]')
 
 - parameter:
     name: tox-parameters

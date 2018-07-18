@@ -54,12 +54,16 @@
           #!/bin/bash -x
           export https_proxy=http://squid.internal:3128
           export no_proxy=launchpad.net
-
           rm -rf *
-          git clone https://git.launchpad.net/simplestreams -b ${branch} debug
-          cd debug
 
-          tox ${tox_parameters}
+          git clone https://github.com/CanonicalLtd/uss-tableflip.git uss-tableflip
+          PATH=$PWD/uss-tableflip/scripts:$PATH
+
+          ctool run-container -v --destroy "--name=ssdebug-$BUILD_NUMBER" \
+              ubuntu-daily:bionic \
+              --git="${branch}" \
+              -- sh -c './tools/install-deps tox && tox "$@"' \
+                 -- ${tox_parameters}
 
 - job:
     name: simplestreams-tests
@@ -86,8 +90,15 @@
           #!/bin/bash -x
           export https_proxy=http://squid.internal:3128
           export no_proxy=launchpad.net
+          branch=https://git.launchpad.net/simplestreams
+          tox_parameters=""
 
           rm -rf *
-          git clone https://git.launchpad.net/simplestreams tests-$BUILD_NUMBER
-          cd tests-$BUILD_NUMBER
-          tox
+
+          git clone https://github.com/CanonicalLtd/uss-tableflip.git uss-tableflip
+          PATH=$PWD/uss-tableflip/scripts:$PATH
+
+          ctool run-container -v --destroy "--name=sstest-$BUILD_NUMBER" \
+              ubuntu-daily:bionic \
+              --git="${branch}" \
+              -- sh -c './tools/install-deps tox && tox "$@"' -- ${tox_parameters}
