@@ -46,7 +46,6 @@
           values:
             - any
             - metal-ppc64el
-            - metal-arm64
             - metal-s390x
     auth-token: BUILD_ME
     publishers:
