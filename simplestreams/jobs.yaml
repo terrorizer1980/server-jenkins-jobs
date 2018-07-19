@@ -47,7 +47,6 @@
           values:
             - any
             - metal-ppc64el
-            - metal-arm64
             - metal-s390x
     builders:
       - shell: |
@@ -83,7 +82,6 @@
           values:
             - any
             - metal-ppc64el
-            - metal-arm64
             - metal-s390x
     builders:
       - shell: |
