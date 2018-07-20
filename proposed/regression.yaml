@@ -36,14 +36,3 @@
           git clone https://github.com/CanonicalLtd/server-test-proposed
           cd server-test-proposed
           ./proposed.py -r xenial
-
-- job:
-    name: proposed-regression-a
-    builders:
-      - shell: |
-          #!/bin/bash
-          set -e
-          rm -rf *
-          git clone https://github.com/CanonicalLtd/server-test-proposed
-          cd server-test-proposed
-          ./proposed.py -r artful
