@@ -32,7 +32,7 @@
 
 - job:
     name: curtin-autoland-trigger
-    node: any
+    node: metal-amd64
     triggers:
         - timed: H/15 * * * *
     builders:
@@ -59,7 +59,7 @@
           type: slave
           name: nodes
           values:
-            - metal-amd64
+            - torkoal
             - metal-ppc64el
             - metal-arm64
             - metal-s390x
@@ -110,7 +110,7 @@
 
 - job:
     name: curtin-autoland-test
-    node: metal-amd64
+    node: torkoal
     parameters:
       - string:
           name: candidate_revision

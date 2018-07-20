@@ -17,7 +17,7 @@
 
 - job:
     name: virt-amd64-0-prep
-    node: metal-amd64
+    node: torkoal
     triggers:
       # 3am UTC every Saturday
       - timed: "H 3 * * 6"
@@ -42,7 +42,7 @@
 
 - job:
     name: virt-amd64-1-migrate-t
-    node: metal-amd64
+    node: torkoal
     publishers:
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
@@ -65,7 +65,7 @@
 
 - job:
     name: virt-amd64-1-migrate-x
-    node: metal-amd64
+    node: torkoal
     publishers:
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
@@ -88,7 +88,7 @@
 
 - job:
     name: virt-amd64-1-migrate-b
-    node: metal-amd64
+    node: torkoal
     publishers:
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
@@ -111,7 +111,7 @@
 
 - job:
     name: virt-amd64-2-cross-rel
-    node: metal-amd64
+    node: torkoal
     publishers:
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
@@ -134,7 +134,7 @@
 
 - job:
     name: virt-amd64-3-misc
-    node: metal-amd64
+    node: torkoal
     publishers:
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
@@ -157,7 +157,7 @@
 
 - job:
     name: virt-amd64-4-qemuqa-x
-    node: metal-amd64
+    node: torkoal
     publishers:
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
@@ -180,7 +180,7 @@
 
 - job:
     name: virt-amd64-5-libvirtqa-x
-    node: metal-amd64
+    node: torkoal
     publishers:
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
@@ -203,7 +203,7 @@
 
 - job:
     name: virt-amd64-4-qemuqa-b
-    node: metal-amd64
+    node: torkoal
     publishers:
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
@@ -226,7 +226,7 @@
 
 - job:
     name: virt-amd64-5-libvirtqa-b
-    node: metal-amd64
+    node: torkoal
     publishers:
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
@@ -249,7 +249,7 @@
 
 - job:
     name: virt-amd64-6-cleanup
-    node: metal-amd64
+    node: torkoal
     publishers:
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'

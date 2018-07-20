@@ -17,7 +17,7 @@
 
 - job:
     name: curtin-build
-    node: any
+    node: metal-amd64
     builders:
       - shell: |
           #!/bin/bash
@@ -43,7 +43,7 @@
           type: slave
           name: nodes
           values:
-            - any
+            - metal-amd64
             - metal-ppc64el
             - metal-arm64
             - metal-s390x
@@ -61,7 +61,7 @@
 
 - job:
     name: curtin-style-tip
-    node: any
+    node: metal-amd64
     publishers:
       - trigger:
           project: curtin-build
@@ -100,7 +100,7 @@
           type: slave
           name: nodes
           values:
-            - any
+            - metal-amd64
             - metal-ppc64el
             - metal-arm64
             - metal-s390x
@@ -118,7 +118,7 @@
 
 - job:
     name: curtin-lp-build-status
-    node: any
+    node: metal-amd64
     triggers:
       - timed: "H */5 * * *"
     publishers:
@@ -138,7 +138,7 @@
 
 - job:
     name: curtin-github-mirror
-    node: any
+    node: metal-amd64
     triggers:
       - timed: "H */4 * * *"
     builders:

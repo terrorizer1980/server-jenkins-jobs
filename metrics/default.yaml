@@ -50,7 +50,7 @@
         This job is managed by Jenkins Job Builder and stored on Github via the URL below:
         https://github.com/CanonicalLtd/server-jenkins-jobs
         *** STOP ***
-    node: any
+    node: metal-amd64
     triggers:
       - timed: "H * * * *"
     properties:

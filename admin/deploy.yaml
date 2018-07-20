@@ -17,7 +17,7 @@
 
 - job:
     name: admin-jobs-update
-    node: metal-amd64
+    node: torkoal
     triggers:
       - timed: "*/15 * * * *"
     publishers:

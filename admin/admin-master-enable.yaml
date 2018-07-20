@@ -17,7 +17,7 @@
 
 - job:
     name: admin-master-enable
-    node: any
+    node: metal-amd64
     triggers:
       - timed: "H * * * *"
     publishers:

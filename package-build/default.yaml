@@ -45,7 +45,7 @@
 
 - job-template:
     name: '{team}-{release}-amd64-build'
-    node: any
+    node: metal-amd64
     triggers:
       - timed: "H H * * 6"
     publishers:
@@ -60,7 +60,7 @@
 
 - job-template:
     name: '{team}-{release}-ppc64el-build'
-    node: any
+    node: metal-amd64
     triggers:
       - timed: "H H * * 6"
     publishers:

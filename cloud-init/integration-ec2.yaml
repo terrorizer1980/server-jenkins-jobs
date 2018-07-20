@@ -17,7 +17,7 @@
 
 - job:
     name: cloud-init-integration-ec2-x
-    node: metal-amd64
+    node: torkoal
     triggers:
       - timed: "H 0 * * 0"
     publishers:
@@ -32,7 +32,7 @@
 
 - job:
     name: cloud-init-integration-ec2-b
-    node: metal-amd64
+    node: torkoal
     triggers:
       - timed: "H 0 * * 2"
     publishers:
@@ -47,7 +47,7 @@
 
 - job:
     name: cloud-init-integration-ec2-c
-    node: metal-amd64
+    node: torkoal
     triggers:
       - timed: "H 0 * * 3"
     publishers:
@@ -79,7 +79,7 @@
 
 - job:
     name: cloud-init-integration-ec2-terminate
-    node: metal-amd64
+    node: torkoal
     publishers:
       - email-server-crew
     builders:

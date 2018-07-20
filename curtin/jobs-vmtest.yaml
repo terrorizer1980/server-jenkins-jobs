@@ -17,7 +17,7 @@
 
 - job:
     name: curtin-vmtest-sync-images
-    node: metal-amd64
+    node: torkoal
     triggers:
         - timed: "H 11,23 * * *"
     builders:
@@ -34,7 +34,7 @@
 
 - job:
     name: curtin-vmtest-devel-amd64
-    node: metal-amd64
+    node: torkoal
     parameters:
         - landing-candidate
         - landing-candidate-branch
@@ -96,7 +96,7 @@
 
 - job:
     name: curtin-vmtest-devel-debug
-    node: metal-amd64
+    node: torkoal
     parameters:
         - landing-candidate
         - landing-candidate-branch
@@ -114,7 +114,7 @@
 
 - job:
     name: curtin-vmtest-devel-amd64-proposed
-    node: metal-amd64
+    node: torkoal
     triggers:
         - timed: "H 4 * * 7"
     parameters:

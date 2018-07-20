@@ -17,7 +17,7 @@
 
 - job:
     name: git-ubuntu-ci-trigger
-    node: metal-amd64
+    node: torkoal
     triggers:
         - timed: H/15 * * * *
     builders:
@@ -44,7 +44,7 @@
     sandbox: True
     dsl: |
       pipeline {
-        agent { label 'metal-amd64' }
+        agent { label 'torkoal' }
         parameters {
             string (
                 defaultValue: '',
@@ -142,7 +142,7 @@
     sandbox: True
     dsl: |
       pipeline {
-        agent { label 'metal-amd64' }
+        agent { label 'torkoal' }
 
         environment {
             VM_NAME = 'gitubuntu-ci-nightly-${currentBuild.getNumber()}'

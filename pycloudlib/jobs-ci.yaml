@@ -17,7 +17,7 @@
 
 - job:
     name: pycloudlib-ci-trigger
-    node: any
+    node: metal-amd64
     triggers:
         - timed: H/15 * * * *
     builders:
@@ -32,7 +32,7 @@
 
 - job:
     name: pycloudlib-ci-test
-    node: any
+    node: metal-amd64
     parameters:
       - string:
           name: candidate_revision
@@ -80,7 +80,7 @@
 
 - job:
     name: pycloudlib-autoland-trigger
-    node: any
+    node: metal-amd64
     triggers:
         - timed: H/15 * * * *
     builders:
@@ -95,7 +95,7 @@
 
 - job:
     name: pycloudlib-autoland-test
-    node: any
+    node: metal-amd64
     parameters:
       - string:
           name: candidate_revision
