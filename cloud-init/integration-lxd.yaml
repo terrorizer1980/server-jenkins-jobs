@@ -31,19 +31,6 @@
           release: xenial
 
 - job:
-    name: cloud-init-integration-lxd-a
-    node: metal-amd64
-    publishers:
-      - email-server-crew
-      - archive-results
-      - trigger:
-          project: cloud-init-integration-lxd-b
-          threshold: FAILURE
-    builders:
-      - integration-lxd:
-          release: artful
-
-- job:
     name: cloud-init-integration-lxd-b
     node: metal-amd64
     publishers:

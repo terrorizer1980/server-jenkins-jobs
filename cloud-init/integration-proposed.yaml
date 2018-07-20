@@ -38,29 +38,6 @@
           release-ver: 16.04
 
 - job:
-    name: cloud-init-integration-proposed-trigger-a
-    node: metal-amd64
-    publishers: []
-    triggers:
-      - timed: "H 10 * * *"
-    builders:
-      - trigger-proposed-integration:
-          release: artful
-          triggerwhat: cloud-init-integration-proposed-a
-
-- job:
-    name: cloud-init-integration-proposed-a
-    node: metal-amd64
-    auth-token: BUILD_ME
-    builders:
-      - proposed-integration:
-          release: artful
-          release-ver: 17.10
-    publishers:
-        - email-server-crew
-        - archive-results
-
-- job:
     name: cloud-init-integration-proposed-trigger-b
     node: metal-amd64
     publishers: []

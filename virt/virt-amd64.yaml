@@ -72,29 +72,6 @@
       - email:
           recipients: josh.powers@canonical.com
       - trigger:
-          project: virt-amd64-1-migrate-a
-          threshold: FAILURE
-      - junit:
-          results: result.xml
-    builders:
-      - shell: |
-          #!/bin/bash -eu
-
-          rm -rf qemu-migration-test
-          git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
-          cd qemu-migration-test
-
-          ./qemu-libvirt-test.sh -P -s "migrate" -r "xenial" -R "xenial"
-
-- job:
-    name: virt-amd64-1-migrate-a
-    node: metal-amd64
-    publishers:
-      - archive:
-          artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
-      - email:
-          recipients: josh.powers@canonical.com
-      - trigger:
           project: virt-amd64-1-migrate-b
           threshold: FAILURE
       - junit:
@@ -107,7 +84,7 @@
           git clone https://git.launchpad.net/~ubuntu-server/ubuntu/+source/qemu-migration-test
           cd qemu-migration-test
 
-          ./qemu-libvirt-test.sh -P -s "migrate" -r "artful" -R "artful"
+          ./qemu-libvirt-test.sh -P -s "migrate" -r "xenial" -R "xenial"
 
 - job:
     name: virt-amd64-1-migrate-b
