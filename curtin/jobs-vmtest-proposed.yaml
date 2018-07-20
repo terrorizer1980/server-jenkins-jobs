@@ -18,7 +18,7 @@
 
 - job:
     name: curtin-vmtest-proposed-x-trigger
-    node: metal-amd64
+    node: torkoal
     triggers:
       - timed: "H 14 * * *"
     publishers:
@@ -30,7 +30,7 @@
 
 - job:
     name: curtin-vmtest-proposed-b-trigger
-    node: metal-amd64
+    node: torkoal
     triggers:
       - timed: "H 22 * * *"
     publishers:
@@ -59,7 +59,7 @@
 
 - job:
     name: curtin-vmtest-proposed-x
-    node: metal-amd64
+    node: torkoal
     auth-token: BUILD_ME
     properties:
       - build-discarder:
@@ -73,7 +73,7 @@
 
 - job:
     name: curtin-vmtest-proposed-b
-    node: metal-amd64
+    node: torkoal
     auth-token: BUILD_ME
     properties:
       - build-discarder:

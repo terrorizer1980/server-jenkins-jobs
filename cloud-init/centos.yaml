@@ -17,7 +17,7 @@
 
 - job:
     name: cloud-init-copr-build
-    node: metal-amd64
+    node: torkoal
     triggers:
       - timed: "H 23 * * *"
     publishers:
@@ -47,7 +47,7 @@
 
 - job:
     name: cloud-init-copr-test-6
-    node: metal-amd64
+    node: torkoal
     publishers:
       - email:
           recipients: server-crew-qa@lists.canonical.com
@@ -68,7 +68,7 @@
 
 - job:
     name: cloud-init-copr-test-7
-    node: metal-amd64
+    node: torkoal
     builders:
       - shell: |
           #!/bin/bash

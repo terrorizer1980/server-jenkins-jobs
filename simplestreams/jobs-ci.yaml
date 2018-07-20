@@ -44,7 +44,7 @@
           type: slave
           name: nodes
           values:
-            - any
+            - metal-amd64
             - metal-ppc64el
             - metal-s390x
     auth-token: BUILD_ME

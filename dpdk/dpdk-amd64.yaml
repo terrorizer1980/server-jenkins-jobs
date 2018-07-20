@@ -17,7 +17,7 @@
 
 - job:
     name: dpdk-tools-x
-    node: metal-amd64
+    node: torkoal
     publishers:
       - archive:
           artifacts: 'dpdk-testing/dpdk-test.status'
@@ -37,7 +37,7 @@
 
 - job:
     name: dpdk-virt-tools-x
-    node: metal-amd64
+    node: torkoal
     publishers:
       - archive:
           artifacts: 'dpdk-testing/dpdk-test.status'
@@ -57,7 +57,7 @@
 
 - job:
     name: dpdk-benchmark-x
-    node: metal-amd64
+    node: torkoal
     publishers:
       - archive:
           artifacts: 'dpdk-testing/dpdk-test.status'
@@ -77,7 +77,7 @@
 
 - job:
     name: dpdk-endurance-x
-    node: metal-amd64
+    node: torkoal
     publishers:
       - archive:
           artifacts: 'dpdk-testing/dpdk-test.status'

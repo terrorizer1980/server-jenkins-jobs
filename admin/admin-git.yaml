@@ -17,7 +17,7 @@
 
 - job:
     name: admin-lp-git-vote
-    node: any
+    node: metal-amd64
     parameters:
       - string:
           name: MERGE_BRANCH
@@ -47,7 +47,7 @@
 
 - job:
     name: admin-lp-git-autoland
-    node: any
+    node: metal-amd64
     parameters:
       - string:
           name: MERGE_REVISION

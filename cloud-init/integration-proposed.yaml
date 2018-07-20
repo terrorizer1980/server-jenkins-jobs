@@ -17,7 +17,7 @@
 
 - job:
     name: cloud-init-integration-proposed-trigger-x
-    node: metal-amd64
+    node: torkoal
     triggers:
       - timed: "H 10 * * *"
     builders:
@@ -27,7 +27,7 @@
 
 - job:
     name: cloud-init-integration-proposed-x
-    node: metal-amd64
+    node: torkoal
     auth-token: BUILD_ME
     publishers:
         - email-server-crew
@@ -39,7 +39,7 @@
 
 - job:
     name: cloud-init-integration-proposed-trigger-b
-    node: metal-amd64
+    node: torkoal
     publishers: []
     triggers:
       - timed: "H 10 * * *"
@@ -50,7 +50,7 @@
 
 - job:
     name: cloud-init-integration-proposed-b
-    node: metal-amd64
+    node: torkoal
     auth-token: BUILD_ME
     builders:
       - proposed-integration:
@@ -62,7 +62,7 @@
 
 - job:
     name: cloud-init-integration-proposed-trigger-c
-    node: metal-amd64
+    node: torkoal
     publishers: []
     triggers:
       - timed: "H 10 * * *"
@@ -73,7 +73,7 @@
 
 - job:
     name: cloud-init-integration-proposed-c
-    node: metal-amd64
+    node: torkoal
     auth-token: BUILD_ME
     builders:
       - proposed-integration:

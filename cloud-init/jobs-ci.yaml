@@ -17,7 +17,7 @@
 
 - job:
     name: cloud-init-ci-trigger
-    node: any
+    node: metal-amd64
     triggers:
         - timed: H/15 * * * *
     builders:
@@ -33,7 +33,7 @@
 
 - job:
     name: cloud-init-autoland-trigger
-    node: any
+    node: metal-amd64
     triggers:
         - timed: H/15 * * * *
     builders:
@@ -59,7 +59,7 @@
     sandbox: True
     dsl: |
       pipeline {
-        agent { label 'metal-amd64' }
+        agent { label 'torkoal' }
         parameters {
             string (
                 defaultValue: 'lp:cloud-init',
@@ -162,7 +162,7 @@
       - timed: "H 23 * * *"
     sandbox: True
     dsl: |
-      node('metal-amd64') {
+      node('torkoal') {
         try {
             stage ('Checkout') {
                 deleteDir()
@@ -205,7 +205,7 @@
     sandbox: True
     dsl: |
       pipeline {
-        agent { label 'metal-amd64' }
+        agent { label 'torkoal' }
         parameters {
             string (
                 defaultValue: 'lp:cloud-init',

@@ -17,7 +17,7 @@
 
 - job:
     name: curtin-vmtest-daily-t
-    node: metal-amd64
+    node: torkoal
     parameters:
         - nose-args
     triggers:
@@ -35,7 +35,7 @@
 
 - job:
     name: curtin-vmtest-daily-x
-    node: metal-amd64
+    node: torkoal
     parameters:
         - nose-args
     triggers:
