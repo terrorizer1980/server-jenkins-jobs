@@ -75,9 +75,8 @@
           export no_proxy=launchpad.net
 
           rm -rf *
-          branch=${landing_candidate//lp:/https://git.launchpad.net/}
-          git clone --branch=${landing_candidate_branch} $branch simplestreams-${BUILD_NUMBER}
-          cd simplestreams-${BUILD_NUMBER}
+          git clone ${landing_candidate} ss-${BUILD_NUMBER}
+          cd ss-${BUILD_NUMBER}
           git rev-parse HEAD
           git remote add upstream https://git.launchpad.net/simplestreams
           git fetch upstream --tags
