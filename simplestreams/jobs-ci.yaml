@@ -80,5 +80,5 @@
 
           ctool run-container -v --destroy "--name=ssci-$BUILD_NUMBER" \
               ubuntu-daily:bionic \
-              --git="{landing_candidate}@{candidate_revision}" \
+              --git="${landing_candidate}@${candidate_revision}" \
               -- sh -c './tools/install-deps tox && tox "$@"' --
