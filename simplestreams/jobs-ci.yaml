@@ -73,12 +73,13 @@
           set -eux
           export https_proxy=http://squid.internal:3128
           export no_proxy=launchpad.net
-
           rm -rf *
-          git clone ${landing_candidate} ss-${BUILD_NUMBER}
-          cd ss-${BUILD_NUMBER}
-          git rev-parse HEAD
-          git remote add upstream https://git.launchpad.net/simplestreams
-          git fetch upstream --tags
 
-          tox
+          git clone https://github.com/CanonicalLtd/uss-tableflip.git uss-tableflip
+          PATH=$PWD/uss-tableflip/scripts:$PATH
+
+          ctool run-container -v --destroy "--name=${JOB_NAME}-$BUILD_NUMBER" \
+              ubuntu-daily:bionic \
+              --git="{landing_candidate}@{candidate_revision}" \
+              -- sh -c './tools/install-deps tox && tox "$@"' \
+                 -- ${tox_parameters}
