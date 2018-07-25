@@ -78,7 +78,7 @@
           git clone https://github.com/CanonicalLtd/uss-tableflip.git uss-tableflip
           PATH=$PWD/uss-tableflip/scripts:$PATH
 
-          ctool run-container -v --destroy "--name=${JOB_NAME}-$BUILD_NUMBER" \
+          ctool run-container -v --destroy "--name=ssci-$BUILD_NUMBER" \
               ubuntu-daily:bionic \
               --git="{landing_candidate}@{candidate_revision}" \
               -- sh -c './tools/install-deps tox && tox "$@"' --
