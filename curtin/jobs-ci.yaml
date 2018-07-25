@@ -154,6 +154,7 @@
           git remote add autoland ${landing_candidate}
           git fetch autoland
           git merge autoland/${landing_candidate_branch} --squash
+          git commit -m "test commit"
 
           tox
 
