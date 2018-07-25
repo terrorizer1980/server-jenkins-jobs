@@ -70,7 +70,7 @@
     builders:
       - shell: |
           #!/bin/bash
-          set -eux
+          set -ex
           export https_proxy=http://squid.internal:3128
           export no_proxy=launchpad.net
           rm -rf *
@@ -81,5 +81,4 @@
           ctool run-container -v --destroy "--name=${JOB_NAME}-$BUILD_NUMBER" \
               ubuntu-daily:bionic \
               --git="{landing_candidate}@{candidate_revision}" \
-              -- sh -c './tools/install-deps tox && tox "$@"' \
-                 -- ${tox_parameters}
+              -- sh -c './tools/install-deps tox && tox "$@"' --
