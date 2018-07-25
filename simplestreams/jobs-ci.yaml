@@ -32,6 +32,22 @@
           exit 0
 
 - job:
+    name: simplestreams-autoland-trigger
+    node: metal-amd64
+    triggers:
+        - timed: H/15 * * * *
+    builders:
+        - shell: |
+            #!/bin/bash
+            set -eux
+
+            launchpadTrigger --lock-name=${JOB_NAME} \
+                             --job=simplestreams-autoland-test \
+                             --branch=lp:simplestreams \
+                             --autoland \
+                             --repo_type=git
+
+- job:
     name: simplestreams-ci
     parameters:
       - landing-candidate
@@ -81,4 +97,59 @@
           ctool run-container -v --destroy "--name=ssci-$BUILD_NUMBER" \
               ubuntu-daily:bionic \
               --git="${landing_candidate}@${candidate_revision}" \
+              -- sh -c './tools/install-deps tox && tox "$@"' --
+
+- job:
+    name: simplestreams-autoland-test
+    node: torkoal
+    parameters:
+      - string:
+          name: candidate_revision
+          description: Revision of the git branch
+      - string:
+          name: landing_candidate
+          description: Launchpad git repo
+      - string:
+          name: landing_candidate_branch
+          description: Branch name
+      - string:
+          name: merge_proposal
+          description: Merge proposal URL
+    auth-token: BUILD_ME
+    publishers:
+      - trigger-parameterized-builds:
+        - project: admin-lp-git-autoland
+          condition: UNSTABLE_OR_WORSE
+          predefined-parameters: |
+            MERGE_REVISION=${candidate_revision}
+            MERGE_URL=${merge_proposal}
+            TEST_RESULT=FAILED
+            TEST_URL=${BUILD_URL}
+      - trigger-parameterized-builds:
+        - project: admin-lp-git-autoland
+          condition: SUCCESS
+          predefined-parameters: |
+            MERGE_REVISION=${candidate_revision}
+            MERGE_URL=${merge_proposal}
+            TEST_RESULT=PASSED
+            TEST_URL=${BUILD_URL}
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -ex
+          rm -rf *
+
+          git clone https://github.com/CanonicalLtd/uss-tableflip.git uss-tableflip
+          PATH=$PWD/uss-tableflip/scripts:$PATH
+
+          git clone https://git.launchpad.net/simplestreams
+          cd simplestreams
+
+          git remote add autoland ${landing_candidate}
+          git fetch autoland
+          git merge autoland/${landing_candidate_branch} --squash
+
+          ctool run-container -v --destroy "--name=ssci-$BUILD_NUMBER" \
+              ubuntu-daily:bionic \
+              --git="$PWD" \
               -- sh -c './tools/install-deps tox && tox "$@"' --

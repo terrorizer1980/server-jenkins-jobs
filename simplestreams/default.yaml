@@ -18,6 +18,8 @@
 - project:
     name: simplestreams
     jobs:
+      - simplestreams-autoland-test
+      - simplestreams-autoland-trigger
       - simplestreams-ci
       - simplestreams-ci-trigger
       - simplestreams-build
