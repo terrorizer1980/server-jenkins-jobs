@@ -24,7 +24,7 @@
       - email-server-crew
       - archive-results
       - trigger:
-          project: cloud-init-integration-lxd-a
+          project: cloud-init-integration-lxd-b
           threshold: FAILURE
     builders:
       - integration-lxd:
