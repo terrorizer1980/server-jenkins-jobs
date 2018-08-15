@@ -119,13 +119,14 @@
     builders:
       - shell: |
           set -ef
+          rm -rf *    
+          
           rel={release}
           triggerwhat="{triggerwhat}"
-          sudo rm -f version_lookup.py
-          wget https://raw.githubusercontent.com/CanonicalLtd/server-test-scripts/master/launchpad/version_lookup.py
-          chmod +x version_lookup.py
           pkg="cloud-init"
-
+                    
+          git clone https://github.com/CanonicalLtd/server-test-scripts
+          cd server-test-scripts/launchpad/
           proposed=$(./version_lookup.py -r $rel -p Proposed -s Published $pkg)
           updates=$(./version_lookup.py -r $rel -p Updates -s Published $pkg)
           # output is <pkg>,<rel>,<pocket>,<state>,<version>
