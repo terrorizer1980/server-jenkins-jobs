@@ -48,9 +48,10 @@
           set -e
           release={release}
           triggerwhat={triggerwhat}
-          sudo rm -f version_lookup.py
-          wget https://raw.githubusercontent.com/CanonicalLtd/server-test-scripts/master/launchpad/version_lookup.py
-          chmod +x version_lookup.py
+          rm -rf *
+          
+          git clone https://github.com/CanonicalLtd/server-test-scripts
+          cd server-test-scripts/launchpad/
           proposed=$(./version_lookup.py -r "$release" -p Proposed -s Published curtin)
 
           if [ "$proposed" != "" ]; then
