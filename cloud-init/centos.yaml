@@ -30,10 +30,8 @@
       - shell: |
           #!/bin/bash
           set -e
-          export http_proxy=http://squid.internal:3128
-          export https_proxy=http://squid.internal:3128
-
           rm -rf *
+          
           git clone https://github.com/CanonicalLtd/server-test-scripts
           git clone https://git.launchpad.net/cloud-init
           cd cloud-init
@@ -58,10 +56,8 @@
       - shell: |
           #!/bin/bash
           set -e
-          export http_proxy=http://squid.internal:3128
-          export https_proxy=http://squid.internal:3128
-
           rm -rf *
+          
           git clone https://github.com/CanonicalLtd/server-test-scripts
           cd server-test-scripts/cloud-init
           ./copr_test -vv 6
@@ -73,10 +69,8 @@
       - shell: |
           #!/bin/bash
           set -e
-          export http_proxy=http://squid.internal:3128
-          export https_proxy=http://squid.internal:3128
-
           rm -rf *
+          
           git clone https://github.com/CanonicalLtd/server-test-scripts
           cd server-test-scripts/cloud-init
           ./copr_test -vv 7
