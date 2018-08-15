@@ -23,9 +23,6 @@
     builders:
         - shell: |
             #!/bin/bash -x
-            export http_proxy=http://squid.internal:3128
-            export https_proxy=http://squid.internal:3128
-
             rm -Rf curtin
             git clone --branch=master https://git.launchpad.net/curtin
             cd curtin
