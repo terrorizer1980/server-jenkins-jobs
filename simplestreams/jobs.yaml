@@ -21,9 +21,6 @@
     builders:
       - shell: |
           #!/bin/bash -x
-          export https_proxy=http://squid.internal:3128
-          export no_proxy=launchpad.net
-
           rm -rf *
           git clone https://git.launchpad.net/simplestreams build
           cd build
@@ -51,8 +48,6 @@
     builders:
       - shell: |
           #!/bin/bash -x
-          export https_proxy=http://squid.internal:3128
-          export no_proxy=launchpad.net
           rm -rf *
 
           git clone https://github.com/CanonicalLtd/uss-tableflip.git uss-tableflip
@@ -86,8 +81,6 @@
     builders:
       - shell: |
           #!/bin/bash -x
-          export https_proxy=http://squid.internal:3128
-          export no_proxy=launchpad.net
           branch=https://git.launchpad.net/simplestreams
           tox_parameters=""
 

@@ -50,9 +50,6 @@
     builders:
       - shell: |
           #!/bin/bash -x
-          export https_proxy=http://squid.internal:3128
-          export no_proxy=launchpad.net
-
           rm -rf *
           git clone --branch=${branch} https://git.launchpad.net/curtin debug
           cd debug
@@ -107,9 +104,6 @@
     builders:
       - shell: |
           #!/bin/bash -x
-          export https_proxy=http://squid.internal:3128
-          export no_proxy=launchpad.net
-
           rm -rf *
           git clone https://git.launchpad.net/curtin tests
           cd tests

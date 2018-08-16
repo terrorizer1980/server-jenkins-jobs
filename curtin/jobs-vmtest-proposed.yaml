@@ -49,7 +49,7 @@
           release={release}
           triggerwhat={triggerwhat}
           rm -rf *
-          
+
           git clone https://github.com/CanonicalLtd/server-test-scripts
           cd server-test-scripts/launchpad/
           proposed=$(./version_lookup.py -r "$release" -p Proposed -s Published curtin)
@@ -94,8 +94,6 @@
           TYPE="proposed"
           LXC_NAME="$JOB_NAME-$BUILD_NUMBER"
 
-          export http_proxy=http://squid.internal:3128
-          export apt_proxy=http://squid.internal:3128
           export TMPDIR=/var/lib/jenkins/tmp/
           export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
           export CURTIN_VMTEST_TAR_DISKS=1

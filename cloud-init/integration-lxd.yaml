@@ -58,8 +58,6 @@
     builders:
       - shell: |
           release="{release}"
-          export http_proxy=http://squid.internal:3128
-          export apt_proxy=http://squid.internal:3128
 
           sudo rm -Rf *
           git clone https://github.com/CanonicalLtd/server-test-scripts.git

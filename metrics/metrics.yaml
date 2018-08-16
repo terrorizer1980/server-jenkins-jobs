@@ -88,12 +88,13 @@
       - shell: |
           #!/bin/bash
           set -e
-          export https_proxy=http://squid.internal:3128
           rm -rf *
           git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           bzr branch lp:kpi-metrics-tools
           source kpi-metrics-tools/foundations-kpi-influxdb.txt
+
+          export https_proxy=http://squid.internal:3128
           python3 -m metrics.docker_hub_images
 
 - job:

@@ -89,8 +89,6 @@
       - shell: |
           release="{release}"
           release_ver="{release-ver}"
-          export http_proxy=http://squid.internal:3128
-          export apt_proxy=http://squid.internal:3128
 
           set -e
           sudo rm -Rf cloud-init
@@ -119,12 +117,12 @@
     builders:
       - shell: |
           set -ef
-          rm -rf *    
-          
+          rm -rf *
+
           rel={release}
           triggerwhat="{triggerwhat}"
           pkg="cloud-init"
-                    
+
           git clone https://github.com/CanonicalLtd/server-test-scripts
           cd server-test-scripts/launchpad/
           proposed=$(./version_lookup.py -r $rel -p Proposed -s Published $pkg)

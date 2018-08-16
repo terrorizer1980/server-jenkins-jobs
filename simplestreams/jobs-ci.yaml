@@ -87,8 +87,6 @@
       - shell: |
           #!/bin/bash
           set -ex
-          export https_proxy=http://squid.internal:3128
-          export no_proxy=launchpad.net
           rm -rf *
 
           git clone https://github.com/CanonicalLtd/uss-tableflip.git uss-tableflip

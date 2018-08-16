@@ -59,14 +59,12 @@
           TYPE="daily"
           LXC_NAME="$JOB_NAME-$BUILD_NUMBER"
 
-          export http_proxy=http://squid.internal:3128
-          export apt_proxy=http://squid.internal:3128
           export TMPDIR=/var/lib/jenkins/tmp/
           export CURTIN_VMTEST_CURTIN_EXE="curtin-from-container $LXC_NAME curtin"
           export CURTIN_VMTEST_SKIP_BY_DATE_BUGS="*"
           export CURTIN_VMTEST_KEEP_DATA_FAIL=all
           export CURTIN_VMTEST_TAR_DISKS=1
-          
+
           rm -Rf curtin-* output
           git clone --branch=master https://git.launchpad.net/curtin curtin-$BUILD_NUMBER
           cd curtin-$BUILD_NUMBER

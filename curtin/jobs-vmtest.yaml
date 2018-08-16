@@ -134,9 +134,6 @@
     name: curtin-vmtest
     builders:
         - shell: |
-            export http_proxy=http://squid.internal:3128
-            export https_proxy=http://squid.internal:3128
-            export no_proxy=archive.ubuntu.com,security.ubuntu.com,ppa.launchpad.net
             if [ "$(hostname)" = "torkoal" ]; then
                 export TMPDIR=/var/lib/jenkins/tmp/
             fi
