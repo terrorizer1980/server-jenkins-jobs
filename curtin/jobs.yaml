@@ -54,7 +54,7 @@
           git clone --branch=${branch} https://git.launchpad.net/curtin debug
           cd debug
 
-          tox ${tox_parameters}
+          https_proxy="http://squid.internal:3128" tox ${tox_parameters}
 
 - job:
     name: curtin-style-tip
@@ -73,10 +73,10 @@
           git clone https://git.launchpad.net/curtin style
           cd style
 
-          tox -e tip-pycodestyle
+          https_proxy="http://squid.internal:3128" tox -e tip-pycodestyle
           exit_1=$?
 
-          tox -e tip-pyflakes
+          https_proxy="http://squid.internal:3128" tox -e tip-pyflakes
           exit_2=$?
 
           ! (( $exit_1 || $exit_2))
@@ -108,7 +108,7 @@
           git clone https://git.launchpad.net/curtin tests
           cd tests
 
-          tox
+          https_proxy="http://squid.internal:3128" tox
 
 - job:
     name: curtin-lp-build-status

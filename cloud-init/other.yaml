@@ -30,9 +30,9 @@
           rm -rf *
           git clone https://git.launchpad.net/cloud-init
           cd cloud-init
-          tox -e tip-pycodestyle
-          tox -e tip-pyflakes
-          tox -e tip-pylint
+          https_proxy="http://squid.internal:3128" tox -e tip-pycodestyle
+          https_proxy="http://squid.internal:3128" tox -e tip-pyflakes
+          https_proxy="http://squid.internal:3128" tox -e tip-pylint
 
 - job:
     name: cloud-init-lp-build-status

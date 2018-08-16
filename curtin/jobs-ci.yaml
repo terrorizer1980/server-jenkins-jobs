@@ -100,7 +100,7 @@
             git remote add upstream https://git.launchpad.net/curtin
             git fetch upstream --tags
 
-            tox
+            https_proxy="http://squid.internal:3128" tox
 
             if [ "$(arch)" == "x86_64" ]; then
                 ./tools/jenkins-runner -p 4 tests/vmtests/test_basic.py:XenialGATestBasic tests/vmtests/test_basic.py:BionicTestBasic
@@ -154,7 +154,7 @@
           git merge autoland/${landing_candidate_branch} --squash
           git commit -m "test commit"
 
-          tox
+          https_proxy="http://squid.internal:3128" tox
 
           if [ "$(arch)" == "x86_64" ]; then
               ./tools/jenkins-runner -p 4 tests/vmtests/test_basic.py:XenialGATestBasic tests/vmtests/test_basic.py:BionicTestBasic

@@ -99,7 +99,7 @@
           git checkout $tag
           mirror="http://archive.ubuntu.com/ubuntu/"
           set +e
-          tox -e citest -- run \
+          https_proxy="http://squid.internal:3128" tox -e citest -- run \
               --os-name="$release" \
               --platform=lxd --platform=nocloud-kvm --platform=ec2 \
               --repo=\'deb $mirror $release-proposed main\' \

@@ -71,7 +71,7 @@
           git clone https://git.launchpad.net/cloud-init
           cd cloud-init
           ../server-test-scripts/cloud-init/daily_deb.sh -v $release
-          tox -e citest -- run --os-name $release \
+          https_proxy="http://squid.internal:3128" tox -e citest -- run --os-name $release \
             --platform ec2 --preserve-data --data-dir results \
             --verbose --deb cloud-init_*_all.deb
 

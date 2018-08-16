@@ -99,7 +99,7 @@
 
             stage ('Unit & Style Tests') {
                 steps {
-                    sh 'tox'
+                    sh 'https_proxy="http://squid.internal:3128" tox'
                 }
             }
 
@@ -113,14 +113,14 @@
 
             stage ('Ubuntu LTS: Integration') {
                 steps {
-                    sh 'tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
+                    sh 'https_proxy="http://squid.internal:3128" tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
                 }
             }
 
             stage ('MAAS Compatability Testing') {
                 steps {
-                    sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 6'
-                    sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 7'
+                    sh 'https_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 6'
+                    sh 'https_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 7'
                 }
             }
         }
@@ -170,7 +170,7 @@
             }
 
             stage ('Unit & Style Tests') {
-                sh 'tox'
+                sh 'https_proxy="http://squid.internal:3128" tox'
             }
 
             stage ('Ubuntu LTS: Build') {
@@ -180,7 +180,7 @@
             }
 
             stage ('Ubuntu LTS: Integration') {
-                sh 'tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
+                sh 'https_proxy="http://squid.internal:3128" tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
             }
 
             stage ('MAAS Compatability Testing') {
@@ -248,7 +248,7 @@
 
             stage ('Unit & Style Tests') {
                 steps {
-                    sh 'tox'
+                    sh 'https_proxy="http://squid.internal:3128" tox'
                 }
             }
 
@@ -262,7 +262,7 @@
 
             stage ('Ubuntu LTS: Integration') {
                 steps {
-                    sh 'tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
+                    sh 'https_proxy="http://squid.internal:3128" tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
                 }
             }
 

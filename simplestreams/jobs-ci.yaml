@@ -95,7 +95,7 @@
           ctool run-container -v --destroy "--name=ssci-$BUILD_NUMBER" \
               ubuntu-daily:bionic \
               --git="${landing_candidate}@${candidate_revision}" \
-              -- sh -c './tools/install-deps tox && tox "$@"' --
+              -- sh -c './tools/install-deps tox && https_proxy="http://squid.internal:3128" tox "$@"' --
 
 - job:
     name: simplestreams-autoland-test
@@ -151,4 +151,4 @@
           ctool run-container -v --destroy "--name=ssci-$BUILD_NUMBER" \
               ubuntu-daily:bionic \
               --git="$PWD" \
-              -- sh -c './tools/install-deps tox && tox "$@"' --
+              -- sh -c './tools/install-deps tox && https_proxy="http://squid.internal:3128" tox "$@"' --
