@@ -64,6 +64,7 @@
           git clone https://git.launchpad.net/cloud-init
           cd cloud-init
           ../server-test-scripts/cloud-init/daily_deb.sh -v $release
-          https_proxy="http://squid.internal:3128" tox -e citest -- run --os-name $release \
+          no_proxy=launchpad.net https_proxy="http://squid.internal:3128" tox \
+            -e citest -- run --os-name $release \
             --platform nocloud-kvm --preserve-data --data-dir results \
             --verbose --deb cloud-init_*_all.deb

@@ -99,7 +99,7 @@
 
             stage ('Unit & Style Tests') {
                 steps {
-                    sh 'https_proxy="http://squid.internal:3128" tox'
+                    sh 'no_proxy="launchpad.net" https_proxy="http://squid.internal:3128" tox'
                 }
             }
 
@@ -113,7 +113,7 @@
 
             stage ('Ubuntu LTS: Integration') {
                 steps {
-                    sh 'https_proxy="http://squid.internal:3128" tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
+                    sh 'no_proxy="launchpad.net" https_proxy="http://squid.internal:3128" tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
                 }
             }
         }
@@ -163,7 +163,7 @@
             }
 
             stage ('Unit & Style Tests') {
-                sh 'https_proxy="http://squid.internal:3128" tox'
+                sh 'no_proxy="launchpad.net" https_proxy="http://squid.internal:3128" tox'
             }
 
             stage ('Ubuntu LTS: Build') {
@@ -173,7 +173,7 @@
             }
 
             stage ('Ubuntu LTS: Integration') {
-                sh 'https_proxy="http://squid.internal:3128" tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
+                sh 'no_proxy="launchpad.net" https_proxy="http://squid.internal:3128" tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
             }
 
         } finally {
@@ -237,7 +237,7 @@
 
             stage ('Unit & Style Tests') {
                 steps {
-                    sh 'https_proxy="http://squid.internal:3128" tox'
+                    sh 'no_proxy="launchpad.net" https_proxy="http://squid.internal:3128" tox'
                 }
             }
 
@@ -251,7 +251,7 @@
 
             stage ('Ubuntu LTS: Integration') {
                 steps {
-                    sh 'https_proxy="http://squid.internal:3128" tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
+                    sh 'no_proxy="launchpad.net" https_proxy="http://squid.internal:3128" tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
                 }
             }
 
