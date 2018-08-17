@@ -108,7 +108,7 @@
           git clone https://git.launchpad.net/curtin tests
           cd tests
 
-          https_proxy="http://squid.internal:3128" tox
+          no_proxy=launchpad.net https_proxy="http://squid.internal:3128" tox
 
 - job:
     name: curtin-lp-build-status
