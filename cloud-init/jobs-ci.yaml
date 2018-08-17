@@ -116,13 +116,6 @@
                     sh 'https_proxy="http://squid.internal:3128" tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
                 }
             }
-
-            stage ('MAAS Compatability Testing') {
-                steps {
-                    sh 'https_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 6'
-                    sh 'https_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 7'
-                }
-            }
         }
 
       post {
@@ -183,10 +176,6 @@
                 sh 'https_proxy="http://squid.internal:3128" tox -e citest -- run --verbose --preserve-data --data-dir results --os-name xenial --test modules/apt_configure_sources_list.yaml --test modules/ntp_servers --test modules/set_password_list --test modules/user_groups --deb cloud-init_*_all.deb'
             }
 
-            stage ('MAAS Compatability Testing') {
-                sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 6'
-                sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 7'
-            }
         } finally {
             archiveArtifacts artifacts: 'results/**', excludes: 'results/*log, **/*img, **/*qcow2', allowEmptyArchive: true, onlyIfSuccessful: false
         }
@@ -266,12 +255,6 @@
                 }
             }
 
-            stage ('MAAS Compatability Testing') {
-                steps {
-                    sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 6'
-                    sh 'http_proxy="http://squid.internal:3128" ./tools/run-centos -r -u 7'
-                }
-            }
         }
 
       post {
