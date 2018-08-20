@@ -118,7 +118,7 @@
     builders:
       - shell: |
           set -ef
-          rm -rf *
+          sudo rm -rf *
 
           rel={release}
           triggerwhat="{triggerwhat}"
