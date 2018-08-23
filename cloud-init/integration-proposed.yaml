@@ -117,7 +117,8 @@
     name: trigger-proposed-integration
     builders:
       - shell: |
-          set -ef
+          #!/bin/bash
+          set -ex
           sudo rm -rf *
 
           rel={release}
