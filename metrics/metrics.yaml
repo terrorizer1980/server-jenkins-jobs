@@ -228,15 +228,10 @@
 
 - job:
     name: metric-server-triage
-    builders:
-      - shell: |
-          #!/bin/bash
-          set -e
-          rm -rf *
-          git clone https://github.com/CanonicalLtd/metrics.git
-          cd metrics
-          export METRICS_PROMETHEUS=10.25.2.225:9091
-          python3 -m metrics.triage server
+      - metric-influxdb:
+          team: "server"
+          metric_module: "triage"
+          metric_arguments: "server"
 
 - job:
     name: metric-server-uploads
