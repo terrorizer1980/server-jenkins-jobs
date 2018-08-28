@@ -152,27 +152,18 @@
 - job:
     name: metric-server-cloudinit
     builders:
-      - shell: |
-          #!/bin/bash
-          set -e
-          rm -rf *
-          git clone https://github.com/CanonicalLtd/metrics.git
-          cd metrics
-          export METRICS_PROMETHEUS=10.25.2.225:9091
-          python3 -m metrics.package cloud-init \
-            --repo https://git.launchpad.net/cloud-init
+      - metric-influxdb:
+          team: "server"
+          metric_module: "package"
+          metric_arguments: "cloud-init --repo https://git.launchpad.net/cloud-init"
 
 - job:
     name: metric-server-curtin
     builders:
-      - shell: |
-          #!/bin/bash
-          set -e
-          rm -rf *
-          git clone https://github.com/CanonicalLtd/metrics.git
-          cd metrics
-          export METRICS_PROMETHEUS=10.25.2.225:9091
-          python3 -m metrics.package curtin --repo lp:curtin
+      - metric-influxdb:
+          team: "server"
+          metric_module: "package"
+          metric_arguments: "curtin --repo https://git.launchpad.net/curtin"
 
 - job:
     name: metric-server-iso
@@ -230,14 +221,10 @@
 - job:
     name: metric-server-simplestreams
     builders:
-      - shell: |
-          #!/bin/bash
-          set -e
-          rm -rf *
-          git clone https://github.com/CanonicalLtd/metrics.git
-          cd metrics
-          export METRICS_PROMETHEUS=10.25.2.225:9091
-          python3 -m metrics.package simplestreams --repo http://git.launchpad.net/simplestreams
+      - metric-influxdb:
+          team: "server"
+          metric_module: "package"
+          metric_arguments: "simplestreams --repo https://git.launchpad.net/simplestreams"
 
 - job:
     name: metric-server-triage
