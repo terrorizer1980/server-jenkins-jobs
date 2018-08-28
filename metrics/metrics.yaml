@@ -192,21 +192,26 @@
           python3 -m metrics.vagrant_downloads
 
 - job:
-    name: metric-merges
+    name: metric-merges-foundations
     builders:
-      - shell: |
-          #!/bin/bash
-          set -e
-          rm -rf *
-
-          team_names="foundations server openstack"
-
-          git clone https://github.com/CanonicalLtd/metrics.git
-          cd metrics
-          export METRICS_PROMETHEUS=10.25.2.225:9091
-          for team_name in $team_names; do
-              python3 -m metrics.merges $team_name
-          done
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "merges"
+          metric_arguments: "foundations"
+- job:
+    name: metric-merges-server
+    builders:
+      - metric-influxdb:
+          team: "server"
+          metric_module: "merges"
+          metric_arguments: "server"
+- job:
+    name: metric-merges-openstack
+    builders:
+      - metric-influxdb:
+          team: "server"
+          metric_module: "merges"
+          metric_arguments: "openstack"
 
 - job:
     name: metric-server-simplestreams
