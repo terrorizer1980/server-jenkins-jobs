@@ -192,21 +192,21 @@
           python3 -m metrics.vagrant_downloads
 
 - job:
-    name: metric-merges-foundations
+    name: metric-foundations-merges
     builders:
       - metric-influxdb:
           team: "foundations"
           metric_module: "merges"
           metric_arguments: "foundations"
 - job:
-    name: metric-merges-server
+    name: metric-server-merges
     builders:
       - metric-influxdb:
           team: "server"
           metric_module: "merges"
           metric_arguments: "server"
 - job:
-    name: metric-merges-openstack
+    name: metric-openstack-merges
     builders:
       - metric-influxdb:
           team: "server"

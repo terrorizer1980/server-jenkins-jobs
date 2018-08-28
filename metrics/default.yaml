@@ -27,7 +27,8 @@
       - metric-foundations-sru-queues
       - metric-foundations-bugs
       - metric-foundations-uploads
-      - metric-merges
+      - metric-foundations-merges
+      - metric-openstack-merges
       - metric-openstack-uploads
       - metric-rls-bug-tasks
       - metric-server-cloudinit
@@ -35,6 +36,7 @@
       - metric-server-docker-downloads
       - metric-server-google-analytics
       - metric-server-iso
+      - metric-server-merges
       - metric-server-simplestreams
       - metric-server-triage
       - metric-server-uploads
