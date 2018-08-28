@@ -41,18 +41,6 @@
           python3 -m metrics.{metric_module} {metric_arguments}
 
 - builder:
-    name: builder-metric-uploads
-    builders:
-      - shell: |
-          #!/bin/bash
-          set -e
-          rm -rf *
-          git clone https://github.com/CanonicalLtd/metrics.git
-          cd metrics
-          export METRICS_PROMETHEUS=10.25.2.225:9091
-          python3 -m metrics.uploads {team_name}
-
-- builder:
     name: errors-most-common-problems
     builders:
       - shell: |
@@ -116,8 +104,10 @@
 - job:
     name: metric-foundations-uploads
     builders:
-        - builder-metric-uploads:
-            team_name: "foundations"
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "uploads"
+          metric_arguments: "foundations"
 
 - job:
     name: metric-foundations-error-reports
@@ -237,8 +227,10 @@
 - job:
     name: metric-server-uploads
     builders:
-        - builder-metric-uploads:
-            team_name: "server"
+      - metric-influxdb:
+          team: "server"
+          metric_module: "uploads"
+          metric_arguments: "server"
 
 - job:
     name: metric-server-google-analytics
@@ -267,5 +259,7 @@
 - job:
     name: metric-openstack-uploads
     builders:
-        - builder-metric-uploads:
-            team_name: "openstack"
+      - metric-influxdb:
+          team: "server"
+          metric_module: "uploads"
+          metric_arguments: "openstack"
