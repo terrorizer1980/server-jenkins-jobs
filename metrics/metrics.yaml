@@ -228,6 +228,7 @@
 
 - job:
     name: metric-server-triage
+    builders:
       - metric-influxdb:
           team: "server"
           metric_module: "triage"
