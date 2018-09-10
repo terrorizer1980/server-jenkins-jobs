@@ -93,7 +93,7 @@
 
             stage ('Unit Tests') {
                 steps {
-                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "git-ubuntu.self-test"'
+                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "bash -l -c git-ubuntu.self-test"'
                 }
             }
         }
@@ -163,7 +163,7 @@
 
             stage ('Unit Tests') {
                 steps {
-                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "git-ubuntu.self-test"'
+                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "bash -l -c git-ubuntu.self-test"'
                 }
             }
 
