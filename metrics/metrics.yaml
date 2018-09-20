@@ -130,7 +130,8 @@
 - job:
     name: metric-foundations-sru-queues
     builders:
-        - simple-metric:
+        - metric-influxdb:
+            team: "foundations"
             metric_module: "foundations_sru"
 
 - job:
