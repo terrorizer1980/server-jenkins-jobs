@@ -191,6 +191,13 @@
           metric_module: "merges"
           metric_arguments: "foundations"
 - job:
+    name: metric-foundations-active-contributors
+    builders:
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "foundations_active_contributors"
+          metric_arguments: ""
+- job:
     name: metric-server-merges
     builders:
       - metric-influxdb:
