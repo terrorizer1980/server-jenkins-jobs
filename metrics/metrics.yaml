@@ -133,6 +133,7 @@
         - metric-influxdb:
             team: "foundations"
             metric_module: "foundations_sru"
+            metric_arguments: ""
 
 - job:
     name: metric-rls-bug-tasks
