@@ -49,6 +49,8 @@
           rm -rf *
           git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
+          bzr branch lp:kpi-metrics-tools
+          source kpi-metrics-tools/foundations-kpi-influxdb.txt
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.foundations_autopkgtest_queue --queues {queue_name}
 
