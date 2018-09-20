@@ -41,18 +41,6 @@
           python3 -m metrics.{metric_module} {metric_arguments}
 
 - builder:
-    name: errors-most-common-problems
-    builders:
-      - shell: |
-          #!/bin/bash
-          set -e
-          rm -rf *
-          git clone https://github.com/CanonicalLtd/metrics.git
-          cd metrics
-          export METRICS_PROMETHEUS=10.25.2.225:9091
-          python3 -m metrics.foundations_errors --teams {team_name}
-
-- builder:
     name: autopkgtest_queues
     builders:
       - shell: |
@@ -112,8 +100,10 @@
 - job:
     name: metric-foundations-error-reports
     builders:
-        - errors-most-common-problems:
-            team_name: "foundations-bugs"
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "foundations_errors"
+          metric_arguments: "--teams foundations-bugs"
 
 - job:
     name: metric-foundations-proposed-migration
@@ -130,8 +120,10 @@
 - job:
     name: metric-foundations-sru-queues
     builders:
-        - simple-metric:
+        - metric-influxdb:
+            team: "foundations"
             metric_module: "foundations_sru"
+            metric_arguments: ""
 
 - job:
     name: metric-rls-bug-tasks
@@ -198,6 +190,13 @@
           team: "foundations"
           metric_module: "merges"
           metric_arguments: "foundations"
+- job:
+    name: metric-foundations-active-contributors
+    builders:
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "foundations_active_contributors"
+          metric_arguments: ""
 - job:
     name: metric-server-merges
     builders:
