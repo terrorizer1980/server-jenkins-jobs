@@ -57,8 +57,10 @@
 - job:
     name: metric-foundations-cloud-images
     builders:
-      - simple-metric:
+      - metric-influxdb:
+          team: "foundations"
           metric_module: "cloud_images"
+          metric_arguments: ""
 
 - job:
     name: metric-foundations-docker-hub-images
