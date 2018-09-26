@@ -112,8 +112,10 @@
 - job:
     name: metric-foundations-proposed-migration
     builders:
-      - simple-metric:
+      - metric-influxdb:
+          team: "foundations"
           metric_module: "foundations_proposed_migration"
+          metric_arguments: ""
 
 - job:
     name: metric-foundations-autopkgtest-queue
