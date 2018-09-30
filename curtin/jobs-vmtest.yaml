@@ -141,8 +141,9 @@
                 export CURTIN_VMTEST_ADD_REPOS=${vmtest_add_repos}
             fi
             
-            export CURTIN_VMTEST_KEEP_DATA_FAIL=all
-            export CURTIN_VMTEST_TAR_DISKS=1
+            # Helpful in debugging, but fill up Jenkins if all test fail
+            # export CURTIN_VMTEST_KEEP_DATA_FAIL=all
+            # export CURTIN_VMTEST_TAR_DISKS=1
             
             rm -Rf curtin-*
             rm -Rf output
