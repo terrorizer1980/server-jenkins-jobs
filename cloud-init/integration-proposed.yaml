@@ -98,6 +98,9 @@
           echo "Running with source from tag $tag"
           git checkout $tag
           mirror="http://archive.ubuntu.com/ubuntu/"
+          if [ -z "$TMPDIR" -a "$(hostname)" = "torkoal" ]; then
+              export TMPDIR=/var/lib/jenkins/tmp/
+          fi
           set +e
           no_proxy=launchpad.net https_proxy="http://squid.internal:3128" tox \
               -e citest -- run \
