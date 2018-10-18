@@ -134,8 +134,10 @@
 - job:
     name: metric-rls-bug-tasks
     builders:
-        - simple-metric:
+        - metric-influxdb:
+            team: "foundations"
             metric_module: "rls_bug_tasks"
+            metric_arguments: ""
 
 - job:
     name: metric-server-cloudinit
