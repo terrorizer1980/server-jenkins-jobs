@@ -21,12 +21,15 @@
     builders:
       - shell: |
           #!/bin/bash -x
+          set -e
+          release=xenial
+
           rm -rf *
           git clone https://git.launchpad.net/simplestreams build
           cd build
 
-          ./tools/build-deb -S -us -uc
-          sbuild --nolog --verbose --dist=xenial simplestreams_*.dsc
+          ./tools/build-deb -d -S -us -uc
+          sbuild --nolog --verbose "--dist=$release" simplestreams_*.dsc
 
 - job:
     name: simplestreams-debug
