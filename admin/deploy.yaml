@@ -33,6 +33,10 @@
           for dir in `find * -type d`
           do
             pushd "$dir"
-            jenkins-jobs update .
+            # Jenkins jobs altered via the jenkins configure UI weren't being
+            # updated with most recent 'tip' because the cache of last applied
+            # job didn't have a delta in the source repo. Use --ignore-cache
+            # to force update to clear out any deltas added via the jenkins UI
+            jenkins-jobs --ignore-cache update .
             popd
           done
