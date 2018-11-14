@@ -34,7 +34,6 @@
       - metric-server-cloudinit
       - metric-server-curtin
       - metric-server-docker-downloads
-      - metric-server-google-analytics
       - metric-server-iso
       - metric-server-merges
       - metric-server-simplestreams
