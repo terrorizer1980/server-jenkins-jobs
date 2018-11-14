@@ -20,19 +20,34 @@
     node: torkoal
     triggers:
       - timed: "*/15 * * * *"
+    parameters:
+      - bool:
+          name: force_update
+          description: Optionally force job updates of all jobs by providing --ignore-cache to 'jenkins-job update' command. Useful to clear out config deltas introduced by editing jobs in Jenkins' UI.
+          default: false
     publishers:
       - email:
           recipients: josh.powers@canonical.com
     builders:
       - shell: |
           #!/bin/bash -eux
+          force_update={force_update}
           rm -rf *
           git clone https://github.com/CanonicalLtd/server-jenkins-jobs
           cd server-jenkins-jobs
 
+          if [ "$force_update" == "true" ]; then
+            # Jenkins jobs altered via the jenkins configure UI are
+            # updated if deltas are observed on 'tip' of source repo.
+            # Use --ignore-cache to force update to clear out any deltas
+            # added via the jenkins UI even if master doesn't present a delta.
+            ignore_cache="--ignore-cache"
+          else
+            ignore_cache=""
+          fi
           for dir in `find * -type d`
           do
             pushd "$dir"
-            jenkins-jobs update .
+            jenkins-jobs $ignore_cache update .
             popd
           done
