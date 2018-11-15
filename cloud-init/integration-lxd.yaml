@@ -53,6 +53,16 @@
       - integration-lxd:
           release: cosmic
 
+- job:
+    name: cloud-init-integration-lxd-d
+    node: torkoal
+    publishers:
+      - email-server-crew
+      - archive-results
+    builders:
+      - integration-lxd:
+          release: disco
+
 - builder:
     name: integration-lxd
     builders:

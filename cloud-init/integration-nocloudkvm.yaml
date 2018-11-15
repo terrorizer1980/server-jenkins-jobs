@@ -53,6 +53,16 @@
       - integration-nocloud-kvm:
           release: cosmic
 
+- job:
+    name: cloud-init-integration-nocloud-kvm-d
+    node: torkoal
+    publishers:
+      - email-server-crew
+      - archive-results
+    builders:
+      - integration-nocloud-kvm:
+          release: disco
+
 - builder:
     name: integration-nocloud-kvm
     builders:
