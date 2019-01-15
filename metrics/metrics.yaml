@@ -132,6 +132,14 @@
             metric_arguments: ""
 
 - job:
+    name: metric-foundations-subiquity
+    builders:
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "package"
+          metric_arguments: "subiquity --repo https://git.launchpad.net/subiquity"
+
+- job:
     name: metric-rls-bug-tasks
     builders:
         - metric-influxdb:
