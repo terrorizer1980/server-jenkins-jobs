@@ -60,6 +60,21 @@
       - integration-ec2:
           release: cosmic
 
+- job:
+    name: cloud-init-integration-ec2-d
+    node: torkoal
+    triggers:
+      - timed: "H 0 * * 4"
+    publishers:
+      - email-server-crew
+      - archive-results
+      - trigger:
+          project: cloud-init-integration-ec2-terminate
+          threshold: FAILURE
+    builders:
+      - integration-ec2:
+          release: disco
+
 - builder:
     name: integration-ec2
     builders:
