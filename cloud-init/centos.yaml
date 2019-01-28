@@ -35,7 +35,11 @@
           git clone https://github.com/CanonicalLtd/server-test-scripts
           git clone https://git.launchpad.net/cloud-init
           cd cloud-init
+
           export PYVER=python2
+          export http_proxy="http://squid.internal:3128"
+          export https_proxy="$http_proxy"
+
           ./tools/run-centos 7 --srpm --artifact
 
           cd "$WORKSPACE"
