@@ -22,7 +22,7 @@
       - archive:
           artifacts: 'dpdk-testing/dpdk-test.status'
       - email:
-          recipients: josh.powers@canonical.com
+          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: dpdk-virt-tools-x
           threshold: FAILURE
@@ -42,7 +42,7 @@
       - archive:
           artifacts: 'dpdk-testing/dpdk-test.status'
       - email:
-          recipients: josh.powers@canonical.com
+          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: dpdk-benchmark-x
           threshold: FAILURE
@@ -62,7 +62,7 @@
       - archive:
           artifacts: 'dpdk-testing/dpdk-test.status'
       - email:
-          recipients: josh.powers@canonical.com
+          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: dpdk-endurance-x
           threshold: FAILURE
@@ -82,7 +82,7 @@
       - archive:
           artifacts: 'dpdk-testing/dpdk-test.status'
       - email:
-          recipients: josh.powers@canonical.com
+          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
     builders:
       - shell: |
           #!/bin/bash -eu
