@@ -24,7 +24,6 @@
       - cloud-init-ci-nightly
       - cloud-init-ci-trigger
       - cloud-init-copr-build
-      - cloud-init-copr-test-6
       - cloud-init-copr-test-7
       - cloud-init-github-mirror
       - cloud-init-integration-ec2-b

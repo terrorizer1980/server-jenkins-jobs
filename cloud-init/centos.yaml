@@ -24,7 +24,7 @@
       - email:
           recipients: server-crew-qa@lists.canonical.com
       - trigger:
-          project: cloud-init-copr-test-6
+          project: cloud-init-copr-test-7
           threshold: SUCCESS
     builders:
       - shell: |
@@ -46,28 +46,6 @@
           cd server-test-scripts/cloud-init
           SRPM=$(ls $WORKSPACE/cloud-init/*.src.rpm)
           ./copr_build.py --dev --srpm "$SRPM"
-
-- job:
-    name: cloud-init-copr-test-6
-    node: torkoal
-    publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
-      - trigger:
-          project: cloud-init-copr-test-7
-          threshold: FAILURE
-    builders:
-      - shell: |
-          #!/bin/bash
-          set -e
-          rm -rf *
-
-          export http_proxy="http://squid.internal:3128"
-          export https_proxy="$http_proxy"
-
-          git clone https://github.com/CanonicalLtd/server-test-scripts
-          cd server-test-scripts/cloud-init
-          ./copr_test -vv 6
 
 - job:
     name: cloud-init-copr-test-7
