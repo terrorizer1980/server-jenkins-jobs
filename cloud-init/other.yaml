@@ -21,8 +21,7 @@
     triggers:
       - timed: "H 23 * * *"
     publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+      - email-server-crew
     builders:
       - shell: |
           #!/bin/bash
@@ -40,8 +39,7 @@
     triggers:
       - timed: "H */5 * * *"
     publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+      - email-server-crew
       - junit:
           results: server-test-scripts/cloud-init/results.xml
     builders:

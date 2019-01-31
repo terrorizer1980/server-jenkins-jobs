@@ -40,5 +40,10 @@
       - build-discarder:
           num-to-keep: 25
     publishers:
+      - email-server-crew
+
+- publisher:
+    name: email-server-crew
+    publishers:
       - email:
           recipients: server-crew-qa@lists.canonical.com

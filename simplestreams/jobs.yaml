@@ -71,8 +71,7 @@
       - trigger:
           project: simplestreams-build
           threshold: FAILURE
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+      - email-server-crew
     axes:
       - axis:
           type: slave
