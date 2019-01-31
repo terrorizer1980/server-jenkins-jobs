@@ -63,8 +63,7 @@
       - trigger:
           project: curtin-build
           threshold: FAILURE
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+      - email-server-crew
     builders:
       - shell: |
           #!/bin/bash
@@ -90,8 +89,7 @@
       - trigger:
           project: curtin-style-tip
           threshold: FAILURE
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+      - email-server-crew
     axes:
       - axis:
           type: slave
@@ -116,8 +114,7 @@
     triggers:
       - timed: "H */5 * * *"
     publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+      - email-server-crew
       - junit:
           results: server-test-scripts/curtin/results.xml
     builders:

@@ -153,6 +153,8 @@
     project-type: pipeline
     triggers:
       - timed: "H 23 * * *"
+    publishers:
+      - email-server-crew
     sandbox: True
     dsl: |
       node('torkoal') {

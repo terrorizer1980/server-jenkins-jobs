@@ -21,8 +21,7 @@
     triggers:
       - timed: "H 23 * * *"
     publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+      - email-server-crew
       - trigger:
           project: cloud-init-copr-test-7
           threshold: SUCCESS
