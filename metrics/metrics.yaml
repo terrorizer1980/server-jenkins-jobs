@@ -126,6 +126,14 @@
           metric_arguments: ""
 
 - job:
+    name: metric-foundations-proposed-migration-by-team
+    builders:
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "foundations_proposed_migration_by_team"
+          metric_arguments: "--team foundations-bugs"
+
+- job:
     name: metric-foundations-autopkgtest-queue
     builders:
       - autopkgtest_queues:

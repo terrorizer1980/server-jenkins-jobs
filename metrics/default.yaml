@@ -23,6 +23,7 @@
       - metric-foundations-docker-hub-images
       - metric-foundations-error-reports
       - metric-foundations-proposed-migration
+      - metric-foundations-proposed-migration-by-team
       - metric-foundations-autopkgtest-queue
       - metric-foundations-sru-queues
       - metric-foundations-bugs
