@@ -275,3 +275,11 @@
           team: "server"
           metric_module: "uploads"
           metric_arguments: "openstack"
+
+- job:
+    name: metric-distro-mir-bugs
+    builders:
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "mir_team_bugs"
+          metric_arguments: ""

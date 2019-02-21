@@ -41,6 +41,7 @@
       - metric-server-triage
       - metric-server-uploads
       - metric-server-vagrant-downloads
+      - metric-distro-mir-bugs
 
 - defaults:
     name: global
