@@ -197,6 +197,7 @@
     dsl: |
       pipeline {
         agent { label 'torkoal' }
+        options { disableConcurrentBuilds() }
         parameters {
             string (
                 defaultValue: 'lp:cloud-init',
