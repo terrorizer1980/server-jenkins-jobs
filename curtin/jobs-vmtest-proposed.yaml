@@ -40,6 +40,18 @@
           release: bionic
           triggerwhat: curtin-vmtest-proposed-b
 
+- job:
+    name: curtin-vmtest-proposed-c-trigger
+    node: torkoal
+    triggers:
+      - timed: "H 06 * * *"
+    publishers:
+        - email-server-crew
+    builders:
+      - vmtest-proposed-trigger:
+          release: cosmic
+          triggerwhat: curtin-vmtest-proposed-c
+
 
 - builder:
     name: vmtest-proposed-trigger
@@ -85,6 +97,21 @@
     builders:
       - vmtest-proposed:
           release: bionic
+
+- job:
+    name: curtin-vmtest-proposed-c
+    node: torkoal
+    auth-token: BUILD_ME
+    properties:
+      - build-discarder:
+          num-to-keep: 5
+    publishers:
+        - email-server-crew
+        - archive-results
+    builders:
+      - vmtest-proposed:
+          release: cosmic
+
 
 - builder:
     name: vmtest-proposed
