@@ -41,9 +41,11 @@
       - cloud-init-integration-nocloud-kvm-x
       - cloud-init-integration-proposed-b
       - cloud-init-integration-proposed-c
+      - cloud-init-integration-proposed-d
       - cloud-init-integration-proposed-x
       - cloud-init-integration-proposed-trigger-b
       - cloud-init-integration-proposed-trigger-c
+      - cloud-init-integration-proposed-trigger-d
       - cloud-init-integration-proposed-trigger-x
       - cloud-init-lp-build-status
       - cloud-init-style-tip

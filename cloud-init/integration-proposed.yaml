@@ -83,6 +83,29 @@
         - email-server-crew
         - archive-results
 
+- job:
+    name: cloud-init-integration-proposed-trigger-d
+    node: torkoal
+    publishers: []
+    triggers:
+      - timed: "H 10 * * *"
+    builders:
+      - trigger-proposed-integration:
+          release: disco
+          triggerwhat: cloud-init-integration-proposed-d
+
+- job:
+    name: cloud-init-integration-proposed-d
+    node: torkoal
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: disco
+          release-ver: 19.04
+    publishers:
+        - email-server-crew
+        - archive-results
+
 - builder:
     name: proposed-integration
     builders:
