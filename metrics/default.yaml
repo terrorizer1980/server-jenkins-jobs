@@ -29,6 +29,8 @@
       - metric-foundations-bugs
       - metric-foundations-uploads
       - metric-foundations-merges
+      - metric-foundations-retracers-results-production
+      - metric-foundations-retracers-results-staging
       - metric-openstack-merges
       - metric-openstack-uploads
       - metric-rls-bug-tasks
