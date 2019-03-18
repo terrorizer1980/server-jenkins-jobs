@@ -283,3 +283,19 @@
           team: "foundations"
           metric_module: "mir_team_bugs"
           metric_arguments: ""
+
+- job:
+    name: metric-foundations-retracers-results-production
+    builders:
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "foundations_retracers_results"
+          metric_arguments: "--environment production"
+
+- job:
+    name: metric-foundations-retracers-results-staging
+    builders:
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "foundations_retracers_results"
+          metric_arguments: "--environment staging"
