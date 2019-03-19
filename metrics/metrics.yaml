@@ -293,9 +293,9 @@
           metric_arguments: "--environment production"
 
 - job:
-    name: metric-foundations-retracers-results-staging
+    name: metric-foundations-retracers-avg-time-production
     builders:
       - metric-influxdb:
           team: "foundations"
-          metric_module: "foundations_retracers_results"
-          metric_arguments: "--environment staging"
+          metric_module: "foundations_retracers_avg_time"
+          metric_arguments: "--environment production"
