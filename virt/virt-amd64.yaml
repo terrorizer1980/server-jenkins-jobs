@@ -25,7 +25,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-amd64-1-migrate-t
       - junit:
@@ -47,7 +47,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-amd64-1-migrate-x
           threshold: FAILURE
@@ -70,7 +70,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-amd64-1-migrate-b
           threshold: FAILURE
@@ -93,7 +93,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-amd64-2-cross-rel
           threshold: FAILURE
@@ -116,7 +116,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-amd64-3-misc
           threshold: FAILURE
@@ -139,7 +139,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-amd64-4-qemuqa-x
           threshold: FAILURE
@@ -162,7 +162,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-amd64-5-libvirtqa-x
           threshold: FAILURE
@@ -185,7 +185,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-amd64-4-qemuqa-b
           threshold: FAILURE
@@ -208,7 +208,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-amd64-5-libvirtqa-b
           threshold: FAILURE
@@ -231,7 +231,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-amd64-6-cleanup
           threshold: FAILURE
@@ -254,7 +254,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - junit:
           results: result.xml
     builders:

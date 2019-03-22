@@ -25,7 +25,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-s390x-1-migrate-x
       - junit:
@@ -47,7 +47,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-s390x-1-migrate-b
           threshold: FAILURE
@@ -70,7 +70,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-s390x-2-cross-rel
           threshold: FAILURE
@@ -93,7 +93,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-s390x-3-misc
           threshold: FAILURE
@@ -116,7 +116,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - trigger:
           project: virt-s390x-6-cleanup
           threshold: FAILURE
@@ -139,7 +139,7 @@
       - archive:
           artifacts: 'qemu-migration-test/qemu-libvirt-test.*'
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: christian.ehrhardt@canonical.com, paride.legovini@canonical.com
       - junit:
           results: result.xml
     builders:

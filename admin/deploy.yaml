@@ -27,7 +27,7 @@
           default: false
     publishers:
       - email:
-          recipients: josh.powers@canonical.com, paride.legovini@canonical.com
+          recipients: server-crew-qa@lists.canonical.com
     builders:
       - shell: |
           #!/bin/bash -eux
