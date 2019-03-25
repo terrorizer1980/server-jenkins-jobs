@@ -19,6 +19,10 @@
     name: simplestreams-ci-trigger
     triggers:
       - timed: H/15 * * * *
+    wrappers:
+        # We run every 15 minutes, and runs usually take a few seconds
+        - timeout:
+            timeout: 15
     builders:
       - shell: |
           #!/bin/bash -x
@@ -36,6 +40,10 @@
     node: metal-amd64
     triggers:
         - timed: H/15 * * * *
+    wrappers:
+        # We run every 15 minutes, and runs usually take a few seconds
+        - timeout:
+            timeout: 15
     builders:
         - shell: |
             #!/bin/bash
