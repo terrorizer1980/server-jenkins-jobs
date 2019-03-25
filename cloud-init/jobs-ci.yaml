@@ -20,6 +20,10 @@
     node: metal-amd64
     triggers:
         - timed: H/15 * * * *
+    wrappers:
+        # We run every 15 minutes, and runs usually take ~7 minutes
+        - timeout:
+            timeout: 15
     builders:
         - shell: |
             #!/bin/bash -x
@@ -36,6 +40,10 @@
     node: metal-amd64
     triggers:
         - timed: H/15 * * * *
+    wrappers:
+        # We run every 15 minutes, and runs usually take ~30 seconds
+        - timeout:
+            timeout: 15
     builders:
         - shell: |
             #!/bin/bash
