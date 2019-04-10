@@ -49,6 +49,9 @@
     publishers:
       - email-server-crew
       - archive-results
+      - trigger:
+          project: cloud-init-integration-lxd-d
+          threshold: FAILURE
     builders:
       - integration-lxd:
           release: cosmic
