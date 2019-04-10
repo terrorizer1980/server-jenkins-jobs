@@ -49,6 +49,9 @@
     publishers:
       - email-server-crew
       - archive-results
+      - trigger:
+          project: cloud-init-integration-nocloud-kvm-d
+          threshold: FAILURE
     builders:
       - integration-nocloud-kvm:
           release: cosmic
