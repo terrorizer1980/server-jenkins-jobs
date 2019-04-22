@@ -110,7 +110,7 @@
     name: curtin-vmtest-devel-amd64-proposed
     node: torkoal
     triggers:
-        - timed: "H 4 * * 7"
+        - timed: "H 8 * * 7"
     parameters:
         - landing-candidate
         - landing-candidate-branch
