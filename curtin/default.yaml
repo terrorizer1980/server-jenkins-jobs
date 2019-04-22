@@ -34,12 +34,15 @@
       - curtin-vmtest-devel-ppc64el
       - curtin-vmtest-devel-s390x
       - curtin-vmtest-sync-images
-      - curtin-vmtest-daily-t
       - curtin-vmtest-daily-x
+      - curtin-vmtest-daily-b
       - curtin-vmtest-proposed-b
       - curtin-vmtest-proposed-b-trigger
       - curtin-vmtest-proposed-c
       - curtin-vmtest-proposed-c-trigger
+      - curtin-vmtest-proposed-d
+      - curtin-vmtest-proposed-d-trigger
+      - curtin-vmtest-proposed-x
       - curtin-vmtest-proposed-x
       - curtin-vmtest-proposed-x-trigger
 
