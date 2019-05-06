@@ -75,7 +75,7 @@
       - integration-ec2:
           release: disco
 
- - job:
+- job:
     name: cloud-init-integration-ec2-e
     node: torkoal
     triggers:
