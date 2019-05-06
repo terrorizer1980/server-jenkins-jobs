@@ -29,23 +29,28 @@
       - cloud-init-integration-ec2-b
       - cloud-init-integration-ec2-c
       - cloud-init-integration-ec2-d
+      - cloud-init-integration-ec2-e
       - cloud-init-integration-ec2-x
       - cloud-init-integration-ec2-terminate
       - cloud-init-integration-lxd-b
       - cloud-init-integration-lxd-c
       - cloud-init-integration-lxd-d
+      - cloud-init-integration-lxd-e
       - cloud-init-integration-lxd-x
       - cloud-init-integration-nocloud-kvm-b
       - cloud-init-integration-nocloud-kvm-c
       - cloud-init-integration-nocloud-kvm-d
+      - cloud-init-integration-nocloud-kvm-e
       - cloud-init-integration-nocloud-kvm-x
       - cloud-init-integration-proposed-b
       - cloud-init-integration-proposed-c
       - cloud-init-integration-proposed-d
+      - cloud-init-integration-proposed-e
       - cloud-init-integration-proposed-x
       - cloud-init-integration-proposed-trigger-b
       - cloud-init-integration-proposed-trigger-c
       - cloud-init-integration-proposed-trigger-d
+      - cloud-init-integration-proposed-trigger-e
       - cloud-init-integration-proposed-trigger-x
       - cloud-init-lp-build-status
       - cloud-init-style-tip

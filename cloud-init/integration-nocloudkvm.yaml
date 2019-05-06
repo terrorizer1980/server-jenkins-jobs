@@ -62,9 +62,22 @@
     publishers:
       - email-server-crew
       - archive-results
+      - trigger:
+          project: cloud-init-integration-nocloud-kvm-e
+          threshold: FAILURE
     builders:
       - integration-nocloud-kvm:
           release: disco
+
+- job:
+    name: cloud-init-integration-nocloud-kvm-e
+    node: torkoal
+    publishers:
+      - email-server-crew
+      - archive-results
+    builders:
+      - integration-nocloud-kvm:
+          release: eoan
 
 - builder:
     name: integration-nocloud-kvm

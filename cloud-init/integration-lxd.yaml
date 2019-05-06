@@ -62,9 +62,22 @@
     publishers:
       - email-server-crew
       - archive-results
+      - trigger:
+          project: cloud-init-integration-lxd-e
+          threshold: FAILURE
     builders:
       - integration-lxd:
           release: disco
+
+- job:
+    name: cloud-init-integration-lxd-e
+    node: torkoal
+    publishers:
+      - email-server-crew
+      - archive-results
+    builders:
+      - integration-lxd:
+          release: eoan
 
 - builder:
     name: integration-lxd
