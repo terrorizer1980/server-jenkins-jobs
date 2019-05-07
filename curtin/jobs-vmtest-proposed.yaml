@@ -56,13 +56,25 @@
     name: curtin-vmtest-proposed-d-trigger
     node: torkoal
     triggers:
-      - timed: "H 10 * * 3,7"
+      - timed: "H 10 * * 3"
     publishers:
         - email-server-crew
     builders:
       - vmtest-proposed-trigger:
           release: disco
           triggerwhat: curtin-vmtest-proposed-d
+
+- job:
+    name: curtin-vmtest-proposed-e-trigger
+    node: torkoal
+    triggers:
+      - timed: "H 10 * * 7"
+    publishers:
+        - email-server-crew
+    builders:
+      - vmtest-proposed-trigger:
+          release: eoan
+          triggerwhat: curtin-vmtest-proposed-e
 
 
 - builder:
@@ -137,6 +149,20 @@
     builders:
       - vmtest-proposed:
           release: disco
+
+- job:
+    name: curtin-vmtest-proposed-e
+    node: torkoal
+    auth-token: BUILD_ME
+    properties:
+      - build-discarder:
+          num-to-keep: 5
+    publishers:
+        - email-server-crew
+        - archive-results
+    builders:
+      - vmtest-proposed:
+          release: eoan
 
 - builder:
     name: vmtest-proposed
