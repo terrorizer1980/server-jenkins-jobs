@@ -42,6 +42,8 @@
       - curtin-vmtest-proposed-c-trigger
       - curtin-vmtest-proposed-d
       - curtin-vmtest-proposed-d-trigger
+      - curtin-vmtest-proposed-e
+      - curtin-vmtest-proposed-e-trigger
       - curtin-vmtest-proposed-x
       - curtin-vmtest-proposed-x-trigger
 
