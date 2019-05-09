@@ -23,5 +23,5 @@
     publishers:
       - email-server-crew
     builders:
-      - shell: |
+      - shell:
           !include-raw: cloud-init-curtin-email.sh
