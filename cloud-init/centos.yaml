@@ -30,9 +30,9 @@
           #!/bin/bash
           set -e
           rm -rf *
-          
-          git clone https://github.com/CanonicalLtd/server-test-scripts
-          git clone https://git.launchpad.net/cloud-init
+
+          git clone --depth 1 https://github.com/CanonicalLtd/server-test-scripts
+          git clone --single-branch https://git.launchpad.net/cloud-init
           cd cloud-init
 
           export PYVER=python2
@@ -58,6 +58,6 @@
           export http_proxy="http://squid.internal:3128"
           export https_proxy="$http_proxy"
 
-          git clone https://github.com/CanonicalLtd/server-test-scripts
+          git clone --depth 1 https://github.com/CanonicalLtd/server-test-scripts
           cd server-test-scripts/cloud-init
           ./copr_test -vv 7
