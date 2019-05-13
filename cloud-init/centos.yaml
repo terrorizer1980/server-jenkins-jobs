@@ -33,7 +33,7 @@
 
           git clone --depth 1 https://github.com/CanonicalLtd/server-test-scripts
           git clone --single-branch https://git.launchpad.net/cloud-init
-          cd cloud-init
+          pushd cloud-init
 
           export PYVER=python2
           export http_proxy="http://squid.internal:3128"
@@ -41,7 +41,8 @@
 
           ./tools/run-centos 7 --srpm --artifact
 
-          cd "$WORKSPACE"
+          popd
+          SRPM=$(realpath cloud-init/*.src.rpm)
           cd server-test-scripts/cloud-init
           SRPM=$(ls $WORKSPACE/cloud-init/*.src.rpm)
           ./copr_build.py --dev --srpm "$SRPM"
