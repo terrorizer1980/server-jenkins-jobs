@@ -28,5 +28,5 @@
           #!/bin/bash -eux
           rm -rf *
 
-          wget https://jenkins.ubuntu.com/server/jnlpJars/jenkins-cli.jar
+          wget http://server-team-jenkins-be.internal:8080/server/jnlpJars/jenkins-cli.jar
           java -jar jenkins-cli.jar -s http://server-team-jenkins-be.internal:8080/server/ -auth @/home/ubuntu/.jenkins/auth online-node ""
