@@ -42,11 +42,21 @@
       - cloud-init-integration-nocloud-kvm-d
       - cloud-init-integration-nocloud-kvm-e
       - cloud-init-integration-nocloud-kvm-x
-      - cloud-init-integration-proposed-b
-      - cloud-init-integration-proposed-c
-      - cloud-init-integration-proposed-d
-      - cloud-init-integration-proposed-e
-      - cloud-init-integration-proposed-x
+      - cloud-init-integration-proposed-b-ec2
+      - cloud-init-integration-proposed-b-lxd
+      - cloud-init-integration-proposed-b-kvm
+      - cloud-init-integration-proposed-c-ec2
+      - cloud-init-integration-proposed-c-lxd
+      - cloud-init-integration-proposed-c-kvm
+      - cloud-init-integration-proposed-d-ec2
+      - cloud-init-integration-proposed-d-lxd
+      - cloud-init-integration-proposed-d-kvm
+      - cloud-init-integration-proposed-e-ec2
+      - cloud-init-integration-proposed-e-lxd
+      - cloud-init-integration-proposed-e-kvm
+      - cloud-init-integration-proposed-x-ec2
+      - cloud-init-integration-proposed-x-lxd
+      - cloud-init-integration-proposed-x-kvm
       - cloud-init-integration-proposed-trigger-b
       - cloud-init-integration-proposed-trigger-c
       - cloud-init-integration-proposed-trigger-d

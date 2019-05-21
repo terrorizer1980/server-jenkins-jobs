@@ -23,10 +23,10 @@
     builders:
       - trigger-proposed-integration:
           release: xenial
-          triggerwhat: cloud-init-integration-proposed-x
+          triggerwhat: cloud-init-integration-proposed-x-lxd cloud-init-integration-proposed-x-ec2 cloud-init-integration-proposed-x-kvm
 
 - job:
-    name: cloud-init-integration-proposed-x
+    name: cloud-init-integration-proposed-x-ec2
     node: torkoal
     auth-token: BUILD_ME
     publishers:
@@ -36,6 +36,33 @@
       - proposed-integration:
           release: xenial
           release-ver: 16.04
+          platform: ec2
+
+- job:
+    name: cloud-init-integration-proposed-x-lxd
+    node: torkoal
+    auth-token: BUILD_ME
+    publishers:
+        - email-server-crew
+        - archive-results
+    builders:
+      - proposed-integration:
+          release: xenial
+          release-ver: 16.04
+          platform: lxd
+
+- job:
+    name: cloud-init-integration-proposed-x-kvm
+    node: torkoal
+    auth-token: BUILD_ME
+    publishers:
+        - email-server-crew
+        - archive-results
+    builders:
+      - proposed-integration:
+          release: xenial
+          release-ver: 16.04
+          platform: nocloud-kvm
 
 - job:
     name: cloud-init-integration-proposed-trigger-b
@@ -46,16 +73,43 @@
     builders:
       - trigger-proposed-integration:
           release: bionic
-          triggerwhat: cloud-init-integration-proposed-b
+          triggerwhat: cloud-init-integration-proposed-b-lxd cloud-init-integration-proposed-b-ec2 cloud-init-integration-proposed-b-kvm
 
 - job:
-    name: cloud-init-integration-proposed-b
+    name: cloud-init-integration-proposed-b-ec2
     node: torkoal
     auth-token: BUILD_ME
     builders:
       - proposed-integration:
           release: bionic
           release-ver: 18.04
+          platform: ec2
+    publishers:
+        - email-server-crew
+        - archive-results
+
+- job:
+    name: cloud-init-integration-proposed-b-lxd
+    node: torkoal
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: bionic
+          release-ver: 18.04
+          platform: lxd
+    publishers:
+        - email-server-crew
+        - archive-results
+
+- job:
+    name: cloud-init-integration-proposed-b-kvm
+    node: torkoal
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: bionic
+          release-ver: 18.04
+          platform: nocloud-kvm
     publishers:
         - email-server-crew
         - archive-results
@@ -69,16 +123,43 @@
     builders:
       - trigger-proposed-integration:
           release: cosmic
-          triggerwhat: cloud-init-integration-proposed-c
+          triggerwhat: cloud-init-integration-proposed-c-lxd cloud-init-integration-proposed-c-ec2 cloud-init-integration-proposed-c-kvm
 
 - job:
-    name: cloud-init-integration-proposed-c
+    name: cloud-init-integration-proposed-c-ec2
     node: torkoal
     auth-token: BUILD_ME
     builders:
       - proposed-integration:
           release: cosmic
           release-ver: 18.10
+          platform: ec2
+    publishers:
+        - email-server-crew
+        - archive-results
+
+- job:
+    name: cloud-init-integration-proposed-c-lxd
+    node: torkoal
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: cosmic
+          release-ver: 18.10
+          platform: lxd
+    publishers:
+        - email-server-crew
+        - archive-results
+
+- job:
+    name: cloud-init-integration-proposed-c-kvm
+    node: torkoal
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: cosmic
+          release-ver: 18.10
+          platform: nocloud-kvm
     publishers:
         - email-server-crew
         - archive-results
@@ -92,16 +173,43 @@
     builders:
       - trigger-proposed-integration:
           release: disco
-          triggerwhat: cloud-init-integration-proposed-d
+          triggerwhat: cloud-init-integration-proposed-d-lxd cloud-init-integration-proposed-d-ec2 cloud-init-integration-proposed-d-kvm
 
 - job:
-    name: cloud-init-integration-proposed-d
+    name: cloud-init-integration-proposed-d-ec2
     node: torkoal
     auth-token: BUILD_ME
     builders:
       - proposed-integration:
           release: disco
           release-ver: 19.04
+          platform: ec2
+    publishers:
+        - email-server-crew
+        - archive-results
+
+- job:
+    name: cloud-init-integration-proposed-d-lxd
+    node: torkoal
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: disco
+          release-ver: 19.04
+          platform: lxd
+    publishers:
+        - email-server-crew
+        - archive-results
+
+- job:
+    name: cloud-init-integration-proposed-d-kvm
+    node: torkoal
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: disco
+          release-ver: 19.04
+          platform: nocloud-kvm
     publishers:
         - email-server-crew
         - archive-results
@@ -115,16 +223,43 @@
     builders:
       - trigger-proposed-integration:
           release: eoan
-          triggerwhat: cloud-init-integration-proposed-e
+          triggerwhat: cloud-init-integration-proposed-e-lxd cloud-init-integration-proposed-e-ec2 cloud-init-integration-proposed-e-kvm
 
 - job:
-    name: cloud-init-integration-proposed-e
+    name: cloud-init-integration-proposed-e-kvm
     node: torkoal
     auth-token: BUILD_ME
     builders:
       - proposed-integration:
           release: eoan
           release-ver: 19.10
+          platform: nocloud-kvm
+    publishers:
+        - email-server-crew
+        - archive-results
+
+- job:
+    name: cloud-init-integration-proposed-e-lxd
+    node: torkoal
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: eoan
+          release-ver: 19.10
+          platform: lxd
+    publishers:
+        - email-server-crew
+        - archive-results
+
+- job:
+    name: cloud-init-integration-proposed-e-ec2
+    node: torkoal
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: eoan
+          release-ver: 19.10
+          platform: ec2
     publishers:
         - email-server-crew
         - archive-results
@@ -135,6 +270,7 @@
       - shell: |
           release="{release}"
           release_ver="{release-ver}"
+          platform="{platform}"
 
           set -e
           sudo rm -Rf cloud-init
@@ -151,7 +287,7 @@
           no_proxy=launchpad.net https_proxy="http://squid.internal:3128" tox \
               -e citest -- run \
               --os-name="$release" \
-              --platform=lxd --platform=nocloud-kvm --platform=ec2 \
+              --platform=$platform \
               --repo=\'deb $mirror $release-proposed main\' \
               --preserve-data --data-dir="./results" \
               --verbose
