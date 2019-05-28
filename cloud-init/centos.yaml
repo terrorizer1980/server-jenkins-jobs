@@ -47,7 +47,7 @@
           cd server-test-scripts/cloud-init
 
           retry_cmd="./copr_build.py --dev --srpm $SRPM"
-          for i in {1..3}; do [ $i -gt 1 ] && sleep 5m; $retry_cmd && s=0 && break || s=$?; done; (exit $s)
+          for i in {1..3}; do [ $i -gt 1 ] && sleep 20m; $retry_cmd && s=0 && break || s=$?; done; (exit $s)
 
 - job:
     name: cloud-init-copr-test-7
