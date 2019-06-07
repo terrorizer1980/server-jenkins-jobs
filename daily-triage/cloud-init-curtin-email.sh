@@ -1,6 +1,8 @@
-#!/bin/bash -ex
+#!/bin/bash
 #
 # Note: this job relies on the system's ability to send mail using msmtp(1).
+
+set -eufx -o pipefail
 
 export LC_ALL=C.UTF-8
 
@@ -100,14 +102,14 @@ echo -e "</body>\n</html>" >> mail-body.html
 
 
 # Generate the full multipart/alternative email message
+recipients="josh.powers@canonical.com, paride.legovini@canonical.com,
+            daniel.watkins@canonical.com, chad.smith@canonical.com,
+            ryan.harper@canonical.com"
 mpboundary="multipart-boundary-$(date --utc '+%s%N')"
 cat > mail-smtp <<EOF
 From: server@jenkins.canonical.com
-To: josh.powers@canonical.com
-To: paride.legovini@canonical.com
-To: daniel.watkins@canonical.com
-To: chad.smith@canonical.com
-To: ryan.harper@canonical.com
+To: $recipients
+Reply-To: $recipients
 Subject: $subject
 MIME-Version: 1.0
 Content-Type: multipart/alternative; boundary="$mpboundary"
