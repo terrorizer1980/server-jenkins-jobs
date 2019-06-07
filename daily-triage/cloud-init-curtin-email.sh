@@ -1,6 +1,8 @@
-#!/bin/bash -ex
+#!/bin/bash
 #
 # Note: this job relies on the system's ability to send mail using msmtp(1).
+
+set -eufx -o pipefail
 
 export LC_ALL=C.UTF-8
 
