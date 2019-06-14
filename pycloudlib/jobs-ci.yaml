@@ -76,7 +76,7 @@
                 ${landing_candidate} ci-${BUILD_NUMBER}
             cd ci-${BUILD_NUMBER}
 
-            https_proxy="http://squid.internal:3128" tox
+            https_proxy="http://squid.internal:3128" no_proxy=".launchpad.net" tox
 
 - job:
     name: pycloudlib-autoland-trigger
@@ -142,4 +142,4 @@
           git checkout master
           git merge autoland/${landing_candidate_branch} --squash
 
-          https_proxy="http://squid.internal:3128" tox
+          https_proxy="http://squid.internal:3128" no_proxy=".launchpad.net" tox
