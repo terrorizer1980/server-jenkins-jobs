@@ -36,7 +36,7 @@
           rm -rf *
           git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
-          bzr branch lp:kpi-metrics-tools
+          git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/{team}-kpi-influxdb.txt
           python3 -m metrics.{metric_module} {metric_arguments}
 
@@ -49,7 +49,7 @@
           rm -rf *
           git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
-          bzr branch lp:kpi-metrics-tools
+          git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/foundations-kpi-influxdb.txt
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.foundations_autopkgtest_queue --queues {queue_name}
@@ -71,7 +71,7 @@
           rm -rf *
           git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
-          bzr branch lp:kpi-metrics-tools
+          git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/foundations-kpi-influxdb.txt
 
           export https_proxy=http://squid.internal:3128
@@ -196,7 +196,7 @@
           rm -rf *
           git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
-          bzr branch lp:kpi-metrics-tools
+          git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/server-kpi-influxdb.txt
           export https_proxy=http://squid.internal:3128
           python3 -m metrics.docker_downloads
@@ -210,7 +210,7 @@
           rm -rf *
           git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
-          bzr branch lp:kpi-metrics-tools
+          git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/server-kpi-influxdb.txt
           export https_proxy=http://squid.internal:3128
           python3 -m metrics.vagrant_downloads
