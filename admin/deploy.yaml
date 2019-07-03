@@ -31,7 +31,6 @@
     builders:
       - shell: |
           #!/bin/bash -eux
-          force_update={force_update}
           rm -rf *
           git clone https://github.com/CanonicalLtd/server-jenkins-jobs
           cd server-jenkins-jobs
