@@ -19,7 +19,6 @@
     name: admin
     jobs:
       - admin-jobs-update
-      - admin-master-enable
       - admin-slave-exec
       - admin-lp-git-autoland
       - admin-lp-git-vote
