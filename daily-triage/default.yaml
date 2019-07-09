@@ -34,8 +34,19 @@
       - build-discarder:
           num-to-keep: 30
 
+- builder:
+    name: cleanup-workspace
+    builders:
+      - shell: "find $WORKSPACE -mindepth 1 -delete"
+
 - publisher:
     name: email-server-crew
     publishers:
       - email:
           recipients: server-crew-qa@lists.canonical.com
+
+- publisher:
+    name: email-qa
+    publishers:
+       - email:
+          recipients: paride.legovini@canonical.com

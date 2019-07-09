@@ -21,7 +21,8 @@
     triggers:
       - timed: "H(0-20) 6 * * 1-5"
     publishers:
-      - email-server-crew
+      - email-qa
     builders:
+      - cleanup-workspace
       - shell:
           !include-raw: cloud-init-curtin-email.sh
