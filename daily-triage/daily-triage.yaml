@@ -25,4 +25,4 @@
     builders:
       - cleanup-workspace
       - shell:
-          !include-raw: cloud-init-curtin-email.sh
+          !include-raw: cloud-init-curtin-sstreams-email.sh

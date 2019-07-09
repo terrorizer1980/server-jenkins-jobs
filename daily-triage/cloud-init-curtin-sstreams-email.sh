@@ -33,20 +33,23 @@ fi
 # Retrieve the bugs
 ubuntu-bug-triage --anon --include-project cloud-init $ndays > cloud-init-bugs.text
 ubuntu-bug-triage --anon --include-project curtin $ndays > curtin-bugs.text
+ubuntu-bug-triage --anon --include-project simplestreams $ndays > simplestreams-bugs.text
 
 
 # Generate the email subject and <title> for the text/html email
 today=$(date --utc '+%b %-d')
-subject="Daily cloud-init/curtin bug triage: $today [$triager]"
+subject="Daily cloud-init/curtin/simplestreams bug triage: $today [$triager]"
 
 
 # Generate the text/plain mail body
-echo -e "# Daily bug triage for cloud-init and curtin\n" > mail-body.text
+echo -e "# Daily bug triage for cloud-init, curtin and simplestreams\n" > mail-body.text
 echo "Today's triager: $triager" >> mail-body.text
 echo -e "\n## cloud-init bugs for the last $ndays day(s)\n" >> mail-body.text
 cat cloud-init-bugs.text >> mail-body.text
 echo -e "\n## curtin bugs for the last $ndays day(s)\n" >> mail-body.text
 cat curtin-bugs.text >> mail-body.text
+echo -e "\n## simplestreams bugs for the last $ndays day(s)\n" >> mail-body.text
+cat simplestreams-bugs.text >> mail-body.text
 echo -e "\n## Schedule\n" >> mail-body.text
 echo "Mon: <varies>" >> mail-body.text
 i=0
@@ -67,10 +70,11 @@ done
 # Generate the text/html mail body (a valid HTML5 document)
 sed 's|\(LP: #\)\([0-9][0-9]*\)|LP: <a href="https://pad.lv/\2">#\2</a>|' cloud-init-bugs.text > cloud-init-bugs.html
 sed 's|\(LP: #\)\([0-9][0-9]*\)|LP: <a href="https://pad.lv/\2">#\2</a>|' curtin-bugs.text > curtin-bugs.html
+sed 's|\(LP: #\)\([0-9][0-9]*\)|LP: <a href="https://pad.lv/\2">#\2</a>|' simplestreams-bugs.text > simplestreams-bugs.html
 echo -e '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">' > mail-body.html
 echo "<title>$subject</title>" >> mail-body.html
 echo -e "</head>\n<body>" >> mail-body.html
-echo "<h4>Daily bug triage for cloud-init and curtin</h4>" >> mail-body.html
+echo "<h4>Daily bug triage for cloud-init, curtin and simplestreams</h4>" >> mail-body.html
 echo "Today's triager: $triager" >> mail-body.html
 echo "<h5>cloud-init bugs for the last $ndays day(s)</h5>" >> mail-body.html
 echo "<pre>" >> mail-body.html
@@ -79,6 +83,10 @@ echo "</pre>" >> mail-body.html
 echo "<h5>curtin bugs for the last $ndays day(s)</h5>" >> mail-body.html
 echo "<pre>" >> mail-body.html
 cat curtin-bugs.html >> mail-body.html
+echo -e "</pre>" >> mail-body.html
+echo "<h5>simplestreams bugs for the last $ndays day(s)</h5>" >> mail-body.html
+echo "<pre>" >> mail-body.html
+cat simplestreams-bugs.html >> mail-body.html
 echo -e "</pre>" >> mail-body.html
 echo -e "<h5>Schedule</h5>" >> mail-body.html
 echo -e "<ul>" >> mail-body.html
