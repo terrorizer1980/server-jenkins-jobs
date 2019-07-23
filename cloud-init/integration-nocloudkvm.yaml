@@ -31,7 +31,6 @@
     builders:
       - integration-nocloud-kvm:
           release: xenial
-          boot_timeout: boot_timeout
 
 - job:
     name: cloud-init-integration-nocloud-kvm-b
@@ -47,7 +46,6 @@
     builders:
       - integration-nocloud-kvm:
           release: bionic
-          boot_timeout: boot_timeout
 
 - job:
     name: cloud-init-integration-nocloud-kvm-c
@@ -63,7 +61,6 @@
     builders:
       - integration-nocloud-kvm:
           release: cosmic
-          boot_timeout: boot_timeout
 
 - job:
     name: cloud-init-integration-nocloud-kvm-d
@@ -79,7 +76,6 @@
     builders:
       - integration-nocloud-kvm:
           release: disco
-          boot_timeout: boot_timeout
 
 - job:
     name: cloud-init-integration-nocloud-kvm-e
@@ -92,7 +88,6 @@
     builders:
       - integration-nocloud-kvm:
           release: eoan
-          boot_timeout: boot_timeout
 
 - builder:
     name: integration-nocloud-kvm
@@ -118,7 +113,7 @@
           git checkout --quiet "$hash"
           git log --max-count=1 --pretty=oneline HEAD
           # set boot_timeout for nocloud-kvm platform
-          sed -i.jenkins "/nocloud-kvm:/a \        boot_timeout: ${boot_timeout}" tests/cloud_tests/releases.yaml
+          sed -i.jenkins "/nocloud-kvm:/a \        boot_timeout: $boot_timeout" tests/cloud_tests/releases.yaml
           no_proxy=launchpad.net https_proxy="http://squid.internal:3128" tox \
             -e citest -- run "--os-name=$release" \
             --platform=nocloud-kvm --preserve-data --data-dir=results \
