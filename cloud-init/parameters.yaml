@@ -28,7 +28,7 @@
     parameters:
       - string:
           name: boot_timeout
-          default: 300
+          default: '300'
           description: how long to wait for cloud-init instances to boot
 
 - parameter:
