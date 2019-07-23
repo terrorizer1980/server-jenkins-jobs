@@ -18,7 +18,7 @@
 - project:
     name: daily-triage
     jobs:
-      - cloud-init-curtin-daily-triage
+      - tableflip-daily-triage
 
 - defaults:
     name: global

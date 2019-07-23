@@ -16,7 +16,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job:
-    name: cloud-init-curtin-daily-triage
+    name: tableflip-daily-triage
     node: torkoal
     triggers:
       - timed: "H(0-20) 6 * * 1-5"
@@ -25,4 +25,4 @@
     builders:
       - cleanup-workspace
       - shell:
-          !include-raw: cloud-init-curtin-sstreams-email.sh
+          !include-raw: tableflip-triage-email.sh
