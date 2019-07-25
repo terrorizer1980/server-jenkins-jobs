@@ -41,26 +41,11 @@
       - email-server-crew
       - archive-results
       - trigger:
-          project: cloud-init-integration-nocloud-kvm-c
-          threshold: FAILURE
-    builders:
-      - integration-nocloud-kvm:
-          release: bionic
-
-- job:
-    name: cloud-init-integration-nocloud-kvm-c
-    node: torkoal
-    parameters:
-      - boot-timeout
-    publishers:
-      - email-server-crew
-      - archive-results
-      - trigger:
           project: cloud-init-integration-nocloud-kvm-d
           threshold: FAILURE
     builders:
       - integration-nocloud-kvm:
-          release: cosmic
+          release: bionic
 
 - job:
     name: cloud-init-integration-nocloud-kvm-d

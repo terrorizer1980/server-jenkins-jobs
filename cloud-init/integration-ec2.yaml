@@ -46,21 +46,6 @@
           release: bionic
 
 - job:
-    name: cloud-init-integration-ec2-c
-    node: torkoal
-    triggers:
-      - timed: "H 0 * * 3"
-    publishers:
-      - email-server-crew
-      - archive-results
-      - trigger:
-          project: cloud-init-integration-ec2-terminate
-          threshold: FAILURE
-    builders:
-      - integration-ec2:
-          release: cosmic
-
-- job:
     name: cloud-init-integration-ec2-d
     node: torkoal
     triggers:
