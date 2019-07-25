@@ -42,9 +42,6 @@
       - cloud-init-integration-proposed-b-ec2
       - cloud-init-integration-proposed-b-lxd
       - cloud-init-integration-proposed-b-kvm
-      - cloud-init-integration-proposed-c-ec2
-      - cloud-init-integration-proposed-c-lxd
-      - cloud-init-integration-proposed-c-kvm
       - cloud-init-integration-proposed-d-ec2
       - cloud-init-integration-proposed-d-lxd
       - cloud-init-integration-proposed-d-kvm
