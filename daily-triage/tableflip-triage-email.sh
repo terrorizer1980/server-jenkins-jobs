@@ -122,9 +122,7 @@ subject="Daily triage for: $projects [$triager]"
 
 # Generate the full multipart/alternative email message
 {
-    recipients="josh.powers@canonical.com, paride.legovini@canonical.com,
-                daniel.watkins@canonical.com, chad.smith@canonical.com,
-                ryan.harper@canonical.com"
+    recipients="josh.powers@canonical.com, paride.legovini@canonical.com, daniel.watkins@canonical.com, chad.smith@canonical.com, ryan.harper@canonical.com"
     mpboundary="multipart-boundary-$(date --utc '+%s%N')"
     cat <<-EOF
 	From: server@jenkins.canonical.com
