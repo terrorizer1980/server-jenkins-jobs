@@ -21,7 +21,7 @@ function cleanup {
 trap cleanup EXIT
 
 cleanup
-lxc launch ubuntu: "$container" -e
+lxc launch ubuntu: "$container" --quiet --ephemeral
 
 # Wait for the container to be fully initialized.
 lxc exec "$container" -- cloud-init status --wait
