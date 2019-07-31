@@ -13,30 +13,31 @@ set -eufx -o pipefail
 
 container="docker-$DOCKERTAG-image-size-test"
 
-# If there is a stale container delete it
-if lxc list --format csv -c n | grep -q "^${container}$"; then
-    lxc delete "$container" --force
-    sleep 5
-fi
+function cleanup {
+    # Is there a better way to check if a given LXD container exists?
+    ! lxc info "$container" >/dev/null 2>&1 || lxc delete "$container" --force
+}
 
+trap cleanup EXIT
+
+cleanup
 lxc launch ubuntu: "$container" -e
 
 # Wait for the container to be fully initialized.
 lxc exec "$container" -- cloud-init status --wait
 
-lxc exec "$container" -- apt update
-lxc exec "$container" -- apt -y install docker.io
+lxc exec "$container" -- apt-get -q update
+lxc exec "$container" -- apt-get -qy install docker.io
 lxc exec "$container" -- mkdir /etc/systemd/system/docker.service.d
-lxc exec "$container" -- \
-	sh -c 'echo "[Service]\nEnvironment=\"HTTPS_PROXY=http://squid.internal:3128/\"" > /etc/systemd/system/docker.service.d/https-proxy.conf'
+lxc exec "$container" -- sh -c 'printf '\''[Service]\nEnvironment="HTTPS_PROXY=http://squid.internal:3128/"\n'\'' > /etc/systemd/system/docker.service.d/https-proxy.conf'
 lxc exec "$container" -- systemctl daemon-reload
 lxc exec "$container" -- systemctl restart docker
 lxc exec "$container" -- docker pull "ubuntu:$DOCKERTAG"
 size=$(lxc exec "$container" -- docker image ls "ubuntu:$DOCKERTAG" --format "{{.Size}}")
-lxc delete "$container" --force
+cleanup
 
 size=$(echo "$size" | grep -o '^[0-9]*')
-echo "Maximum allowed size: ${MAXSIZE}MB"
-echo "Current size: ${size}MB"
+: "Maximum allowed size: ${MAXSIZE}MB"
+: "Current size: ${size}MB"
 
 test "$size" -le "$MAXSIZE"
