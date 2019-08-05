@@ -69,7 +69,7 @@
         }
 
         environment {
-            VM_NAME = 'gitubuntu-ci-${currentBuild.getNumber()}'
+            VM_NAME = "gitubuntu-ci-${currentBuild.getNumber()}"
         }
 
         stages {
@@ -139,7 +139,7 @@
         agent { label 'torkoal' }
 
         environment {
-            VM_NAME = 'gitubuntu-ci-nightly-${currentBuild.getNumber()}'
+            VM_NAME = "gitubuntu-ci-nightly-${currentBuild.getNumber()}"
         }
 
         stages {
