@@ -33,8 +33,6 @@
                              --branch=lp:curtin \
                              --trigger-ci
 
-            exit 0
-
 - job:
     name: curtin-autoland-trigger
     node: metal-amd64
