@@ -34,8 +34,6 @@
                              --branch=lp:cloud-init \
                              --trigger-ci
 
-            exit 0
-
 - job:
     name: cloud-init-autoland-trigger
     node: metal-amd64

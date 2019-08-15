@@ -41,7 +41,6 @@
 
           voteOnMergeProposal --status=${TEST_RESULT} \
                               --build-url=${TEST_URL} \
-                              --branch=${MERGE_BRANCH} \
                               --merge-proposal=${MERGE_URL} \
                               --revision=${MERGE_REVISION}
 

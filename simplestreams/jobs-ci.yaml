@@ -31,10 +31,7 @@
           launchpadTrigger --lock-name=${JOB_NAME} \
                            --job=simplestreams-ci \
                            --branch=lp:simplestreams \
-                           --trigger-ci \
-                           --repo_type=git
-
-          exit 0
+                           --trigger-ci
 
 - job:
     name: simplestreams-autoland-trigger
@@ -54,8 +51,7 @@
             launchpadTrigger --lock-name=${JOB_NAME} \
                              --job=simplestreams-autoland-test \
                              --branch=lp:simplestreams \
-                             --autoland \
-                             --repo_type=git
+                             --autoland
 
 - job:
     name: simplestreams-ci

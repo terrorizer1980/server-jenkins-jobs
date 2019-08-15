@@ -29,8 +29,6 @@
                              --branch=lp:usd-importer \
                              --trigger-ci
 
-            exit 0
-
 - job:
     name: git-ubuntu-ci
     parameters:
