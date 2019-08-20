@@ -57,9 +57,9 @@
     name: curtin-ci
     parameters:
         - landing-candidate
+        - landing-candidate-branch
         - candidate-revision
         - merge-proposal
-        - landing-candidate-branch
         - use-description-for-commit
     project-type: matrix
     axes:
