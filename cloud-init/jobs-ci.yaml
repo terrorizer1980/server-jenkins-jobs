@@ -67,7 +67,7 @@
     sandbox: True
     dsl: |
       pipeline {
-        agent { label 'torkoal' }
+        agent { label 'metal-amd64' }
         parameters {
             string (
                 defaultValue: 'lp:cloud-init',
@@ -165,7 +165,7 @@
       - email-server-crew
     sandbox: True
     dsl: |
-      node('torkoal') {
+      node('metal-amd64') {
         try {
             stage ('Checkout') {
                 deleteDir()
