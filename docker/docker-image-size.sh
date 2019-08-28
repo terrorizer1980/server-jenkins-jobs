@@ -1,21 +1,21 @@
 #!/bin/bash
 
-set -eufx -o pipefail
+set -Eeufx -o pipefail
 
 # Default docker tag to pull.
 # latest  = latest LTS release
 # rolling = latest LTS (regardless of LTS status)
 # devel   = current development snapshot
-: "${DOCKERTAG:=latest}"
+: Docker tag: "${DOCKERTAG:=latest}"
 
 # Default size limit
-: "${MAXSIZE:=90}"
+: Maximum size: "${MAXSIZE:=90}"
 
 container="docker-$DOCKERTAG-image-size-test"
 
 function cleanup {
     # Is there a better way to check if a given LXD container exists?
-    ! lxc info "$container" >/dev/null 2>&1 || lxc delete "$container" --force
+    ! lxc info "$container" &>/dev/null || lxc delete "$container" --force
 }
 
 trap cleanup EXIT
