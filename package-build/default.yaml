@@ -40,29 +40,16 @@
     team:
       - 'ubuntu-server'
     jobs:
-      - '{team}-{release}-amd64-build'
-      - '{team}-{release}-ppc64el-build'
+      - '{team}-{release}-{arch}-build'
 
 - job-template:
-    name: '{team}-{release}-amd64-build'
-    node: metal-amd64
+    name: '{team}-{release}-{arch}-build'
+    node: !j2: "{{ {'amd64': 'metal-amd64', 'ppc64el': 'metal-ppc64el'}[arch] }}"
     triggers:
       - timed: "H H * * 6"
-    publishers:
-      - archive:
-          artifacts: 'server-test-build/logs/**'
-      - junit:
-          results: server-test-build/results.xml
-    builders:
-      - package-build:
-          release: '{release}'
-          team: '{team}'
-
-- job-template:
-    name: '{team}-{release}-ppc64el-build'
-    node: metal-amd64
-    triggers:
-      - timed: "H H * * 6"
+    wrappers:
+      - timestamps
+      - workspace-cleanup
     publishers:
       - archive:
           artifacts: 'server-test-build/logs/**'
@@ -78,12 +65,10 @@
     builders:
       - shell: |
           #!/bin/bash
-          set -eux
-          rm -rf server-test-build
+          set -Eeufx -o pipefail
           git clone https://github.com/CanonicalLtd/server-test-build
           cd server-test-build
 
           PACKAGES=$(./get_team_packages {team})
-          set +e
-          ./build-packages {release} $PACKAGES
+          ./build-packages {release} $PACKAGES || true
           ./parse_results
