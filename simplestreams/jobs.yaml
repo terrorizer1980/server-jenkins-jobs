@@ -67,6 +67,9 @@
     project-type: matrix
     triggers:
       - timed: "H 23 * * *"
+    wrappers:
+      - timestamps
+      - workspace-cleanup
     publishers:
       - trigger:
           project: simplestreams-build
@@ -82,16 +85,25 @@
             - metal-s390x
     builders:
       - shell: |
-          #!/bin/bash -x
+          #!/bin/bash
+
+          set -Eeufx -o pipefail
+
           branch=https://git.launchpad.net/simplestreams
           tox_parameters=""
-
-          rm -rf *
 
           git clone https://github.com/CanonicalLtd/uss-tableflip.git uss-tableflip
           PATH=$PWD/uss-tableflip/scripts:$PATH
 
-          ctool run-container -v --destroy "--name=sstest-$BUILD_NUMBER" \
+          container="sstest-$BUILD_NUMBER"
+
+          function cleanup {
+              ! lxc info "$container" &>/dev/null || lxc delete "$container" --force
+          }
+
+          trap cleanup EXIT
+
+          ctool run-container -v --destroy "--name=$container" \
               ubuntu-daily:bionic \
               --git="${branch}" \
               -- sh -c './tools/install-deps tox && https_proxy="http://squid.internal:3128" tox "$@"' -- ${tox_parameters}
