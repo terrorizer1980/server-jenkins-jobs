@@ -19,7 +19,8 @@
     name: curtin-vmtest-daily-x
     node: torkoal
     parameters:
-        - nose-args
+        - nose-args:
+            default_nose_args:
     triggers:
         - timed: "H 4 * * 1,3,5"
     properties:
@@ -37,7 +38,8 @@
     name: curtin-vmtest-daily-b
     node: torkoal
     parameters:
-        - nose-args
+        - nose-args:
+            default_nose_args:
     triggers:
         - timed: "H 4 * * 2,4,6"
     properties:
