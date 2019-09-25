@@ -52,6 +52,28 @@
         - email-server-crew
 
 - job:
+    name: curtin-vmtest-devel-arm64
+    node: metal-arm64
+    triggers:
+        - timed: "H H * * *"
+    parameters:
+        - landing-candidate
+        - landing-candidate-branch
+        - nose-args:
+            default_nose_args: tests/vmtests/test_uefi_basic.py
+        - vmtest-add-repos
+    builders:
+        - curtin-vmtest
+    properties:
+      - build-discarder:
+          num-to-keep: 10
+    publishers:
+        - archive:
+            artifacts: 'output/**'
+            excludes: 'output/debug.log, **/*img'
+        - email-server-crew
+
+- job:
     name: curtin-vmtest-devel-ppc64el
     node: metal-ppc64el
     triggers:

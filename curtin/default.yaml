@@ -31,6 +31,7 @@
       - curtin-vmtest-devel-debug
       - curtin-vmtest-devel-amd64
       - curtin-vmtest-devel-amd64-proposed
+      - curtin-vmtest-devel-arm64
       - curtin-vmtest-devel-ppc64el
       - curtin-vmtest-devel-s390x
       - curtin-vmtest-sync-images
