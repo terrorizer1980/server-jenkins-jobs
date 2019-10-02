@@ -165,5 +165,5 @@
           no_proxy=launchpad.net https_proxy="http://squid.internal:3128" tox
 
           if [ "$(arch)" == "x86_64" ]; then
-              ./tools/jenkins-runner -p 4 tests/vmtests/test_basic.py:XenialGATestBasic tests/vmtests/test_basic.py:BionicTestBasic
+              ./tools/jenkins-runner --skip-images-dirlock -p 4 tests/vmtests/test_basic.py:XenialGATestBasic tests/vmtests/test_basic.py:BionicTestBasic
           fi
