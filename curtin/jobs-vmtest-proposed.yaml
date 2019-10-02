@@ -141,6 +141,7 @@
 - builder:
     name: vmtest-proposed
     builders:
+      - curtin-vmtest-sync-images
       - shell: |
           RELEASE={release}
           TYPE="proposed"

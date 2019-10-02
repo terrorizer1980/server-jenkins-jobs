@@ -57,6 +57,7 @@
 - builder:
     name: vmtest-daily
     builders:
+      - curtin-vmtest-sync-images
       - shell: |
           RELEASE={release}
           TYPE="daily"
