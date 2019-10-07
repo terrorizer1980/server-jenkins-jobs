@@ -1,3 +1,4 @@
+---
 # Ubuntu Server QA Jenkins Jobs
 # Copyright (C) 2017 Canonical Ltd.
 #
@@ -22,7 +23,9 @@
     triggers:
       - timed: "H 10 * * 1,4"
     publishers:
-        - email-server-crew
+      - email-server-crew
+    wrappers:
+      - workspace-cleanup
     builders:
       - vmtest-proposed-trigger:
           release: xenial
@@ -34,7 +37,9 @@
     triggers:
       - timed: "H 10 * * 2,5"
     publishers:
-        - email-server-crew
+      - email-server-crew
+    wrappers:
+      - workspace-cleanup
     builders:
       - vmtest-proposed-trigger:
           release: bionic
@@ -46,7 +51,9 @@
     triggers:
       - timed: "H 10 * * 3"
     publishers:
-        - email-server-crew
+      - email-server-crew
+    wrappers:
+      - workspace-cleanup
     builders:
       - vmtest-proposed-trigger:
           release: disco
@@ -58,12 +65,13 @@
     triggers:
       - timed: "H 10 * * 7"
     publishers:
-        - email-server-crew
+      - email-server-crew
+    wrappers:
+      - workspace-cleanup
     builders:
       - vmtest-proposed-trigger:
           release: eoan
           triggerwhat: curtin-vmtest-proposed-e
-
 
 - builder:
     name: vmtest-proposed-trigger
@@ -72,7 +80,6 @@
           set -e
           release={release}
           triggerwhat={triggerwhat}
-          rm -rf *
 
           git clone https://github.com/CanonicalLtd/server-test-scripts
           cd server-test-scripts/launchpad/
@@ -82,6 +89,7 @@
             curl -X POST --netrc-file $JENKINS_HOME/jenkins-bot-creds http://server-team-jenkins-be.internal:8080/server/job/$triggerwhat/build?token=BUILD_ME
           fi
 
+
 - job:
     name: curtin-vmtest-proposed-x
     node: torkoal
@@ -90,8 +98,11 @@
       - build-discarder:
           num-to-keep: 5
     publishers:
-        - email-server-crew
-        - archive-results
+      - email-server-crew
+      - archive-results
+    wrappers:
+      - timestamps
+      - workspace-cleanup
     builders:
       - vmtest-proposed:
           release: xenial
@@ -104,8 +115,11 @@
       - build-discarder:
           num-to-keep: 5
     publishers:
-        - email-server-crew
-        - archive-results
+      - email-server-crew
+      - archive-results
+    wrappers:
+      - timestamps
+      - workspace-cleanup
     builders:
       - vmtest-proposed:
           release: bionic
@@ -118,8 +132,11 @@
       - build-discarder:
           num-to-keep: 5
     publishers:
-        - email-server-crew
-        - archive-results
+      - email-server-crew
+      - archive-results
+    wrappers:
+      - timestamps
+      - workspace-cleanup
     builders:
       - vmtest-proposed:
           release: disco
@@ -132,8 +149,11 @@
       - build-discarder:
           num-to-keep: 5
     publishers:
-        - email-server-crew
-        - archive-results
+      - email-server-crew
+      - archive-results
+    wrappers:
+      - timestamps
+      - workspace-cleanup
     builders:
       - vmtest-proposed:
           release: eoan
@@ -141,7 +161,7 @@
 - builder:
     name: vmtest-proposed
     builders:
-      - curtin-vmtest-sync-images
+      - vmtest-sync-images
       - shell: |
           RELEASE={release}
           TYPE="proposed"
@@ -152,7 +172,6 @@
           export CURTIN_VMTEST_TAR_DISKS=1
           export CURTIN_VMTEST_SKIP_BY_DATE_BUGS="*"
 
-          rm -Rf curtin-* output
           pull-lp-source curtin "$RELEASE"-proposed
           cd curtin-*
           PATH="$PWD/tools:$PATH"

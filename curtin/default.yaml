@@ -1,3 +1,4 @@
+---
 # Ubuntu Server QA Jenkins Jobs
 # Copyright (C) 2017 Canonical Ltd.
 #
@@ -14,6 +15,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- defaults:
+    name: global
+    description: |
+        Curtin Ubuntu Server QA Jenkins Job
+
+        *** STOP ***
+        Do NOT edit this job through the web
+        This job is managed by Jenkins Job Builder and stored on Github via the URL below:
+        https://github.com/CanonicalLtd/server-jenkins-jobs
+        *** STOP ***
+    properties:
+      - build-discarder:
+          num-to-keep: 25
+    publishers:
+      - email-server-crew
+
 
 - project:
     name: curtin
@@ -45,22 +63,6 @@
       - curtin-vmtest-proposed-x
       - curtin-vmtest-proposed-x-trigger
 
-
-- defaults:
-    name: global
-    description: |
-        Curtin Ubuntu Server QA Jenkins Job
-
-        *** STOP ***
-        Do NOT edit this job through the web
-        This job is managed by Jenkins Job Builder and stored on Github via the URL below:
-        https://github.com/CanonicalLtd/server-jenkins-jobs
-        *** STOP ***
-    properties:
-      - build-discarder:
-          num-to-keep: 25
-    publishers:
-      - email-server-crew
 
 - publisher:
     name: email-server-crew

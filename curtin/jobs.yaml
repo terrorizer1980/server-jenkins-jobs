@@ -1,3 +1,4 @@
+---
 # Ubuntu Server QA Jenkins Jobs
 # Copyright (C) 2016-2017 Canonical Ltd.
 #
@@ -18,11 +19,12 @@
 - job:
     name: curtin-build
     node: metal-amd64
+    wrappers:
+      - workspace-cleanup
     builders:
       - shell: |
           #!/bin/bash
           set -x
-          rm -rf *
           git clone https://git.launchpad.net/curtin build-$BUILD_NUMBER
           cd build-$BUILD_NUMBER
 
@@ -47,10 +49,12 @@
             - metal-ppc64el
             - metal-arm64
             - metal-s390x
+    wrappers:
+      - workspace-cleanup
     builders:
       - shell: |
-          #!/bin/bash -x
-          rm -rf *
+          #!/bin/bash
+          set -x
           git clone --branch=${branch} https://git.launchpad.net/curtin debug
           cd debug
 
@@ -64,11 +68,12 @@
           project: curtin-build
           threshold: FAILURE
       - email-server-crew
+    wrappers:
+      - workspace-cleanup
     builders:
       - shell: |
           #!/bin/bash
           set -x
-          rm -rf *
           git clone https://git.launchpad.net/curtin style
           cd style
 
@@ -99,10 +104,12 @@
             - metal-ppc64el
             - metal-arm64
             - metal-s390x
+    wrappers:
+      - workspace-cleanup
     builders:
       - shell: |
-          #!/bin/bash -x
-          rm -rf *
+          #!/bin/bash
+          set -x
           git clone https://git.launchpad.net/curtin tests
           cd tests
 
@@ -117,11 +124,12 @@
       - email-server-crew
       - junit:
           results: server-test-scripts/curtin/results.xml
+    wrappers:
+      - workspace-cleanup
     builders:
       - shell: |
           #!/bin/bash
           set -e
-          rm -rf *
           git clone https://github.com/CanonicalLtd/server-test-scripts
           cd server-test-scripts/curtin
           ./lp_build_status.py
@@ -132,15 +140,14 @@
     node: metal-amd64
     triggers:
       - timed: "H */4 * * *"
+    wrappers:
+      - workspace-cleanup
     builders:
       - shell: |
           #!/bin/bash
           set -eux
-          GIT_DIR="mirror"
 
-          if [ -d "$GIT_DIR" ]; then
-              rm -rf "$GIT_DIR"
-          fi
+          GIT_DIR="mirror"
 
           git clone --mirror https://git.launchpad.net/curtin "$GIT_DIR"
           cd "$GIT_DIR" || exit 1

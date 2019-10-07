@@ -1,3 +1,4 @@
+---
 # Ubuntu Server QA Jenkins Jobs
 # Copyright (C) 2016-2017 Canonical Ltd.
 #
@@ -20,199 +21,215 @@
     name: curtin-vmtest-devel-amd64
     node: torkoal
     parameters:
-        - landing-candidate
-        - landing-candidate-branch
-        - nose-args:
-            default_nose_args:
-        - vmtest-add-repos
+      - landing-candidate
+      - landing-candidate-branch
+      - nose-args:
+          default_nose_args:
+      - vmtest-add-repos
     triggers:
-        - timed: "H 0 * * *"
+      - timed: "H 0 * * *"
     builders:
-        - curtin-vmtest
+      - vmtest-devel
     properties:
       - build-discarder:
           num-to-keep: 10
     publishers:
-        - archive:
-            artifacts: 'output/**'
-            excludes: 'output/debug.log, **/*img'
-        - email-server-crew
+      - archive:
+          artifacts: 'output/**'
+          excludes: 'output/debug.log, **/*img'
+      - email-server-crew
+    wrappers:
+      - timestamps
+      - workspace-cleanup
 
 - job:
     name: curtin-vmtest-devel-arm64
     node: metal-arm64
     triggers:
-        - timed: "H H * * *"
+      - timed: "H H * * *"
     parameters:
-        - landing-candidate
-        - landing-candidate-branch
-        - nose-args:
-            default_nose_args: tests/vmtests/test_uefi_basic.py
-        - vmtest-add-repos
+      - landing-candidate
+      - landing-candidate-branch
+      - nose-args:
+          default_nose_args: tests/vmtests/test_uefi_basic.py
+      - vmtest-add-repos
+    wrappers:
+      - timestamps
+      - workspace-cleanup
     builders:
-        - curtin-vmtest
+      - vmtest-devel
     properties:
       - build-discarder:
           num-to-keep: 10
     publishers:
-        - archive:
-            artifacts: 'output/**'
-            excludes: 'output/debug.log, **/*img'
-        - email-server-crew
+      - archive:
+          artifacts: 'output/**'
+          excludes: 'output/debug.log, **/*img'
+      - email-server-crew
 
 - job:
     name: curtin-vmtest-devel-ppc64el
     node: metal-ppc64el
     triggers:
-        - timed: "H H * * *"
+      - timed: "H H * * *"
     parameters:
-        - landing-candidate
-        - landing-candidate-branch
-        - nose-args:
-            default_nose_args: tests/vmtests/test_basic.py
-        - vmtest-add-repos
+      - landing-candidate
+      - landing-candidate-branch
+      - nose-args:
+          default_nose_args: tests/vmtests/test_basic.py
+      - vmtest-add-repos
     builders:
-        - curtin-vmtest
+      - vmtest-devel
     properties:
       - build-discarder:
           num-to-keep: 10
     publishers:
-        - archive:
-            artifacts: 'output/**'
-            excludes: 'output/debug.log, **/*img'
-        - email-server-crew
+      - archive:
+          artifacts: 'output/**'
+          excludes: 'output/debug.log, **/*img'
+      - email-server-crew
+    wrappers:
+      - timestamps
+      - workspace-cleanup
 
 - job:
     name: curtin-vmtest-devel-s390x
     node: metal-s390x
     parameters:
-        - landing-candidate
-        - landing-candidate-branch
-        - nose-args:
-            default_nose_args:
-        - vmtest-add-repos
+      - landing-candidate
+      - landing-candidate-branch
+      - nose-args:
+          default_nose_args:
+      - vmtest-add-repos
     builders:
-        - curtin-vmtest
+      - vmtest-devel
     properties:
       - build-discarder:
           num-to-keep: 10
     publishers:
-        - archive:
-            artifacts: 'output/**'
-            excludes: 'output/debug.log, **/*img'
-        - email-server-crew
+      - archive:
+          artifacts: 'output/**'
+          excludes: 'output/debug.log, **/*img'
+      - email-server-crew
+    wrappers:
+      - timestamps
+      - workspace-cleanup
 
 - job:
     name: curtin-vmtest-devel-debug
     node: torkoal
     parameters:
-        - landing-candidate
-        - landing-candidate-branch
-        - nose-args:
-            default_nose_args:
-        - vmtest-add-repos
+      - landing-candidate
+      - landing-candidate-branch
+      - nose-args:
+          default_nose_args:
+      - vmtest-add-repos
     builders:
-        - curtin-vmtest
+      - vmtest-devel
     properties:
       - build-discarder:
           num-to-keep: 5
     publishers:
-        - archive:
-            artifacts: 'output/**'
-            excludes: 'output/debug.log, **/*img'
+      - archive:
+          artifacts: 'output/**'
+          excludes: 'output/debug.log, **/*img'
+    wrappers:
+      - timestamps
+      - workspace-cleanup
 
 - job:
     name: curtin-vmtest-devel-amd64-proposed
     node: torkoal
     triggers:
-        - timed: "H 8 * * 7"
+      - timed: "H 8 * * 7"
     parameters:
-        - landing-candidate
-        - landing-candidate-branch
-        - nose-args:
-            default_nose_args:
-        - string:
-            name: vmtest_add_repos
-            default: "proposed"
-        - string:
-            name: vmtest_filters
-            default: "target_distro=ubuntu"
+      - landing-candidate
+      - landing-candidate-branch
+      - nose-args:
+          default_nose_args:
+      - string:
+          name: vmtest_add_repos
+          default: "proposed"
+      - string:
+          name: vmtest_filters
+          default: "target_distro=ubuntu"
     properties:
       - build-discarder:
           num-to-keep: 5
     publishers:
-        - email-server-crew
-        - archive-results
+      - email-server-crew
+      - archive-results
     builders:
-      - curtin-vmtest
+      - vmtest-devel
+    wrappers:
+      - timestamps
+      - workspace-cleanup
 
 - builder:
-    name: curtin-vmtest-sync-images
+    name: vmtest-sync-images
     builders:
-        - shell: |
-            #!/bin/bash
+      - shell: |
+          #!/bin/bash
 
-            set -ufx -o pipefail
+          set -ufx -o pipefail
 
-            # The images have been updated recently enough => exit 0
-            test "$(find /srv/images/.vmtest-data -maxdepth 0 -mmin -1080)" && exit 0
+          # The images have been updated recently enough => exit 0
+          test "$(find /srv/images/.vmtest-data -maxdepth 0 -mmin -1080)" && exit 0
 
-            # Is vmtest-sync-images already running?
-            vsc_count=$(pgrep -c vmtest-sync-images)
-            rc=$?
-            ((rc > 1)) && exit 1 # pgrep error
-            ((vsc_count == 1)) && exit 0 # vmtest-sync-images already running
-            ((vsc_count >= 2)) && exit 1 # many vmtest-sync-images running => heads-up
+          # Is vmtest-sync-images already running?
+          vsc_count=$(pgrep -c vmtest-sync-images)
+          rc=$?
+          ((rc > 1)) && exit 1 # pgrep error
+          ((vsc_count == 1)) && exit 0 # vmtest-sync-images already running
+          ((vsc_count >= 2)) && exit 1 # many vmtest-sync-images running => heads-up
 
-            git clone https://git.launchpad.net/curtin curtin-sync-images || exit 1
-            cd curtin-sync-images || exit 1
+          git clone https://git.launchpad.net/curtin curtin-sync-images || exit 1
+          cd curtin-sync-images || exit 1
 
-            ./tools/vmtest-sync-images || exit 1
+          ./tools/vmtest-sync-images || exit 1
 
 - builder:
-    name: curtin-vmtest
+    name: vmtest-devel
     builders:
-        - curtin-vmtest-sync-images
-        - shell: |
-            if [ "$(hostname)" = "torkoal" ]; then
-                export TMPDIR=/var/lib/jenkins/tmp/
-            fi
-            if [ -n "${vmtest_add_repos}" ]; then
-                export CURTIN_VMTEST_ADD_REPOS=${vmtest_add_repos}
-            fi
+      - vmtest-sync-images
+      - shell: |
+          if [ "$(hostname)" = "torkoal" ]; then
+              export TMPDIR=/var/lib/jenkins/tmp/
+          fi
+          if [ -n "${vmtest_add_repos}" ]; then
+              export CURTIN_VMTEST_ADD_REPOS=${vmtest_add_repos}
+          fi
 
-            # construct vmtest filters
-            filter_args=""
-            if [ -n "${vmtest_filters}" ]; then
-                f=""
-                for f in ${vmtest_filters}; do
-                    filter_args="$filter_args --filter=$f"
-                done
-            fi
-            echo "test filter args: \"$filter_args\""
+          # construct vmtest filters
+          filter_args=""
+          if [ -n "${vmtest_filters}" ]; then
+              f=""
+              for f in ${vmtest_filters}; do
+                  filter_args="$filter_args --filter=$f"
+              done
+          fi
+          echo "test filter args: \"$filter_args\""
 
-            # Helpful in debugging, but fill up Jenkins if all test fail
-            # export CURTIN_VMTEST_KEEP_DATA_FAIL=all
-            # export CURTIN_VMTEST_TAR_DISKS=1
+          # Helpful in debugging, but fill up Jenkins if all test fail
+          # export CURTIN_VMTEST_KEEP_DATA_FAIL=all
+          # export CURTIN_VMTEST_TAR_DISKS=1
 
-            rm -Rf curtin-*
-            rm -Rf output
-            git clone --branch=${landing_candidate_branch} ${landing_candidate} curtin-${BUILD_NUMBER}
-            cd curtin-${BUILD_NUMBER}
-            git remote add upstream https://git.launchpad.net/curtin
-            git fetch upstream --tags
+          git clone --branch=${landing_candidate_branch} ${landing_candidate} curtin-${BUILD_NUMBER}
+          cd curtin-${BUILD_NUMBER}
+          git remote add upstream https://git.launchpad.net/curtin
+          git fetch upstream --tags
 
-            ./tools/vmtest-system-setup
-            set +e
-            ./tools/jenkins-runner -p4 $filter_args ${nose_args}
-            RET=$?
+          ./tools/vmtest-system-setup
+          set +e
+          ./tools/jenkins-runner -p4 $filter_args ${nose_args}
+          RET=$?
 
-            cd ${WORKSPACE}
-            echo "cleanup: deleting links and image files"
-            find output -type l -delete
-            find output -type f -name "*.img" -delete
+          cd ${WORKSPACE}
+          echo "cleanup: deleting links and image files"
+          find output -type l -delete
+          find output -type f -name "*.img" -delete
 
-            # Return Skipped as Passed
-            [ $RET -eq 2 ] && RET=0
+          # Return Skipped as Passed
+          [ $RET -eq 2 ] && RET=0
 
-            exit $RET
+          exit $RET
