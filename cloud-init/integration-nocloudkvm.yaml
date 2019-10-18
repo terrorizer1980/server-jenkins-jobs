@@ -103,3 +103,10 @@
             -e citest -- run "--os-name=$release" \
             --platform=nocloud-kvm --preserve-data --data-dir=results \
             --verbose "--deb=$deb"
+          rc="$?"
+          # on success remove large artifacts
+          if [ "$rc" = 0 ]; then
+            find ./results -type f \
+                -name '*.qcow2' -o -name '*.img' -o -name '*.log' -delete
+          fi
+          exit $rc
