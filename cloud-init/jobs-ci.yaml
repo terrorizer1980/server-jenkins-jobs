@@ -285,6 +285,7 @@
             }
 
             failure {
+                archiveArtifacts artifacts: 'results/**', allowEmptyArchive: true, onlyIfSuccessful: false,
                 build job: 'admin-lp-git-autoland',
                 parameters: [string(name: 'TEST_RESULT', value: 'FAILED'),
                            string(name: 'TEST_URL', value: env.BUILD_URL),
