@@ -107,6 +107,6 @@
           # on success remove large artifacts
           if [ "$rc" = 0 ]; then
             find ./results -type f \
-                -name '*.qcow2' -o -name '*.img' -o -name '*.log' -delete
+                \( -name '*.qcow2' -o -name '*.img' -o -name '*.log' \) -delete
           fi
           exit $rc
