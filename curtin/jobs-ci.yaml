@@ -105,17 +105,15 @@
           #!/bin/bash
           set -eux
 
+          # Retry a command 5 times over 30 minutes with cubic backoff
+          retry() (for i in {0..5}; do sleep $((8*i**3)) && "${@:1}" && break; done)
+
           branch=${landing_candidate//lp:/https://git.launchpad.net/}
-
-          cmd="git clone --branch=${landing_candidate_branch} $branch curtin-${BUILD_NUMBER}"
-          for i in 0s 5s 1m 10m; do sleep $i; $cmd && s=0 && break || s=$?; done; (exit $s)
-
+          retry git clone --branch=${landing_candidate_branch} $branch curtin-${BUILD_NUMBER}
           cd curtin-${BUILD_NUMBER}
           git rev-parse HEAD
           git remote add upstream https://git.launchpad.net/curtin
-
-          cmd="git fetch upstream --tags"
-          for i in 0s 5s 1m 10m; do sleep $i; $cmd && s=0 && break || s=$?; done; (exit $s)
+          retry git fetch upstream --tags
 
           no_proxy=launchpad.net https_proxy="http://squid.internal:3128" tox
 
