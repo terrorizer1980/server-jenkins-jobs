@@ -21,8 +21,11 @@
       - shell: |
           #!/bin/bash
           set -e
+
+          retry() (for i in {{0..4}}; do sleep $((8*i**3)) && "${{@:1}}" && break; done)
+
           rm -rf *
-          git clone https://github.com/CanonicalLtd/metrics.git
+          retry git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.{metric_module}
@@ -33,10 +36,13 @@
       - shell: |
           #!/bin/bash
           set -e
+
+          retry() (for i in {{0..4}}; do sleep $((8*i**3)) && "${{@:1}}" && break; done)
+
           rm -rf *
-          git clone https://github.com/CanonicalLtd/metrics.git
+          retry git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
-          git clone --depth 1 lp:kpi-metrics-tools
+          retry git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/{team}-kpi-influxdb.txt
           python3 -m metrics.{metric_module} {metric_arguments}
 
@@ -46,10 +52,13 @@
       - shell: |
           #!/bin/bash
           set -e
+
+          retry() (for i in {{0..4}}; do sleep $((8*i**3)) && "${{@:1}}" && break; done)
+
           rm -rf *
-          git clone https://github.com/CanonicalLtd/metrics.git
+          retry git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
-          git clone --depth 1 lp:kpi-metrics-tools
+          retry git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/foundations-kpi-influxdb.txt
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.foundations_autopkgtest_queue --queues {queue_name}
@@ -68,10 +77,13 @@
       - shell: |
           #!/bin/bash
           set -e
+
+          retry() (for i in {{0..4}}; do sleep $((8*i**3)) && "${{@:1}}" && break; done)
+
           rm -rf *
-          git clone https://github.com/CanonicalLtd/metrics.git
+          retry git clone https://github.com/CanonicalLtd/metrics.git
           cd metrics
-          git clone --depth 1 lp:kpi-metrics-tools
+          retry git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/foundations-kpi-influxdb.txt
 
           export https_proxy=http://squid.internal:3128
