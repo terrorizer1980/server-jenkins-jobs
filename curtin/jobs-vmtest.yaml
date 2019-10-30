@@ -193,6 +193,10 @@
     builders:
       - vmtest-sync-images
       - shell: |
+          #!/bin/bash
+
+          retry() (for i in {0..5}; do sleep $((8*i**3)) && "${@:1}" && break; done)
+
           if [ "$(hostname)" = "torkoal" ]; then
               export TMPDIR=/var/lib/jenkins/tmp/
           fi
@@ -214,10 +218,10 @@
           # export CURTIN_VMTEST_KEEP_DATA_FAIL=all
           # export CURTIN_VMTEST_TAR_DISKS=1
 
-          git clone --branch=${landing_candidate_branch} ${landing_candidate} curtin-${BUILD_NUMBER}
+          retry git clone --branch=${landing_candidate_branch} ${landing_candidate} curtin-${BUILD_NUMBER}
           cd curtin-${BUILD_NUMBER}
           git remote add upstream https://git.launchpad.net/curtin
-          git fetch upstream --tags
+          retry git fetch upstream --tags
 
           ./tools/vmtest-system-setup
           set +e
