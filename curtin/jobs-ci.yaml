@@ -163,11 +163,13 @@
           #!/bin/bash
           set -eux
 
-          git clone lp:curtin
+          retry() (for i in {0..5}; do sleep $((8*i**3)) && "${@:1}" && break; done)
+
+          retry git clone lp:curtin
           cd curtin
 
           git remote add autoland ${landing_candidate}
-          git fetch autoland
+          retry git fetch autoland
           git merge autoland/${landing_candidate_branch} --squash
           git commit -m "test commit"
 
