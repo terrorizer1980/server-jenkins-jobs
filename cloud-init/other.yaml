@@ -70,6 +70,6 @@
           git clone --mirror https://git.launchpad.net/cloud-init "$GIT_DIR"
           cd "$GIT_DIR" || exit 1
 
-          git remote add github git@github.com:cloud-init/cloud-init.git
+          git remote add github git@github.com:canonical/cloud-init.git
           git fetch -q
           GIT_SSH_COMMAND='ssh -i $HOME/.ssh/cloudinit_id_rsa' git push -q --mirror github
