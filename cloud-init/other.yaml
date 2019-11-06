@@ -61,15 +61,15 @@
       - shell: |
           #!/bin/bash
           set -eux
-          GIT_DIR="mirror"
+          MIRROR_DIR="mirror"
 
-          if [ -d "$GIT_DIR" ]; then
-              rm -rf "$GIT_DIR"
+          if [ -d "$MIRROR_DIR" ]; then
+              rm -rf "$MIRROR_DIR"
           fi
 
-          git clone --mirror https://git.launchpad.net/cloud-init "$GIT_DIR"
-          cd "$GIT_DIR" || exit 1
+          GIT_SSH_COMMAND='ssh -i $HOME/.ssh/cloudinit_id_rsa' git clone --mirror git@github.com:canonical/cloud-init.git "$MIRROR_DIR"
+          cd "$MIRROR_DIR" || exit 1
 
-          git remote add github git@github.com:canonical/cloud-init.git
-          git fetch -q
-          GIT_SSH_COMMAND='ssh -i $HOME/.ssh/cloudinit_id_rsa' git push -q --mirror github
+          git remote add launchpad git+ssh://server-team-bot@git.launchpad.net/cloud-init
+          GIT_SSH_COMMAND='ssh -i $HOME/.ssh/cloudinit_id_rsa' git fetch -q
+          git push -q --mirror launchpad
