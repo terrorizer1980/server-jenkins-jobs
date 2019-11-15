@@ -200,9 +200,6 @@
           if [ "$(hostname)" = "torkoal" ]; then
               export TMPDIR=/var/lib/jenkins/tmp/
           fi
-          if [ -n "${vmtest_add_repos}" ]; then
-              export CURTIN_VMTEST_ADD_REPOS=${vmtest_add_repos}
-          fi
 
           # construct vmtest filters
           filter_args=""

@@ -90,6 +90,6 @@
     name: vmtest-add-repos
     parameters:
       - string:
-          name: vmtest_add_repos
+          name: CURTIN_VMTEST_ADD_REPOS
           default: ""
           description: value for CURTIN_VMTEST_ADD_REPOS
