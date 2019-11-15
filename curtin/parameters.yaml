@@ -91,5 +91,5 @@
     parameters:
       - string:
           name: CURTIN_VMTEST_ADD_REPOS
-          default: ""
+          default: '{default_vmtest_add_repos}'
           description: value for CURTIN_VMTEST_ADD_REPOS

@@ -25,7 +25,8 @@
       - landing-candidate-branch
       - nose-args:
           default_nose_args:
-      - vmtest-add-repos
+      - vmtest-add-repos:
+          default_vmtest_add_repos:
     triggers:
       - timed: "H 0 * * *"
     builders:
@@ -52,7 +53,8 @@
       - landing-candidate-branch
       - nose-args:
           default_nose_args: tests/vmtests/test_uefi_basic.py
-      - vmtest-add-repos
+      - vmtest-add-repos:
+          default_vmtest_add_repos:
     wrappers:
       - timestamps
       - workspace-cleanup
@@ -77,7 +79,8 @@
       - landing-candidate-branch
       - nose-args:
           default_nose_args: tests/vmtests/test_basic.py
-      - vmtest-add-repos
+      - vmtest-add-repos:
+          default_vmtest_add_repos:
     builders:
       - vmtest-devel
     properties:
@@ -100,7 +103,8 @@
       - landing-candidate-branch
       - nose-args:
           default_nose_args:
-      - vmtest-add-repos
+      - vmtest-add-repos:
+          default_vmtest_add_repos:
     builders:
       - vmtest-devel
     properties:
@@ -123,7 +127,8 @@
       - landing-candidate-branch
       - nose-args:
           default_nose_args:
-      - vmtest-add-repos
+      - vmtest-add-repos:
+          default_vmtest_add_repos:
     builders:
       - vmtest-devel
     properties:
@@ -147,9 +152,8 @@
       - landing-candidate-branch
       - nose-args:
           default_nose_args:
-      - string:
-          name: vmtest_add_repos
-          default: "proposed"
+      - vmtest-add-repos:
+           default_vmtest_add_repos: "proposed"
       - string:
           name: vmtest_filters
           default: "target_distro=ubuntu"
