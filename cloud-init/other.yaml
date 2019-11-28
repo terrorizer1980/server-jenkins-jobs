@@ -27,11 +27,15 @@
           #!/bin/bash
           set -e
           rm -rf *
+
+          export https_proxy="http://squid.internal:3128"
+          export no_proxy=launchpad.net
+
           git clone https://git.launchpad.net/cloud-init
           cd cloud-init
-          https_proxy="http://squid.internal:3128" tox -e tip-pycodestyle
-          https_proxy="http://squid.internal:3128" tox -e tip-pyflakes
-          https_proxy="http://squid.internal:3128" tox -e tip-pylint
+          tox -e tip-pycodestyle
+          tox -e tip-pyflakes
+          tox -e tip-pylint
 
 - job:
     name: cloud-init-lp-build-status
