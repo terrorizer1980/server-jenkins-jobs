@@ -44,6 +44,7 @@
           cd metrics
           retry git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/{team}-kpi-influxdb.txt
+          retry nc -zv "$INFLUXDB_HOSTNAME" "$INFLUXDB_PORT"
           python3 -m metrics.{metric_module} {metric_arguments}
 
 - builder:
@@ -61,6 +62,7 @@
           retry git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/foundations-kpi-influxdb.txt
           export METRICS_PROMETHEUS=10.25.2.225:9091
+          retry nc -zv "$INFLUXDB_HOSTNAME" "$INFLUXDB_PORT"
           python3 -m metrics.foundations_autopkgtest_queue --queues {queue_name}
 
 - job:
@@ -87,6 +89,7 @@
           source kpi-metrics-tools/foundations-kpi-influxdb.txt
 
           export https_proxy=http://squid.internal:3128
+          retry nc -zv "$INFLUXDB_HOSTNAME" "$INFLUXDB_PORT"
           python3 -m metrics.docker_hub_images
 
 - job:
