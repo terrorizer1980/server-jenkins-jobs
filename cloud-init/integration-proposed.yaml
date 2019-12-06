@@ -241,12 +241,17 @@
               --repo=\'deb $mirror $release-proposed main\' \
               --preserve-data --data-dir="./results" \
               --verbose
-          RET=$?
+          rc="$?"
+          # on success remove large artifacts
+          if [ "$rc" = 0 ]; then
+            find ./results -type f \
+                \( -name '*.qcow2' -o -name '*.img' -o -name '*.log' \) -delete
+          fi
 
           # remove temporary keys
           find . -name "id_rsa*" -delete
 
-          exit $RET
+          exit $rc
 
 - builder:
     name: trigger-proposed-integration
