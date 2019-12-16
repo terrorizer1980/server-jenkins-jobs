@@ -18,9 +18,6 @@
 - project:
     name: cloud-init
     jobs:
-      - cloud-init-ci
-      - cloud-init-ci-nightly
-      - cloud-init-ci-trigger
       - cloud-init-copr-build
       - cloud-init-copr-test-7
       - cloud-init-github-mirror
