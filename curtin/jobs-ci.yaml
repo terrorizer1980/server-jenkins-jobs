@@ -106,7 +106,7 @@
           set -eux
 
           # Retry a command 5 times over 30 minutes with cubic backoff
-          retry() (for i in {0..5}; do sleep $((8*i**3)) && "${@:1}" && break; done)
+          retry() (for i in {0..5}; do sleep $((8*i**3)) && echo "Trying: ${*:1}" >&2 && "${@:1}" && break; done)
 
           branch=${landing_candidate//lp:/https://git.launchpad.net/}
           retry git clone --branch=${landing_candidate_branch} $branch curtin-${BUILD_NUMBER}
@@ -163,7 +163,7 @@
           #!/bin/bash
           set -eux
 
-          retry() (for i in {0..5}; do sleep $((8*i**3)) && "${@:1}" && break; done)
+          retry() (for i in {0..5}; do sleep $((8*i**3)) && echo "Trying: ${*:1}" >&2 && "${@:1}" && break; done)
 
           retry git clone lp:curtin
           cd curtin

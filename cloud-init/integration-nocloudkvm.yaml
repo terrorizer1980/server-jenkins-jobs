@@ -80,7 +80,7 @@
       - shell: |
           #!/bin/bash
 
-          retry() (for i in {{0..5}}; do sleep $((8*i**3)) && "${{@:1}}" && break; done)
+          retry() (for i in {{0..5}}; do sleep $((8*i**3)) && echo "Trying: ${{*:1}}" >&2 && "${{@:1}}" && break; done)
 
           release="{release}"
           if [ -z "$TMPDIR" -a "$(hostname)" = "torkoal" ]; then

@@ -22,7 +22,7 @@
           #!/bin/bash
           set -e
 
-          retry() (for i in {{0..4}}; do sleep $((8*i**3)) && "${{@:1}}" && break; done)
+          retry() (for i in {{0..4}}; do sleep $((8*i**3)) && echo "Trying: ${{*:1}}" >&2 && "${{@:1}}" && break; done)
 
           rm -rf *
           retry git clone https://github.com/CanonicalLtd/metrics.git
@@ -37,7 +37,7 @@
           #!/bin/bash
           set -e
 
-          retry() (for i in {{0..4}}; do sleep $((8*i**3)) && "${{@:1}}" && break; done)
+          retry() (for i in {{0..4}}; do sleep $((8*i**3)) && echo "Trying: ${{*:1}}" >&2 && "${{@:1}}" && break; done)
 
           rm -rf *
           retry git clone https://github.com/CanonicalLtd/metrics.git
@@ -54,7 +54,7 @@
           #!/bin/bash
           set -e
 
-          retry() (for i in {{0..4}}; do sleep $((8*i**3)) && "${{@:1}}" && break; done)
+          retry() (for i in {{0..4}}; do sleep $((8*i**3)) && echo "Trying: ${{*:1}}" >&2 && "${{@:1}}" && break; done)
 
           rm -rf *
           retry git clone https://github.com/CanonicalLtd/metrics.git
@@ -80,7 +80,7 @@
           #!/bin/bash
           set -e
 
-          retry() (for i in {0..4}; do sleep $((8*i**3)) && "${@:1}" && break; done)
+          retry() (for i in {0..4}; do sleep $((8*i**3)) && echo "Trying: ${*:1}" >&2 && "${@:1}" && break; done)
 
           rm -rf *
           retry git clone https://github.com/CanonicalLtd/metrics.git
