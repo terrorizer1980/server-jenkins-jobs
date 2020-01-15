@@ -94,9 +94,6 @@
     name: curtin-vmtest-proposed-x
     node: torkoal
     auth-token: BUILD_ME
-    properties:
-      - build-discarder:
-          num-to-keep: 5
     publishers:
       - email-server-crew
       - archive-results
@@ -111,9 +108,6 @@
     name: curtin-vmtest-proposed-b
     node: torkoal
     auth-token: BUILD_ME
-    properties:
-      - build-discarder:
-          num-to-keep: 5
     publishers:
       - email-server-crew
       - archive-results
@@ -128,9 +122,6 @@
     name: curtin-vmtest-proposed-d
     node: torkoal
     auth-token: BUILD_ME
-    properties:
-      - build-discarder:
-          num-to-keep: 5
     publishers:
       - email-server-crew
       - archive-results
@@ -145,9 +136,6 @@
     name: curtin-vmtest-proposed-e
     node: torkoal
     auth-token: BUILD_ME
-    properties:
-      - build-discarder:
-          num-to-keep: 5
     publishers:
       - email-server-crew
       - archive-results

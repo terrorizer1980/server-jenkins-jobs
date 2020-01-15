@@ -31,9 +31,6 @@
       - timed: "H 0 * * *"
     builders:
       - vmtest-devel
-    properties:
-      - build-discarder:
-          num-to-keep: 10
     publishers:
       - archive:
           artifacts: 'output/**'
@@ -60,9 +57,6 @@
       - workspace-cleanup
     builders:
       - vmtest-devel
-    properties:
-      - build-discarder:
-          num-to-keep: 10
     publishers:
       - archive:
           artifacts: 'output/**'
@@ -83,9 +77,6 @@
           default_vmtest_add_repos:
     builders:
       - vmtest-devel
-    properties:
-      - build-discarder:
-          num-to-keep: 10
     publishers:
       - archive:
           artifacts: 'output/**'
@@ -107,9 +98,6 @@
           default_vmtest_add_repos:
     builders:
       - vmtest-devel
-    properties:
-      - build-discarder:
-          num-to-keep: 10
     publishers:
       - archive:
           artifacts: 'output/**'
@@ -131,9 +119,6 @@
           default_vmtest_add_repos:
     builders:
       - vmtest-devel
-    properties:
-      - build-discarder:
-          num-to-keep: 5
     publishers:
       - archive:
           artifacts: 'output/**'
@@ -157,9 +142,6 @@
       - string:
           name: vmtest_filters
           default: "target_distro=ubuntu"
-    properties:
-      - build-discarder:
-          num-to-keep: 5
     publishers:
       - email-server-crew
       - archive-results
@@ -258,9 +240,6 @@
       - string:
           name: vmtest_filters
           default: "target_distro=ubuntu test_type=network"
-    properties:
-      - build-discarder:
-          num-to-keep: 5
     wrappers:
       - timestamps
       - workspace-cleanup
