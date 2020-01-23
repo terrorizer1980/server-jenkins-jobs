@@ -46,20 +46,6 @@
           triggerwhat: curtin-vmtest-proposed-b
 
 - job:
-    name: curtin-vmtest-proposed-d-trigger
-    node: torkoal
-    triggers:
-      - timed: "H 10 * * 3"
-    publishers:
-      - email-server-crew
-    wrappers:
-      - workspace-cleanup
-    builders:
-      - vmtest-proposed-trigger:
-          release: disco
-          triggerwhat: curtin-vmtest-proposed-d
-
-- job:
     name: curtin-vmtest-proposed-e-trigger
     node: torkoal
     triggers:
@@ -117,20 +103,6 @@
     builders:
       - vmtest-proposed:
           release: bionic
-
-- job:
-    name: curtin-vmtest-proposed-d
-    node: torkoal
-    auth-token: BUILD_ME
-    publishers:
-      - email-server-crew
-      - archive-results
-    wrappers:
-      - timestamps
-      - workspace-cleanup
-    builders:
-      - vmtest-proposed:
-          release: disco
 
 - job:
     name: curtin-vmtest-proposed-e
