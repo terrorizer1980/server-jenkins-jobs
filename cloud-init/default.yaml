@@ -23,13 +23,16 @@
       - cloud-init-github-mirror
       - cloud-init-integration-ec2-b
       - cloud-init-integration-ec2-e
+      - cloud-init-integration-ec2-f
       - cloud-init-integration-ec2-x
       - cloud-init-integration-ec2-terminate
       - cloud-init-integration-lxd-b
       - cloud-init-integration-lxd-e
+      - cloud-init-integration-lxd-f
       - cloud-init-integration-lxd-x
       - cloud-init-integration-nocloud-kvm-b
       - cloud-init-integration-nocloud-kvm-e
+      - cloud-init-integration-nocloud-kvm-f
       - cloud-init-integration-nocloud-kvm-x
       - cloud-init-integration-proposed-b-ec2
       - cloud-init-integration-proposed-b-lxd
