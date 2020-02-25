@@ -55,9 +55,24 @@
     publishers:
       - email-server-crew
       - archive-results
+      - trigger:
+          project: cloud-init-integration-nocloud-kvm-f
+          threshold: FAILURE
     builders:
       - integration-nocloud-kvm:
           release: eoan
+
+- job:
+    name: cloud-init-integration-nocloud-kvm-f
+    node: torkoal
+    parameters:
+      - boot-timeout
+    publishers:
+      - email-server-crew
+      - archive-results
+    builders:
+      - integration-nocloud-kvm:
+          release: focal
 
 - builder:
     name: integration-nocloud-kvm

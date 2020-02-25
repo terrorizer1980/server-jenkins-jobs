@@ -60,6 +60,21 @@
       - integration-ec2:
           release: eoan
 
+- job:
+    name: cloud-init-integration-ec2-f
+    node: torkoal
+    triggers:
+      - timed: "H 0 * * 8"
+    publishers:
+      - email-server-crew
+      - archive-results
+      - trigger:
+          project: cloud-init-integration-ec2-terminate
+          threshold: FAILURE
+    builders:
+      - integration-ec2:
+          release: focal
+
 - builder:
     name: integration-ec2
     builders:
