@@ -25,11 +25,12 @@
       - trigger:
           project: cloud-init-copr-test-7
           threshold: SUCCESS
+    wrappers:
+      - workspace-cleanup
     builders:
       - shell: |
           #!/bin/bash
           set -ex
-          rm -rf *
 
           git clone --depth 1 https://github.com/CanonicalLtd/server-test-scripts
           git clone --single-branch https://git.launchpad.net/cloud-init
@@ -51,11 +52,12 @@
 - job:
     name: cloud-init-copr-test-7
     node: torkoal
+    wrappers:
+      - workspace-cleanup
     builders:
       - shell: |
           #!/bin/bash
           set -e
-          rm -rf *
 
           export http_proxy="http://squid.internal:3128"
           export https_proxy="$http_proxy"
