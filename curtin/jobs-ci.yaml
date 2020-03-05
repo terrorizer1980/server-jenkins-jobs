@@ -62,7 +62,6 @@
       - landing-candidate-branch
       - candidate-revision
       - merge-proposal
-      - use-description-for-commit
     project-type: matrix
     axes:
       - axis:
@@ -125,18 +124,10 @@
     name: curtin-autoland-test
     node: torkoal
     parameters:
-      - string:
-          name: candidate_revision
-          description: Revision of the git branch
-      - string:
-          name: landing_candidate
-          description: Launchpad git repo
-      - string:
-          name: landing_candidate_branch
-          description: Branch name
-      - string:
-          name: merge_proposal
-          description: Merge proposal URL
+      - landing-candidate
+      - landing-candidate-branch
+      - candidate-revision
+      - merge-proposal
     auth-token: BUILD_ME
     publishers:
       - trigger-parameterized-builds:
