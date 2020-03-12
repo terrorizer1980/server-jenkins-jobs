@@ -151,6 +151,34 @@
       - timestamps
       - workspace-cleanup
 
+- job:
+    name: curtin-cloudinit-sru
+    node: torkoal
+    parameters:
+      - landing-candidate
+      - landing-candidate-branch
+      - vmtest-add-repos:
+          default_vmtest_add_repos: "ppa:cloud-init-dev/proposed"
+      - string:
+          name: CURTIN_VMTEST_UPGRADE_PACKAGES
+          default: "cloud-init"
+      - choice:
+          name: CURTIN_VMTEST_SYSTEM_UPGRADE
+          choices:
+            - 'false'
+            - 'true'
+      - string:
+          name: vmtest_filters
+          default: "target_distro=ubuntu test_type=network"
+    wrappers:
+      - timestamps
+      - workspace-cleanup
+    builders:
+      - vmtest-devel
+    publishers:
+      - email-server-crew
+      - archive-results
+
 - builder:
     name: vmtest-sync-images
     builders:
@@ -220,31 +248,3 @@
           [ $RET -eq 2 ] && RET=0
 
           exit $RET
-
-- job:
-    name: curtin-cloudinit-sru
-    node: metal-amd64
-    parameters:
-      - landing-candidate
-      - landing-candidate-branch
-      - vmtest-add-repos:
-          default_vmtest_add_repos: "ppa:cloud-init-dev/proposed"
-      - string:
-          name: CURTIN_VMTEST_UPGRADE_PACKAGES
-          default: "cloud-init"
-      - choice:
-          name: CURTIN_VMTEST_SYSTEM_UPGRADE
-          choices:
-            - 'false'
-            - 'true'
-      - string:
-          name: vmtest_filters
-          default: "target_distro=ubuntu test_type=network"
-    wrappers:
-      - timestamps
-      - workspace-cleanup
-    builders:
-      - vmtest-devel
-    publishers:
-      - email-server-crew
-      - archive-results
