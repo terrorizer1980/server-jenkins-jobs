@@ -57,6 +57,16 @@
 
 - job:
     name: curtin-ci
+    project-type: matrix
+    axes:
+      - axis:
+          type: slave
+          name: nodes
+          values:
+            - metal-amd64
+            - metal-ppc64el
+            - metal-arm64
+            - metal-s390x
     parameters:
       - landing-candidate
       - landing-candidate-branch
@@ -90,6 +100,7 @@
       - timestamps
       - workspace-cleanup
     builders:
+      - vmtest-sync-images
       - shell: |
           #!/bin/bash
           set -eux
@@ -106,7 +117,7 @@
 
           no_proxy=launchpad.net https_proxy="http://squid.internal:3128" tox
 
-          ./tools/jenkins-runner --skip-images-dirlock -p 4 tests/vmtests/test_basic.py:XenialGATestBasic tests/vmtests/test_basic.py:FocalTestBasic
+          ./tools/jenkins-runner --skip-images-dirlock -p 4 tests/vmtests/test_basic.py tests/vmtests/test_uefi_basic.py
 
 - job:
     name: curtin-autoland-test
@@ -116,11 +127,10 @@
           type: slave
           name: nodes
           values:
-            - torkoal
+            - metal-amd64
             - metal-ppc64el
             - metal-arm64
             - metal-s390x
-    node: torkoal
     parameters:
       - landing-candidate
       - landing-candidate-branch
@@ -148,6 +158,7 @@
       - timestamps
       - workspace-cleanup
     builders:
+      - vmtest-sync-images
       - shell: |
           #!/bin/bash
           set -eux
@@ -164,4 +175,4 @@
 
           no_proxy=launchpad.net https_proxy="http://squid.internal:3128" tox
 
-          ./tools/jenkins-runner --skip-images-dirlock -p 4 tests/vmtests/test_basic.py:XenialGATestBasic tests/vmtests/test_basic.py:BionicTestBasic tests/vmtests/test_basic.py:FocalTestBasic
+          ./tools/jenkins-runner --skip-images-dirlock -p 4 tests/vmtests/test_basic.py tests/vmtests/test_uefi_basic.py
