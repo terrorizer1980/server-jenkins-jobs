@@ -93,7 +93,7 @@
       - landing-candidate
       - landing-candidate-branch
       - nose-args:
-          default_nose_args:
+          default_nose_args: tests/vmtests/test_basic.py
       - vmtest-add-repos:
           default_vmtest_add_repos:
     builders:
