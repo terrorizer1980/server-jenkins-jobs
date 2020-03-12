@@ -29,6 +29,10 @@
     properties:
       - build-discarder:
           num-to-keep: 3
+    wrappers:
+      - timeout:
+          timeout: 960
+          fail: true
     publishers:
       - email-server-crew
 
