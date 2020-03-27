@@ -80,6 +80,13 @@ for project in $github_projects; do
 done
 
 
+# Retrieve the subiquity crashes
+curl -sS 'https://errors.ubuntu.com/api/1.0/most-common-problems/?format=json&limit=5&package=subiquity&period=day' > subiquity_crashes.json
+jq -r '.objects | .[]' subiquity_crashes.json > subiquity_crashes.jsonl
+jq -r '"* [\(.count)] \(.web_link)\n  Function: \(.function)\n  Seen: \(.first_seen) (\(.first_seen_release)) -> \(.last_seen) (\(.last_seen_release)) "' subiquity_crashes.jsonl > subiquity_crashes.text
+jq -r '"<li>[\(.count)] <a href=\"\(.web_link)\">\(.web_link)</a><br>\n    Function: \(.function)<br>\n    Seen: \(.last_seen) (\(.last_seen_release)), First seen: \(.first_seen) (\(.first_seen_elease))\n</li>"' subiquity_crashes.jsonl > subiquity_crashes.html
+
+
 # Generate the email subject and <title> for the text/html email
 subject="Daily triage for: $projects [$triager]"
 
@@ -98,6 +105,9 @@ subject="Daily triage for: $projects [$triager]"
             cat "$project-reviews.text"
         fi
     done
+
+    printf "\n## Yesterday's top 5 subiquity crashes\n\n"
+    cat subiquity_crashes.text
 
     printf '\n## Schedule\n\n'
     echo "Mon: <varies>"
@@ -138,6 +148,11 @@ subject="Daily triage for: $projects [$triager]"
             echo "</ul>"
         fi
     done
+
+    echo "<h5>Yesterday's top 5 subiquity crashes</h5>"
+    echo "<ul>"
+    cat subiquity_crashes.html
+    echo "</ul>"
 
     echo "<h5>Schedule</h5>"
     echo "<ul>"
