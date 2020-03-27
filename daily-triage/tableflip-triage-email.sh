@@ -74,7 +74,7 @@ for project in $github_projects; do
     # Use jq's string interpolation to generate the text and HTML output
     jq -r '"* PR #\(.number): \"\(.title)\" by @\(.user.login)\n  \(.html_url)"' relevant_pulls.jsonl \
         > "$project-reviews.text"
-    jq -r '"<li><a href=\"\(.html_url)\">PR #\(.number)</a>: \"\(.title)\" by @\(.user.login)"' relevant_pulls.jsonl \
+    jq -r '"<li><a href=\"\(.html_url)\">PR #\(.number)</a>: \"\(.title)\" by @\(.user.login)</li>"' relevant_pulls.jsonl \
         > "$project-reviews.html"
     rm -f pulls.json relevant_pulls.jsonl
 done
