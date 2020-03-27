@@ -46,7 +46,7 @@ fi
 
 # Retrieve the bugs
 for project in $projects; do
-    : > "$project-bugs.text"
+    echo None > "$project-bugs.text"
     echo "[Incomplete, Confirmed, Triaged and In Progress bugs]" > "$project-bugs.text.tmp"
     ubuntu-bug-triage --anon -s Incomplete -s Confirmed -s Triaged -s "In Progress" --include-project "$project" "$ndays" >> "$project-bugs.text.tmp"
     grep -q LP "$project-bugs.text.tmp" && cat "$project-bugs.text.tmp" > "$project-bugs.text"
