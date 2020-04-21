@@ -97,7 +97,7 @@
           set -ex
           rm -rf *
 
-          git clone https://github.com/CanonicalLtd/uss-tableflip.git uss-tableflip
+          git clone https://github.com/canonical/uss-tableflip.git uss-tableflip
           PATH=$PWD/uss-tableflip/scripts:$PATH
 
           ctool run-container -v --destroy "--name=ssci-$BUILD_NUMBER" \
@@ -145,7 +145,7 @@
           set -ex
           rm -rf *
 
-          git clone https://github.com/CanonicalLtd/uss-tableflip.git uss-tableflip
+          git clone https://github.com/canonical/uss-tableflip.git uss-tableflip
           PATH=$PWD/uss-tableflip/scripts:$PATH
 
           git clone https://git.launchpad.net/simplestreams

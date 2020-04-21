@@ -32,7 +32,7 @@
           #!/bin/bash
           set -ex
 
-          git clone --depth 1 https://github.com/CanonicalLtd/server-test-scripts
+          git clone --depth 1 https://github.com/canonical/server-test-scripts
           git clone --single-branch https://git.launchpad.net/cloud-init
           pushd cloud-init
 
@@ -62,6 +62,6 @@
           export http_proxy="http://squid.internal:3128"
           export https_proxy="$http_proxy"
 
-          git clone --depth 1 https://github.com/CanonicalLtd/server-test-scripts
+          git clone --depth 1 https://github.com/canonical/server-test-scripts
           cd server-test-scripts/cloud-init
           ./copr_test -vv 7

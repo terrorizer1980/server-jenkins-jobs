@@ -64,7 +64,7 @@ printed.
 To manually update jobs run the following:
 
 ```shell
-git clone https://github.com/CanonicalLtd/server-jenkins-jobs
+git clone https://github.com/canonical/server-jenkins-jobs
 cd server-jenkins-jobs
 jenkins-jobs --ignore-cache update <directory of tests>
 ```

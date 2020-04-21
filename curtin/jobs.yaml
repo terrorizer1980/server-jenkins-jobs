@@ -130,7 +130,7 @@
       - shell: |
           #!/bin/bash
           set -e
-          git clone https://github.com/CanonicalLtd/server-test-scripts
+          git clone https://github.com/canonical/server-test-scripts
           cd server-test-scripts/curtin
           ./lp_build_status.py
           cat results.xml
@@ -152,6 +152,6 @@
           git clone --mirror https://git.launchpad.net/curtin "$GIT_DIR"
           cd "$GIT_DIR" || exit 1
 
-          git remote add github git@github.com:CanonicalLtd/curtin.git
+          git remote add github git@github.com:canonical/curtin.git
           git fetch -q
           GIT_SSH_COMMAND='ssh -i $HOME/.ssh/curtin_id_rsa' git push -q --mirror github

@@ -25,7 +25,7 @@
           retry() (for i in {{0..4}}; do sleep $((8*i**3)) && echo "Trying: ${{*:1}}" >&2 && "${{@:1}}" && break; done)
 
           rm -rf *
-          retry git clone https://github.com/CanonicalLtd/metrics.git
+          retry git clone https://github.com/canonical/metrics.git
           cd metrics
           export METRICS_PROMETHEUS=10.25.2.225:9091
           python3 -m metrics.{metric_module}
@@ -40,7 +40,7 @@
           retry() (for i in {{0..4}}; do sleep $((8*i**3)) && echo "Trying: ${{*:1}}" >&2 && "${{@:1}}" && break; done)
 
           rm -rf *
-          retry git clone https://github.com/CanonicalLtd/metrics.git
+          retry git clone https://github.com/canonical/metrics.git
           cd metrics
           retry git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/{team}-kpi-influxdb.txt
@@ -57,7 +57,7 @@
           retry() (for i in {{0..4}}; do sleep $((8*i**3)) && echo "Trying: ${{*:1}}" >&2 && "${{@:1}}" && break; done)
 
           rm -rf *
-          retry git clone https://github.com/CanonicalLtd/metrics.git
+          retry git clone https://github.com/canonical/metrics.git
           cd metrics
           retry git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/foundations-kpi-influxdb.txt
@@ -83,7 +83,7 @@
           retry() (for i in {0..4}; do sleep $((8*i**3)) && echo "Trying: ${*:1}" >&2 && "${@:1}" && break; done)
 
           rm -rf *
-          retry git clone https://github.com/CanonicalLtd/metrics.git
+          retry git clone https://github.com/canonical/metrics.git
           cd metrics
           retry git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/foundations-kpi-influxdb.txt
@@ -209,7 +209,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/CanonicalLtd/metrics.git
+          git clone https://github.com/canonical/metrics.git
           cd metrics
           git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/server-kpi-influxdb.txt
@@ -223,7 +223,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/CanonicalLtd/metrics.git
+          git clone https://github.com/canonical/metrics.git
           cd metrics
           git clone --depth 1 lp:kpi-metrics-tools
           source kpi-metrics-tools/server-kpi-influxdb.txt

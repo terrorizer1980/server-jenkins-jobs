@@ -23,7 +23,7 @@
         *** STOP ***
         Do NOT edit this job through the web
         This job is managed by Jenkins Job Builder and stored on Github via the URL below:
-        https://github.com/CanonicalLtd/server-jenkins-jobs
+        https://github.com/canonical/server-jenkins-jobs
         *** STOP ***
     properties:
       - build-discarder:
@@ -66,7 +66,7 @@
       - shell: |
           #!/bin/bash
           set -Eeufx -o pipefail
-          git clone https://github.com/CanonicalLtd/server-test-build
+          git clone https://github.com/canonical/server-test-build
           cd server-test-build
 
           PACKAGES=$(./get_team_packages {team})

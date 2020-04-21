@@ -215,7 +215,7 @@
           triggerwhat="{triggerwhat}"
           pkg="cloud-init"
 
-          git clone https://github.com/CanonicalLtd/server-test-scripts
+          git clone https://github.com/canonical/server-test-scripts
           cd server-test-scripts/launchpad/
           proposed=$(./version_lookup.py -r $rel -p Proposed -s Published $pkg)
           updates=$(./version_lookup.py -r $rel -p Updates -s Published $pkg)

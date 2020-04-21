@@ -87,7 +87,7 @@
               export TMPDIR=/var/lib/jenkins/tmp/
           fi
           sudo rm -Rf *
-          retry git clone https://github.com/CanonicalLtd/server-test-scripts.git
+          retry git clone https://github.com/canonical/server-test-scripts.git
           ./server-test-scripts/cloud-init/daily_deb.sh -v $release
           deb=$(echo "$PWD/cloud-init_"*.deb)
           if [ ! -f "$deb" ]; then

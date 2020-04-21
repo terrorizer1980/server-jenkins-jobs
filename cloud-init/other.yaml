@@ -51,7 +51,7 @@
           #!/bin/bash
           set -e
           rm -rf *
-          git clone https://github.com/CanonicalLtd/server-test-scripts
+          git clone https://github.com/canonical/server-test-scripts
           cd server-test-scripts/cloud-init
           ./lp_build_status.py
           cat results.xml

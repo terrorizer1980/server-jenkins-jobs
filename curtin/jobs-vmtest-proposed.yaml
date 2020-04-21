@@ -67,7 +67,7 @@
           release={release}
           triggerwhat={triggerwhat}
 
-          git clone https://github.com/CanonicalLtd/server-test-scripts
+          git clone https://github.com/canonical/server-test-scripts
           cd server-test-scripts/launchpad/
           proposed=$(./version_lookup.py -r "$release" -p Proposed -s Published curtin)
 
