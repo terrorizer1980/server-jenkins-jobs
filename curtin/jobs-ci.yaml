@@ -67,6 +67,10 @@
             - metal-ppc64el
             - metal-arm64
             - metal-s390x
+    properties:
+      - build-discarder:
+          days-to-keep: 7
+          num-to-keep: 40
     parameters:
       - landing-candidate
       - landing-candidate-branch
