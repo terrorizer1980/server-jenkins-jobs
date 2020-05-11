@@ -128,6 +128,8 @@
 
 - job:
     name: git-ubuntu-ci-nightly
+    parameters:
+      - landing-candidate-branch
     project-type: pipeline
     triggers:
       - timed: "H 23 * * *"
@@ -135,6 +137,12 @@
     dsl: |
       pipeline {
         agent { label 'metal-amd64' }
+        parameters {
+            string (
+                defaultValue: 'master',
+                description: 'Git branch name for testing (e.g. master)',
+                name : 'landing_candidate_branch')
+        }
 
         environment {
             VM_NAME = "gitubuntu-ci-nightly-${currentBuild.getNumber()}"
@@ -151,7 +159,7 @@
 
             stage ('Build') {
                 steps {
-                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "no_proxy=launchpad.net git clone -b master https://git.launchpad.net/usd-importer git-ubuntu"'
+                    sh "uvt-kvm ssh --insecure $VM_NAME -- no_proxy=launchpad.net git clone -b ${params.landing_candidate_branch} https://git.launchpad.net/usd-importer git-ubuntu"
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "cd git-ubuntu; no_proxy=canonical.com,launchpad.net,launchpadlibrarian.net snapcraft"'
                     sh 'scp -oStrictHostKeyChecking=no ubuntu@$(uvt-kvm ip "$VM_NAME"):/home/ubuntu/git-ubuntu/git-ubuntu_*_amd64.snap .'
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "sudo snap install --dangerous --classic git-ubuntu/git-ubuntu_*_amd64.snap"'
