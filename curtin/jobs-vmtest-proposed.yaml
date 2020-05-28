@@ -59,6 +59,20 @@
           release: eoan
           triggerwhat: curtin-vmtest-proposed-e
 
+- job:
+    name: curtin-vmtest-proposed-f-trigger
+    node: torkoal
+    triggers:
+      - timed: "H 10 * * 3,6"
+    publishers:
+      - email-server-crew
+    wrappers:
+      - workspace-cleanup
+    builders:
+      - vmtest-proposed-trigger:
+          release: focal
+          triggerwhat: curtin-vmtest-proposed-f
+
 - builder:
     name: vmtest-proposed-trigger
     builders:
@@ -117,6 +131,20 @@
     builders:
       - vmtest-proposed:
           release: eoan
+
+- job:
+    name: curtin-vmtest-proposed-f
+    node: torkoal
+    auth-token: BUILD_ME
+    publishers:
+      - email-server-crew
+      - archive-results
+    wrappers:
+      - timestamps
+      - workspace-cleanup
+    builders:
+      - vmtest-proposed:
+          release: focal
 
 - builder:
     name: vmtest-proposed
