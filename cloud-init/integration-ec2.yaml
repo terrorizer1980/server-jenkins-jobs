@@ -64,7 +64,7 @@
     name: cloud-init-integration-ec2-f
     node: torkoal
     triggers:
-      - timed: "H 0 * * 8"
+      - timed: "H 0 * * 6"
     publishers:
       - email-server-crew
       - archive-results
