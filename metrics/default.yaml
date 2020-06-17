@@ -58,6 +58,11 @@
     node: metal-amd64
     triggers:
       - timed: "H * * * *"
+    wrappers:
+      - timestamps
+      - timeout:
+          timeout: 30
+          fail: true
     properties:
       - build-discarder:
           num-to-keep: 25
