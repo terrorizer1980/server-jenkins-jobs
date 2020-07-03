@@ -18,7 +18,7 @@ command -v ubuntu-bug-triage
 
 
 # Projects to triage
-projects="cloud-init curtin simplestreams"
+projects="cloud-init cloud-utils curtin simplestreams"
 github_projects="cloud-init"
 ndays_new_bugs=90
 
