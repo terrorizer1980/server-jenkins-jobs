@@ -225,7 +225,7 @@
 
           set -e
           sudo rm -Rf cloud-init
-          git clone https://git.launchpad.net/cloud-init
+          git clone https://github.com/canonical/cloud-init
           cd cloud-init
           tag=$(git tag --list | grep "$release_ver" | tail -1)
           echo "Running with source from tag $tag"

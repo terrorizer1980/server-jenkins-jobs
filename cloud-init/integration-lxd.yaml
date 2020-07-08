@@ -97,7 +97,7 @@
           # extract hash from cloud-init...-g[a-f][a-f]..._all.deb
           hash=$(echo "$deb" | sed 's,.*-g\([0-9a-f]\+\)-.*,\1,')
           echo "deb=$(basename $deb) hash=$hash"
-          git clone https://git.launchpad.net/cloud-init
+          git clone https://github.com/canonical/cloud-init
           cd cloud-init
           git checkout --quiet "$hash"
           git log --max-count=1 --pretty=oneline HEAD
