@@ -28,12 +28,21 @@ core_committers="blackboxsw,OddBloke,raharper"
 
 # Find today's triager. On Mondays triage the weekend's bugs.
 ndays=1
-triagers=(Dan Ryan Chad Paride)
+triagers=(Dan JamesLucas Chad Paride)
 week=$(date --utc '+%-V')
+isEven=$(( $week % 2 ))
 dow=$(date --utc '+%u')
 if [[ "$dow" -ge 2 && "$dow" -le 5 ]]; then
     ndays=1
     triager=${triagers[$((dow-2))]}
+    if [ $triager == "JamesLucas" ]; then
+        if [ $isEven -eq 0 ]
+        then
+          triager="James"
+        else
+          triager="Lucas"
+        fi
+    fi
 elif [[ "$dow" -eq 1 ]]; then
     # Mondays!
     ndays=3
