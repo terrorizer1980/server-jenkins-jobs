@@ -115,64 +115,25 @@
         - archive-results
 
 - job:
-    name: cloud-init-integration-proposed-trigger-e
+    name: cloud-init-integration-proposed-trigger-f
     node: torkoal
     publishers: []
     triggers:
       - timed: "H 10 * * *"
     builders:
       - trigger-proposed-integration:
-          release: eoan
-          triggerwhat: cloud-init-integration-proposed-e-lxd cloud-init-integration-proposed-e-ec2 cloud-init-integration-proposed-e-kvm
+          release: focal
+          triggerwhat: cloud-init-integration-proposed-f-lxd cloud-init-integration-proposed-f-ec2 cloud-init-integration-proposed-f-kvm
 
 - job:
-    name: cloud-init-integration-proposed-e-kvm
-    node: torkoal
-    auth-token: BUILD_ME
-    builders:
-      - proposed-integration:
-          release: eoan
-          release-ver: 19.10
-          platform: nocloud-kvm
-    publishers:
-        - email-server-crew
-        - archive-results
-
-- job:
-    name: cloud-init-integration-proposed-e-lxd
-    node: torkoal
-    auth-token: BUILD_ME
-    builders:
-      - proposed-integration:
-          release: eoan
-          release-ver: 19.10
-          platform: lxd
-    publishers:
-        - email-server-crew
-        - archive-results
-
-- job:
-    name: cloud-init-integration-proposed-e-ec2
-    node: torkoal
-    auth-token: BUILD_ME
-    builders:
-      - proposed-integration:
-          release: eoan
-          release-ver: 19.10
-          platform: ec2
-    publishers:
-        - email-server-crew
-        - archive-results
-
-- job:
-    name: cloud-init-integration-proposed-f-kvm
+    name: cloud-init-integration-proposed-f-ec2
     node: torkoal
     auth-token: BUILD_ME
     builders:
       - proposed-integration:
           release: focal
           release-ver: 20.04
-          platform: nocloud-kvm
+          platform: ec2
     publishers:
         - email-server-crew
         - archive-results
@@ -191,26 +152,64 @@
         - archive-results
 
 - job:
-    name: cloud-init-integration-proposed-trigger-f
-    node: torkoal
-    publishers: []
-    triggers:
-      - timed: "H 10 * * *"
-    builders:
-      - trigger-proposed-integration:
-          release: eoan
-          triggerwhat: cloud-init-integration-proposed-f-lxd cloud-init-integration-proposed-f-ec2 cloud-init-integration-proposed-f-kvm
-
-
-- job:
-    name: cloud-init-integration-proposed-f-ec2
+    name: cloud-init-integration-proposed-f-kvm
     node: torkoal
     auth-token: BUILD_ME
     builders:
       - proposed-integration:
           release: focal
           release-ver: 20.04
+          platform: nocloud-kvm
+    publishers:
+        - email-server-crew
+        - archive-results
+
+- job:
+    name: cloud-init-integration-proposed-trigger-g
+    node: torkoal
+    publishers: []
+    triggers:
+      - timed: "H 10 * * *"
+    builders:
+      - trigger-proposed-integration:
+          release: groovy
+          triggerwhat: cloud-init-integration-proposed-e-lxd cloud-init-integration-proposed-e-ec2 cloud-init-integration-proposed-e-kvm
+
+- job:
+    name: cloud-init-integration-proposed-g-ec2
+    node: torkoal
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: groovy
+          release-ver: 20.10
           platform: ec2
+    publishers:
+        - email-server-crew
+        - archive-results
+
+- job:
+    name: cloud-init-integration-proposed-g-lxd
+    node: torkoal
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: groovy
+          release-ver: 20.10
+          platform: lxd
+    publishers:
+        - email-server-crew
+        - archive-results
+
+- job:
+    name: cloud-init-integration-proposed-g-kvm
+    node: torkoal
+    auth-token: BUILD_ME
+    builders:
+      - proposed-integration:
+          release: groovy
+          release-ver: 20.10
+          platform: nocloud-kvm
     publishers:
         - email-server-crew
         - archive-results

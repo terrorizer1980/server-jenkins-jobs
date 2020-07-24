@@ -37,24 +37,11 @@
       - email-server-crew
       - archive-results
       - trigger:
-          project: cloud-init-integration-lxd-e
-          threshold: FAILURE
-    builders:
-      - integration-lxd:
-          release: bionic
-
-- job:
-    name: cloud-init-integration-lxd-e
-    node: torkoal
-    publishers:
-      - email-server-crew
-      - archive-results
-      - trigger:
           project: cloud-init-integration-lxd-f
           threshold: FAILURE
     builders:
       - integration-lxd:
-          release: eoan
+          release: bionic
 
 - job:
     name: cloud-init-integration-lxd-f
