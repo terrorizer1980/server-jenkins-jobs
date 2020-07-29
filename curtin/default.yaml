@@ -62,8 +62,6 @@
       - curtin-vmtest-daily-g
       - curtin-vmtest-proposed-b
       - curtin-vmtest-proposed-b-trigger
-      - curtin-vmtest-proposed-e
-      - curtin-vmtest-proposed-e-trigger
       - curtin-vmtest-proposed-f
       - curtin-vmtest-proposed-f-trigger
       - curtin-vmtest-proposed-x
