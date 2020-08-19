@@ -110,7 +110,12 @@
           PATH="$PWD/tools:$PATH"
 
           ./tools/vmtest-system-setup
-          ./tools/curtainer --"$TYPE" ubuntu-daily:"$RELEASE" --source=src "$LXC_NAME"
+
+          # We assume the ubuntu-minimal-daily LXD remote has been already added.
+          # This is normally done by the jenkins-slave-setup Ansible by running:
+          # lxc remote add --protocol simplestreams ubuntu-minimal-daily https://cloud-images.ubuntu.com/minimal/daily/
+          ./tools/curtainer --"$TYPE" ubuntu-minimal-daily:"$RELEASE" --source=src "$LXC_NAME"
+
           cd src
           set +e
           ./tools/jenkins-runner -p 2 ${nose_args}
