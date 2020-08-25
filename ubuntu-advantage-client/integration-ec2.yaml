@@ -18,11 +18,12 @@
 - job:
     name: ubuntu-advantage-client-integration-ec2-terminate
     node: torkoal
+    wrappers:
+      - workspace-cleanup
     publishers:
       - email-server-crew
     builders:
       - shell: |
-          sudo rm -Rf *
           OLDER_THAN_DATE=`date -d yesterday +%m/%d/%y`
-          git clone https://github.com/canonical/server-test-script
+          git clone https://github.com/canonical/server-test-scripts
           ./server-test-scripts/ubuntu-advantage-client/ec2_cleanup.py -t uaclient-ci-* --older-than $OLDER_THAN_DATE
