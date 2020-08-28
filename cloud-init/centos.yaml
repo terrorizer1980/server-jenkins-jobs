@@ -23,7 +23,7 @@
     publishers:
       - email-server-crew
       - trigger:
-          project: cloud-init-copr-test-7
+          project: cloud-init-copr-test-8
           threshold: SUCCESS
     wrappers:
       - workspace-cleanup
@@ -50,7 +50,7 @@
           for i in 0 5m 30m 1h; do sleep $i; $retry_cmd && s=0 && break || s=$?; done; (exit $s)
 
 - job:
-    name: cloud-init-copr-test-7
+    name: cloud-init-copr-test-8
     node: torkoal
     wrappers:
       - workspace-cleanup
@@ -64,4 +64,4 @@
 
           git clone --depth 1 https://github.com/canonical/server-test-scripts
           cd server-test-scripts/cloud-init
-          ./copr_test -vv 7
+          ./copr_test -vv 8

@@ -19,7 +19,7 @@
     name: cloud-init
     jobs:
       - cloud-init-copr-build
-      - cloud-init-copr-test-7
+      - cloud-init-copr-test-8
       - cloud-init-github-mirror
       - cloud-init-integration-ec2-b
       - cloud-init-integration-ec2-f
