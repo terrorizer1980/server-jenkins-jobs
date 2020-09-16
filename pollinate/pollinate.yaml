@@ -1,0 +1,38 @@
+# Ubuntu Server QA Jenkins Jobs
+# Copyright (C) 2020 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version..
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+- job:
+    name: pollinate-test
+    triggers:
+      - timed: "@daily"
+    publishers:
+      - email:
+          recipients: server-crew-qa@lists.canonical.com
+    builders:
+      - shell: |
+          #!/bin/sh
+
+          set -eufx
+
+          pollinate --print-user-agent
+
+          # pollinate prints logging messages to stderr only if
+          # attached to a terminal, otherwise it will just print
+          # the random seed to stdout. Here we trick it into
+          # thinking there's a terminal attached by using script(1).
+          # The random seed (stdout) is discarded.
+          script --quiet --return -c 'pollinate --testing --strict > /dev/null'
