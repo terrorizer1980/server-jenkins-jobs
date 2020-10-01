@@ -19,7 +19,7 @@
     name: cloud-init-copr-build
     node: torkoal
     triggers:
-      - timed: "H 23 * * *"
+      - timed: "@daily"
     publishers:
       - email-server-crew
       - trigger:
