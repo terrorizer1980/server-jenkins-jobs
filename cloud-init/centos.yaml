@@ -46,7 +46,7 @@
           SRPM=$(realpath cloud-init/*.src.rpm)
           cd server-test-scripts/cloud-init
 
-          retry_cmd="./copr_build.py --project cloud-init-dev $SRPM"
+          retry_cmd="./copr_build.py --project cloud-init-dev --test-chroot epel-8-x86_64 $SRPM"
           for i in 0 5m 30m 1h; do sleep $i; $retry_cmd && s=0 && break || s=$?; done; (exit $s)
 
 - job:
