@@ -38,7 +38,7 @@
           # Avoid leaving a broken venv behind is something goes wrong here.
           trap 'rm -rf job-venv' EXIT
           [[ -d job-venv ]] || python3 -m venv job-venv || exit 1
-          source job-venv/bin/activate
+          . job-venv/bin/activate
           [[ $VIRTUAL_ENV == $(realpath job-venv) ]] || exit 1
           pip install --upgrade pip
           pip install --upgrade jenkins-job-builder==3.2.0 || exit 1
