@@ -32,19 +32,24 @@
       - shell: |
           #!/bin/bash
 
-          set -eux -o pipefail
+          set -ux -o pipefail
 
-          # Setup a venv to get the latest Jenkins Job Builder.
-          # If the venv already exists it will be reused.
-          python3 -m venv jjb-venv
-          source jjb-venv/bin/activate
+          # Setup a venv and install JJB, reuse the venv if already existing.
+          # Avoid leaving a broken venv behind is something goes wrong here.
+          trap 'rm -rf job-venv' EXIT
+          [[ -d job-venv ]] || python3 -m venv job-venv || exit 1
+          source job-venv/bin/activate
+          [[ $VIRTUAL_ENV == $(realpath job-venv) ]] || exit 1
           pip install --upgrade pip
-          pip install --upgrade jenkins-job-builder
+          pip install --upgrade jenkins-job-builder==3.2.0 || exit 1
+          [[ $(command -v jenkins-jobs) == $(realpath job-venv)* ]] || exit 1
+          trap - EXIT
+
           jenkins-jobs --version
 
           rm -rf server-jenkins-jobs
           git clone --depth 1 https://github.com/canonical/server-jenkins-jobs
-          cd server-jenkins-jobs
+          cd server-jenkins-jobs || exit 1
 
           if [ "$force_update" == "true" ]; then
             # Jenkins jobs altered via the jenkins configure UI are
@@ -57,5 +62,5 @@
           fi
 
           for dir in ./*/; do
-            jenkins-jobs $ignore_cache update --recursive "$dir"
+            jenkins-jobs $ignore_cache update --recursive "$dir" || exit 1
           done
