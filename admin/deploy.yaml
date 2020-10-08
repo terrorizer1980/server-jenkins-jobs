@@ -55,9 +55,7 @@
           else
             ignore_cache=""
           fi
-          for dir in `find * -type d`
-          do
-            pushd "$dir"
-            jenkins-jobs $ignore_cache update .
-            popd
+
+          for dir in ./*/; do
+            jenkins-jobs $ignore_cache update --recursive "$dir"
           done
