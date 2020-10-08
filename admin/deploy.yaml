@@ -30,9 +30,20 @@
           recipients: server-crew-qa@lists.canonical.com
     builders:
       - shell: |
-          #!/bin/bash -eux
-          rm -rf *
-          git clone https://github.com/canonical/server-jenkins-jobs
+          #!/bin/bash
+
+          set -eux -o pipefail
+
+          # Setup a venv to get the latest Jenkins Job Builder.
+          # If the venv already exists it will be reused.
+          python3 -m venv jjb-venv
+          source jjb-venv/bin/activate
+          pip install --upgrade pip
+          pip install --upgrade jenkins-job-builder
+          jenkins-jobs --version
+
+          rm -rf server-jenkins-jobs
+          git clone --depth 1 https://github.com/canonical/server-jenkins-jobs
           cd server-jenkins-jobs
 
           if [ "$force_update" == "true" ]; then
