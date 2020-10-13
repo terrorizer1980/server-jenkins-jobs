@@ -23,7 +23,7 @@ github_projects="cloud-init"
 ndays_new_bugs=90
 
 # GitHub usernames of core committers, comma-separated for use in jq filters
-core_committers="blackboxsw,OddBloke,raharper"
+core_committers="blackboxsw,OddBloke"
 
 
 # Find today's triager. On Mondays triage the weekend's bugs.
