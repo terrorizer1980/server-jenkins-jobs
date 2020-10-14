@@ -1,5 +1,5 @@
 # Ubuntu Server QA Jenkins Jobs
-# Copyright (C) 2016 Canonical Ltd.
+# Copyright (C) 2020 Canonical Ltd.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,6 +15,28 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
+- job-template:
+    name: uaclient-vm-{ubunturelease}
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+      - timeout:
+          timeout: 50
+          fail: true
+    publishers:
+      - email-server-crew
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+          tox -e behave-vm-{ubunturelease}
+
 - job:
     name: ubuntu-advantage-client-integration-ec2-terminate
     node: torkoal
@@ -22,6 +44,8 @@
       - workspace-cleanup
     publishers:
       - email-server-crew
+    triggers:
+      - timed: '@daily'
     builders:
       - shell: |
           OLDER_THAN_DATE=`date -d yesterday +%m/%d/%y`

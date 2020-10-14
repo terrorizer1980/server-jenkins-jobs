@@ -17,7 +17,12 @@
 
 - project:
     name: ubuntu-advantage-client
+    ubunturelease:
+      - 16.04
+      - 18.04
+      - 20.04
     jobs:
+      - uaclient-vm-{ubunturelease}
       - ubuntu-advantage-client-integration-ec2-terminate
 
 - defaults:
