@@ -22,8 +22,8 @@ projects=(cloud-init cloud-utils simplestreams)
 github_projects=(cloud-init pycloudlib)
 ndays_new_bugs=90
 
-# GitHub usernames of core committers, comma-separated for use in jq filters
-core_committers="blackboxsw,OddBloke"
+# GitHub usernames of team members, comma-separated for use in jq filters
+team_members="blackboxsw,OddBloke,TheRealFalcon,lucasmoura,mitechie,paride"
 
 
 # Find today's triager. On Mondays triage the weekend's bugs.
@@ -82,7 +82,7 @@ for project in "${github_projects[@]}"; do
     # Reverse order so oldest are displayed first, convert to JSON Lines to
     # reduce repeated work in next step, filter out assigned PRs, filter out
     # PRs submitted by core committers
-    jq -r "reverse | .[] | select(.assignee == null) | select(.user.login | inside(\"$core_committers\") | not)" pulls.json > relevant_pulls.jsonl
+    jq -r "reverse | .[] | select(.assignee == null) | select(.user.login | inside(\"$team_members\") | not)" pulls.json > relevant_pulls.jsonl
 
     # Use jq's string interpolation to generate the text and HTML output
     jq -r '"* PR #\(.number): \"\(.title)\" by @\(.user.login)\n  \(.html_url)"' relevant_pulls.jsonl \
