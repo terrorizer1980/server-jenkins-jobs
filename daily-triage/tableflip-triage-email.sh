@@ -19,7 +19,7 @@ command -v ubuntu-bug-triage
 
 # Projects to triage
 projects=(cloud-init cloud-utils simplestreams)
-github_projects=(cloud-init)
+github_projects=(cloud-init pycloudlib)
 ndays_new_bugs=90
 
 # GitHub usernames of core committers, comma-separated for use in jq filters
