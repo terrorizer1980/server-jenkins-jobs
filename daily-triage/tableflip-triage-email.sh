@@ -18,8 +18,8 @@ command -v ubuntu-bug-triage
 
 
 # Projects to triage
-projects="cloud-init cloud-utils simplestreams"
-github_projects="cloud-init"
+projects=(cloud-init cloud-utils simplestreams)
+github_projects=(cloud-init)
 ndays_new_bugs=90
 
 # GitHub usernames of core committers, comma-separated for use in jq filters
@@ -54,22 +54,26 @@ fi
 
 
 # Retrieve the bugs
-for project in $projects; do
-    echo None > "$project-bugs.text"
+for project in "${projects[@]}"; do
+    : > "$project-bugs.text"
+
     echo "[Incomplete, Confirmed, Triaged and In Progress bugs]" > "$project-bugs.text.tmp"
     ubuntu-bug-triage --anon -s Incomplete -s Confirmed -s Triaged -s "In Progress" --include-project "$project" "$ndays" >> "$project-bugs.text.tmp"
     grep -q LP "$project-bugs.text.tmp" && cat "$project-bugs.text.tmp" > "$project-bugs.text"
+
     echo "[New bugs]" > "$project-bugs.text.tmp"
     ubuntu-bug-triage --anon -s New --include-project "$project" "$ndays_new_bugs" >> "$project-bugs.text.tmp"
     if grep -q LP "$project-bugs.text.tmp"; then
         [[ -s $project-bugs.text ]] && echo >> "$project-bugs.text"
         cat "$project-bugs.text.tmp" >> "$project-bugs.text"
     fi
+
+    [[ ! -s $project-bugs.text ]] && echo None > "$project-bugs.text"
     rm -f "$project-bugs.text.tmp"
 done
 
 
-for project in $github_projects; do
+for project in "${github_projects[@]}"; do
     : > "$project-reviews.text"
 
     # Fetch all pull requests
@@ -86,25 +90,36 @@ for project in $github_projects; do
     jq -r '"<li><a href=\"\(.html_url)\">PR #\(.number)</a>: \"\(.title)\" by @\(.user.login)</li>"' relevant_pulls.jsonl \
         > "$project-reviews.html"
     rm -f pulls.json relevant_pulls.jsonl
+
+    [[ ! -s $project-reviews.text ]] && echo None > "$project-reviews.text"
+    [[ ! -s $project-reviews.html ]] && echo '<li>None</li>' > "$project-reviews.html"
 done
 
 
 # Generate the email subject and <title> for the text/html email
-subject="Daily triage for: $projects [$triager]"
+subject="Daily triage for: ${projects[*]} [$triager]"
 
 
 # Generate the text/plain mail body
 {
-    printf '# Daily bug triage for: %s\n\n' "$projects"
+    printf '# Daily bug triage for: %s\n\n' "${projects[*]}"
     echo "Today's triager: $triager"
 
-    for project in $projects; do
+    for project in "${projects[@]}"; do
         printf '\n## %s active bugs (%s days) and New bugs (%s days)\n\n' "$project" $ndays $ndays_new_bugs
         cat "$project-bugs.text"
 
         if [ -e "$project-reviews.text" ]; then
             printf '\n## %s reviews without an assignee\n\n' "$project"
             cat "$project-reviews.text"
+            rm -f "$project-reviews.text"
+        fi
+    done
+
+    for github_project in "${github_projects[@]}"; do
+        if [ -e "$github_project-reviews.text" ]; then
+            printf '\n## %s reviews without an assignee\n\n' "$github_project"
+            cat "$github_project-reviews.text"
         fi
     done
 
@@ -130,12 +145,12 @@ subject="Daily triage for: $projects [$triager]"
     printf '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n'
     echo "<title>$subject</title>"
     printf '</head>\n<body>\n'
-    echo "<h4>Daily bug triage for: $projects</h4>"
+    echo "<h4>Daily bug triage for: ${projects[*]}</h4>"
     echo "Today's triager: $triager"
 
-    for project in $projects; do
-        sed 's|\(LP: #\)\([0-9][0-9]*\)|LP: <a href="https://pad.lv/\2">#\2</a>|' "$project-bugs.text" > "$project-bugs.html"
-        echo "<h5>$project active bugs ($ndays days) and New bugs ($ndays_new_bugs days)</h5>"
+    for project in "${projects[@]}"; do
+        sed 's|\(lp: #\)\([0-9][0-9]*\)|lp: <a href="https://pad.lv/\2">#\2</a>|' "$project-bugs.text" > "$project-bugs.html"
+        echo "<h5>$project active bugs ($ndays days) and new bugs ($ndays_new_bugs days)</h5>"
         echo "<pre>"
         cat "$project-bugs.html"
         echo "</pre>"
@@ -144,6 +159,16 @@ subject="Daily triage for: $projects [$triager]"
             echo "<h5>$project reviews without an assignee</h5>"
             echo "<ul>"
             cat "$project-reviews.html"
+            echo "</ul>"
+            rm -f "$project-reviews.html"
+        fi
+    done
+
+    for github_project in "${github_projects[@]}"; do
+        if [ -e "$github_project-reviews.html" ]; then
+            echo "<h5>$github_project reviews without an assignee</h5>"
+            echo "<ul>"
+            cat "$github_project-reviews.html"
             echo "</ul>"
         fi
     done
