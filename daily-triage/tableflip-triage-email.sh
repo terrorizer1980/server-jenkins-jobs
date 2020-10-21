@@ -74,7 +74,7 @@ done
 
 
 for project in "${github_projects[@]}"; do
-    : > "$project-reviews.text"
+    rm -f "$project-reviews.text" "$project-reviews.html"
 
     # Fetch all pull requests
     curl "https://api.github.com/repos/canonical/$project/pulls" > pulls.json
@@ -91,8 +91,7 @@ for project in "${github_projects[@]}"; do
         > "$project-reviews.html"
     rm -f pulls.json relevant_pulls.jsonl
 
-    [[ ! -s $project-reviews.text ]] && echo None > "$project-reviews.text"
-    [[ ! -s $project-reviews.html ]] && echo '<li>None</li>' > "$project-reviews.html"
+    [[ ! -s $project-reviews.text ]] && rm -f "$project-reviews.text" "$project-reviews.html"
 done
 
 
