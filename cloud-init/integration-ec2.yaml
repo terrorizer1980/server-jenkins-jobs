@@ -61,7 +61,7 @@
           release: focal
 
 - job:
-    name: cloud-init-integration-ec2-g
+    name: cloud-init-integration-ec2-h
     node: torkoal
     triggers:
       - timed: "H 0 * * 6"
@@ -73,7 +73,7 @@
           threshold: FAILURE
     builders:
       - integration-ec2:
-          release: groovy
+          release: hirsute
 
 - builder:
     name: integration-ec2

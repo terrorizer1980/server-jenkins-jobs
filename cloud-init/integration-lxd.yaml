@@ -50,21 +50,21 @@
       - email-server-crew
       - archive-results
       - trigger:
-          project: cloud-init-integration-lxd-g
+          project: cloud-init-integration-lxd-h
           threshold: FAILURE
     builders:
       - integration-lxd:
           release: focal
 
 - job:
-    name: cloud-init-integration-lxd-g
+    name: cloud-init-integration-lxd-h
     node: torkoal
     publishers:
       - email-server-crew
       - archive-results
     builders:
       - integration-lxd:
-          release: groovy
+          release: hirsute
 
 - builder:
     name: integration-lxd

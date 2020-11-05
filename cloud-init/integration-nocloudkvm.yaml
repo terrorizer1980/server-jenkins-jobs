@@ -56,14 +56,14 @@
       - email-server-crew
       - archive-results
       - trigger:
-          project: cloud-init-integration-nocloud-kvm-g
+          project: cloud-init-integration-nocloud-kvm-h
           threshold: FAILURE
     builders:
       - integration-nocloud-kvm:
           release: focal
 
 - job:
-    name: cloud-init-integration-nocloud-kvm-g
+    name: cloud-init-integration-nocloud-kvm-h
     node: torkoal
     parameters:
       - boot-timeout
@@ -72,7 +72,7 @@
       - archive-results
     builders:
       - integration-nocloud-kvm:
-          release: groovy
+          release: hirsute
 
 - builder:
     name: integration-nocloud-kvm
