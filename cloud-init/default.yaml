@@ -15,42 +15,6 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- project:
-    name: cloud-init
-    jobs:
-      - cloud-init-github-mirror
-      - cloud-init-integration-ec2-b
-      - cloud-init-integration-ec2-f
-      - cloud-init-integration-ec2-g
-      - cloud-init-integration-ec2-x
-      - cloud-init-integration-ec2-terminate
-      - cloud-init-integration-lxd-b
-      - cloud-init-integration-lxd-f
-      - cloud-init-integration-lxd-g
-      - cloud-init-integration-lxd-x
-      - cloud-init-integration-nocloud-kvm-b
-      - cloud-init-integration-nocloud-kvm-f
-      - cloud-init-integration-nocloud-kvm-g
-      - cloud-init-integration-nocloud-kvm-x
-      - cloud-init-integration-proposed-b-ec2
-      - cloud-init-integration-proposed-b-lxd
-      - cloud-init-integration-proposed-b-kvm
-      - cloud-init-integration-proposed-f-ec2
-      - cloud-init-integration-proposed-f-lxd
-      - cloud-init-integration-proposed-f-kvm
-      - cloud-init-integration-proposed-g-ec2
-      - cloud-init-integration-proposed-g-lxd
-      - cloud-init-integration-proposed-g-kvm
-      - cloud-init-integration-proposed-x-ec2
-      - cloud-init-integration-proposed-x-lxd
-      - cloud-init-integration-proposed-x-kvm
-      - cloud-init-integration-proposed-trigger-b
-      - cloud-init-integration-proposed-trigger-f
-      - cloud-init-integration-proposed-trigger-g
-      - cloud-init-integration-proposed-trigger-x
-      - cloud-init-lp-build-status
-      - cloud-init-style-tip
-
 - defaults:
     name: global
     description: |
