@@ -15,215 +15,44 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job:
-    name: cloud-init-integration-proposed-trigger-x
+- job-template:
+    name: cloud-init-integration-proposed-trigger-{release}
     node: torkoal
     triggers:
-      - timed: "H 10 * * *"
+      - timed: "@daily"
+    wrappers:
+      - workspace-cleanup
     builders:
       - trigger-proposed-integration:
-          release: xenial
-          triggerwhat: cloud-init-integration-proposed-x-lxd cloud-init-integration-proposed-x-ec2 cloud-init-integration-proposed-x-kvm
+          release: "{release}"
+          triggerwhat: !j2: |
+            {% for p in platform -%}
+            {{ "cloud-init-integration-proposed-" + release + "-" + p + " "}}
+            {%- endfor %}
 
-- job:
-    name: cloud-init-integration-proposed-x-ec2
+- job-template:
+    name: cloud-init-integration-proposed-{release}-{platform}
     node: torkoal
     auth-token: BUILD_ME
-    publishers:
-        - email-server-crew
-        - archive-results
+    wrappers:
+      - workspace-cleanup
     builders:
       - proposed-integration:
-          release: xenial
-          release-ver: 16.04
-          platform: ec2
-
-- job:
-    name: cloud-init-integration-proposed-x-lxd
-    node: torkoal
-    auth-token: BUILD_ME
+          release: "{release}"
+          platform: "{platform}"
     publishers:
-        - email-server-crew
-        - archive-results
-    builders:
-      - proposed-integration:
-          release: xenial
-          release-ver: 16.04
-          platform: lxd
-
-- job:
-    name: cloud-init-integration-proposed-x-kvm
-    node: torkoal
-    auth-token: BUILD_ME
-    publishers:
-        - email-server-crew
-        - archive-results
-    builders:
-      - proposed-integration:
-          release: xenial
-          release-ver: 16.04
-          platform: nocloud-kvm
-
-- job:
-    name: cloud-init-integration-proposed-trigger-b
-    node: torkoal
-    publishers: []
-    triggers:
-      - timed: "H 10 * * *"
-    builders:
-      - trigger-proposed-integration:
-          release: bionic
-          triggerwhat: cloud-init-integration-proposed-b-lxd cloud-init-integration-proposed-b-ec2 cloud-init-integration-proposed-b-kvm
-
-- job:
-    name: cloud-init-integration-proposed-b-ec2
-    node: torkoal
-    auth-token: BUILD_ME
-    builders:
-      - proposed-integration:
-          release: bionic
-          release-ver: 18.04
-          platform: ec2
-    publishers:
-        - email-server-crew
-        - archive-results
-
-- job:
-    name: cloud-init-integration-proposed-b-lxd
-    node: torkoal
-    auth-token: BUILD_ME
-    builders:
-      - proposed-integration:
-          release: bionic
-          release-ver: 18.04
-          platform: lxd
-    publishers:
-        - email-server-crew
-        - archive-results
-
-- job:
-    name: cloud-init-integration-proposed-b-kvm
-    node: torkoal
-    auth-token: BUILD_ME
-    builders:
-      - proposed-integration:
-          release: bionic
-          release-ver: 18.04
-          platform: nocloud-kvm
-    publishers:
-        - email-server-crew
-        - archive-results
-
-- job:
-    name: cloud-init-integration-proposed-trigger-f
-    node: torkoal
-    publishers: []
-    triggers:
-      - timed: "H 10 * * *"
-    builders:
-      - trigger-proposed-integration:
-          release: focal
-          triggerwhat: cloud-init-integration-proposed-f-lxd cloud-init-integration-proposed-f-ec2 cloud-init-integration-proposed-f-kvm
-
-- job:
-    name: cloud-init-integration-proposed-f-ec2
-    node: torkoal
-    auth-token: BUILD_ME
-    builders:
-      - proposed-integration:
-          release: focal
-          release-ver: 20.04
-          platform: ec2
-    publishers:
-        - email-server-crew
-        - archive-results
-
-- job:
-    name: cloud-init-integration-proposed-f-lxd
-    node: torkoal
-    auth-token: BUILD_ME
-    builders:
-      - proposed-integration:
-          release: focal
-          release-ver: 20.04
-          platform: lxd
-    publishers:
-        - email-server-crew
-        - archive-results
-
-- job:
-    name: cloud-init-integration-proposed-f-kvm
-    node: torkoal
-    auth-token: BUILD_ME
-    builders:
-      - proposed-integration:
-          release: focal
-          release-ver: 20.04
-          platform: nocloud-kvm
-    publishers:
-        - email-server-crew
-        - archive-results
-
-- job:
-    name: cloud-init-integration-proposed-trigger-g
-    node: torkoal
-    publishers: []
-    triggers:
-      - timed: "H 10 * * *"
-    builders:
-      - trigger-proposed-integration:
-          release: groovy
-          triggerwhat: cloud-init-integration-proposed-e-lxd cloud-init-integration-proposed-e-ec2 cloud-init-integration-proposed-e-kvm
-
-- job:
-    name: cloud-init-integration-proposed-g-ec2
-    node: torkoal
-    auth-token: BUILD_ME
-    builders:
-      - proposed-integration:
-          release: groovy
-          release-ver: 20.10
-          platform: ec2
-    publishers:
-        - email-server-crew
-        - archive-results
-
-- job:
-    name: cloud-init-integration-proposed-g-lxd
-    node: torkoal
-    auth-token: BUILD_ME
-    builders:
-      - proposed-integration:
-          release: groovy
-          release-ver: 20.10
-          platform: lxd
-    publishers:
-        - email-server-crew
-        - archive-results
-
-- job:
-    name: cloud-init-integration-proposed-g-kvm
-    node: torkoal
-    auth-token: BUILD_ME
-    builders:
-      - proposed-integration:
-          release: groovy
-          release-ver: 20.10
-          platform: nocloud-kvm
-    publishers:
-        - email-server-crew
-        - archive-results
+      - email-server-crew
+      - archive-results
 
 - builder:
     name: proposed-integration
     builders:
       - shell: |
           release="{release}"
-          release_ver="{release-ver}"
+          release_ver=$(ubuntu-distro-info --release --series={release} | cut -f ' ' -f 1)
           platform="{platform}"
 
           set -e
-          sudo rm -Rf cloud-init
           git clone https://github.com/canonical/cloud-init
           cd cloud-init
           tag=$(git tag --list | grep "$release_ver" | tail -1)
@@ -259,9 +88,8 @@
       - shell: |
           #!/bin/bash
           set -ex
-          sudo rm -rf *
 
-          rel={release}
+          rel="{release}"
           triggerwhat="{triggerwhat}"
           pkg="cloud-init"
 
