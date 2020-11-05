@@ -16,7 +16,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job:
-    name: lma-integration
+    name: oci-integration-lma
     node: metal-amd64
     triggers:
       - timed: "@daily"
