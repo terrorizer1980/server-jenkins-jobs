@@ -23,7 +23,11 @@
     parameters:
       - bool:
           name: force_update
-          description: Optionally force job updates of all jobs by providing --ignore-cache to 'jenkins-job update' command. Useful to clear out config deltas introduced by editing jobs in Jenkins' UI.
+          description: Force job updates of all jobs by providing --ignore-cache to 'jenkins-job update' command. Useful to clear out config deltas introduced by editing jobs in Jenkins' UI.
+          default: false
+      - bool:
+          name: delete_old
+          description: Delete jobs that were jobs once managed by JJB (as distinguished by a special comment that JJB appends to their description), but were not generated in this JJB run.
           default: false
     publishers:
       - email:
@@ -51,16 +55,21 @@
           git clone --depth 1 https://github.com/canonical/server-jenkins-jobs
           cd server-jenkins-jobs || exit 1
 
-          if [ "$force_update" == "true" ]; then
-            # Jenkins jobs altered via the jenkins configure UI are
-            # updated if deltas are observed on 'tip' of source repo.
-            # Use --ignore-cache to force update to clear out any deltas
-            # added via the jenkins UI even if master doesn't present a delta.
-            ignore_cache="--ignore-cache"
-          else
-            ignore_cache=""
-          fi
+          jjb_flags=()
+          # Jenkins jobs altered via the jenkins configure UI are
+          # updated if deltas are observed on 'tip' of source repo.
+          # Use --ignore-cache to force update to clear out any deltas
+          # added via the jenkins UI even if master doesn't present a delta.
+          [[ $force_update == true ]] && jjb_flags+=(--ignore-cache)
 
+          jjb_update_flags=(--recursive)
+          [[ $delete_old == true ]] && jjb_update_flags+=(--delete-old)
+
+          JJB_RC=0
           for dir in ./*/; do
-            jenkins-jobs $ignore_cache update --recursive "$dir" || exit 1
+            # If JJB fails on a directory proceed with the other directories,
+            # but report the failure status at the end.
+            jenkins-jobs "${jjb_flags[@]}" update "${jjb_update_flags[@]}" "$dir" || JJB_RC=1
           done
+
+          exit $JJB_RC
