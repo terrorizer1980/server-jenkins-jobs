@@ -23,6 +23,7 @@
       - mysql
       - nginx
       - prometheus
+      - apache2
     jobs:
       - oci-unit-{testcase}
 
