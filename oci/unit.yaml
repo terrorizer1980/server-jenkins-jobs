@@ -25,6 +25,7 @@
       - prometheus
       - apache2
       - alertmanager
+      - memcached
     jobs:
       - oci-unit-{testcase}
 
