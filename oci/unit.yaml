@@ -27,6 +27,7 @@
       - alertmanager
       - memcached
       - grafana
+      - cortex
     jobs:
       - oci-unit-{testcase}
 
