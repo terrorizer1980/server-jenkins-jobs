@@ -24,6 +24,7 @@
       - nginx
       - prometheus
       - apache2
+      - alertmanager
     jobs:
       - oci-unit-{testcase}
 
