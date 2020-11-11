@@ -26,6 +26,7 @@
       - apache2
       - alertmanager
       - memcached
+      - grafana
     jobs:
       - oci-unit-{testcase}
 
