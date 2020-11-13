@@ -28,6 +28,7 @@
       - memcached
       - grafana
       - cortex
+      - telegraf
     jobs:
       - oci-unit-{testcase}
 
