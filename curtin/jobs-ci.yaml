@@ -127,7 +127,9 @@
               # This is only apparently a wider set of tests, in practice each architecture
               # supports only a subset of those, the others will (and have to be) skipped
               # without resulting in a test failure.
-              ./tools/jenkins-runner --skip-images-dirlock -p 4 tests/vmtests/test_basic.py:{XenialGA,Focal}Test{,Scsi}Basic tests/vmtests/test_uefi_basic.py:{XenialGA,Focal}UefiTestBasic
+              ./tools/jenkins-runner --skip-images-dirlock -p 4 \
+                  tests/vmtests/test_basic.py:{XenialGA,Focal}Test{,Scsi}Basic \
+                  tests/vmtests/test_uefi_basic.py:{XenialGA,Focal}UefiTestBasic
           fi
 
 - job:
@@ -189,5 +191,7 @@
           if [[ $(arch) == x86_64 ]]; then
               ./tools/jenkins-runner --skip-images-dirlock -p 2 tests/vmtests/test_basic.py:{XenialGA,Bionic,Focal}TestBasic
           else
-              ./tools/jenkins-runner --skip-images-dirlock -p 2 tests/vmtests/test_basic.py:{XenialGA,Focal}Test{,Scsi}Basic tests/vmtests/test_uefi_basic.py:{XenialGA,Focal}UefiTestBasic
+              ./tools/jenkins-runner --skip-images-dirlock -p 2 \
+                  tests/vmtests/test_basic.py:{XenialGA,Focal}Test{,Scsi}Basic \
+                  tests/vmtests/test_uefi_basic.py:{XenialGA,Focal}UefiTestBasic
           fi

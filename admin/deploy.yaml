@@ -23,7 +23,8 @@
     parameters:
       - bool:
           name: force_update
-          description: Force job updates of all jobs by providing --ignore-cache to 'jenkins-job update' command. Useful to clear out config deltas introduced by editing jobs in Jenkins' UI.
+          description: Force job updates of all jobs by providing --ignore-cache to 'jenkins-job update' command.
+            Useful to clear out config deltas introduced by editing jobs in Jenkins' UI.
           default: false
     publishers:
       - email:
