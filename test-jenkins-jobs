@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-for dir in *;
+for dir in jenkins-jobs/*/;
 do 
     if [ -d $dir ]; then
         pushd $dir

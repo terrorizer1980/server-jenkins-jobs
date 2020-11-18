@@ -62,7 +62,7 @@
           jjb_update_flags=(--recursive)
 
           JJB_RC=0
-          for dir in ./*/; do
+          for dir in jenkins-jobs/*/; do
             # If JJB fails on a directory proceed with the other directories,
             # but report the failure status at the end.
             jenkins-jobs "${jjb_flags[@]}" update "${jjb_update_flags[@]}" "$dir" || JJB_RC=1
