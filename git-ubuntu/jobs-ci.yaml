@@ -39,7 +39,7 @@
       - use-description-for-commit
     project-type: pipeline
     auth-token: BUILD_ME
-    sandbox: True
+    sandbox: true
     dsl: |
       pipeline {
         agent { label 'metal-amd64' }
@@ -133,7 +133,7 @@
     project-type: pipeline
     triggers:
       - timed: "H 23 * * *"
-    sandbox: True
+    sandbox: true
     dsl: |
       pipeline {
         agent { label 'metal-amd64' }
