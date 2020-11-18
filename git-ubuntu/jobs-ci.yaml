@@ -19,15 +19,15 @@
     name: git-ubuntu-ci-trigger
     node: metal-amd64
     triggers:
-        - timed: H/15 * * * *
+      - timed: H/15 * * * *
     builders:
-        - shell: |
-            #!/bin/bash -x
-            rm -rf *
-            launchpadTrigger --lock-name=${JOB_NAME} \
-                             --job=git-ubuntu-ci \
-                             --branch=lp:usd-importer \
-                             --trigger-ci
+      - shell: |
+          #!/bin/bash -x
+          rm -rf *
+          launchpadTrigger --lock-name=${JOB_NAME} \
+                           --job=git-ubuntu-ci \
+                           --branch=lp:usd-importer \
+                           --trigger-ci
 
 - job:
     name: git-ubuntu-ci

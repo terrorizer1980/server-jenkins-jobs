@@ -20,13 +20,13 @@
     name: git-clone-params
     parameters:
       - string:
-            name: '{gitvarprefix}REPO'
-            default: '{giturl}'
-            description: '{gitproject} repository location'
+          name: '{gitvarprefix}REPO'
+          default: '{giturl}'
+          description: '{gitproject} repository location'
       - string:
-            name: '{gitvarprefix}BRANCH'
-            default: '{gitbranch|master}'
-            description: '{gitproject} branch to pull'
+          name: '{gitvarprefix}BRANCH'
+          default: '{gitbranch|master}'
+          description: '{gitproject} branch to pull'
 
 
 # Sets the STSREPO and STSBRANCH environment variables

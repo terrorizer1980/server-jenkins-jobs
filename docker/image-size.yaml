@@ -30,8 +30,8 @@
     node: metal-amd64
     wrappers:
       - timeout:
-           timeout: 15
-           fail: true
+          timeout: 15
+          fail: true
     parameters:
       - string:
           name: DOCKERTAG
