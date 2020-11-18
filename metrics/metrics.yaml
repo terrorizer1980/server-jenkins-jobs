@@ -157,10 +157,10 @@
 - job:
     name: metric-foundations-sru-queues
     builders:
-        - metric-influxdb:
-            team: "foundations"
-            metric_module: "foundations_sru"
-            metric_arguments: ""
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "foundations_sru"
+          metric_arguments: ""
 
 - job:
     name: metric-foundations-subiquity
@@ -173,10 +173,10 @@
 - job:
     name: metric-rls-bug-tasks
     builders:
-        - metric-influxdb:
-            team: "foundations"
-            metric_module: "rls_bug_tasks"
-            metric_arguments: ""
+      - metric-influxdb:
+          team: "foundations"
+          metric_module: "rls_bug_tasks"
+          metric_arguments: ""
 
 - job:
     name: metric-server-cloudinit

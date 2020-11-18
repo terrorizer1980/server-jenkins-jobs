@@ -138,7 +138,7 @@
       - nose-args:
           default_nose_args:
       - vmtest-add-repos:
-           default_vmtest_add_repos: "proposed"
+          default_vmtest_add_repos: "proposed"
       - string:
           name: vmtest_filters
           default: "target_distro=ubuntu"

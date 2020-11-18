@@ -20,10 +20,10 @@
     triggers:
       - timed: H/15 * * * *
     wrappers:
-        # We run every 15 minutes, and runs usually take a few seconds
-        - timeout:
-            timeout: 15
-            fail: true
+      # We run every 15 minutes, and runs usually take a few seconds
+      - timeout:
+          timeout: 15
+          fail: true
     builders:
       - shell: |
           #!/bin/bash -x
@@ -38,22 +38,22 @@
     name: simplestreams-autoland-trigger
     node: metal-amd64
     triggers:
-        - timed: H/15 * * * *
+      - timed: H/15 * * * *
     wrappers:
-        # We run every 15 minutes, and runs usually take a few seconds
-        - timeout:
-            timeout: 15
-            fail: true
+      # We run every 15 minutes, and runs usually take a few seconds
+      - timeout:
+          timeout: 15
+          fail: true
     builders:
-        - shell: |
-            #!/bin/bash
-            set -eux
+      - shell: |
+          #!/bin/bash
+          set -eux
 
-            launchpadTrigger --lock-name=${JOB_NAME} \
-                             --job=simplestreams-autoland-test \
-                             --branch=lp:simplestreams \
-                             --autoland \
-                             --repo_type=git
+          launchpadTrigger --lock-name=${JOB_NAME} \
+                           --job=simplestreams-autoland-test \
+                           --branch=lp:simplestreams \
+                           --autoland \
+                           --repo_type=git
 
 - job:
     name: simplestreams-ci
@@ -74,23 +74,23 @@
     auth-token: BUILD_ME
     publishers:
       - trigger-parameterized-builds:
-        - project: admin-lp-git-vote
-          condition: UNSTABLE_OR_WORSE
-          predefined-parameters: |
-            MERGE_BRANCH=${landing_candidate}
-            MERGE_REVISION=${candidate_revision}
-            MERGE_URL=${merge_proposal}
-            TEST_RESULT=FAILED
-            TEST_URL=${BUILD_URL}
+          - project: admin-lp-git-vote
+            condition: UNSTABLE_OR_WORSE
+            predefined-parameters: |
+              MERGE_BRANCH=${landing_candidate}
+              MERGE_REVISION=${candidate_revision}
+              MERGE_URL=${merge_proposal}
+              TEST_RESULT=FAILED
+              TEST_URL=${BUILD_URL}
       - trigger-parameterized-builds:
-        - project: admin-lp-git-vote
-          condition: SUCCESS
-          predefined-parameters: |
-            MERGE_BRANCH=${landing_candidate}
-            MERGE_REVISION=${candidate_revision}
-            MERGE_URL=${merge_proposal}
-            TEST_RESULT=PASSED
-            TEST_URL=${BUILD_URL}
+          - project: admin-lp-git-vote
+            condition: SUCCESS
+            predefined-parameters: |
+              MERGE_BRANCH=${landing_candidate}
+              MERGE_REVISION=${candidate_revision}
+              MERGE_URL=${merge_proposal}
+              TEST_RESULT=PASSED
+              TEST_URL=${BUILD_URL}
     builders:
       - shell: |
           #!/bin/bash
@@ -124,21 +124,21 @@
     auth-token: BUILD_ME
     publishers:
       - trigger-parameterized-builds:
-        - project: admin-lp-git-autoland
-          condition: UNSTABLE_OR_WORSE
-          predefined-parameters: |
-            MERGE_REVISION=${candidate_revision}
-            MERGE_URL=${merge_proposal}
-            TEST_RESULT=FAILED
-            TEST_URL=${BUILD_URL}
+          - project: admin-lp-git-autoland
+            condition: UNSTABLE_OR_WORSE
+            predefined-parameters: |
+              MERGE_REVISION=${candidate_revision}
+              MERGE_URL=${merge_proposal}
+              TEST_RESULT=FAILED
+              TEST_URL=${BUILD_URL}
       - trigger-parameterized-builds:
-        - project: admin-lp-git-autoland
-          condition: SUCCESS
-          predefined-parameters: |
-            MERGE_REVISION=${candidate_revision}
-            MERGE_URL=${merge_proposal}
-            TEST_RESULT=PASSED
-            TEST_URL=${BUILD_URL}
+          - project: admin-lp-git-autoland
+            condition: SUCCESS
+            predefined-parameters: |
+              MERGE_REVISION=${candidate_revision}
+              MERGE_URL=${merge_proposal}
+              TEST_RESULT=PASSED
+              TEST_URL=${BUILD_URL}
     builders:
       - shell: |
           #!/bin/bash

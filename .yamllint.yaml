@@ -1,0 +1,9 @@
+---
+
+# Extend the default conf by adjusting some options.
+extends: default
+
+rules:
+  document-start: disable
+  line-length:
+    max: 180

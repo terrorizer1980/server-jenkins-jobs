@@ -48,5 +48,5 @@
 - publisher:
     name: email-qa
     publishers:
-       - email:
+      - email:
           recipients: paride.legovini@canonical.com
