@@ -57,4 +57,4 @@
           cd sts/oci-unit-tests
           sh "{testcase}_test.sh" || exit 1
     publishers:
-      - email-server-crew-qa
+      - email-squeaky-wheel

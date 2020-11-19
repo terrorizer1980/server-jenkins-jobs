@@ -42,4 +42,4 @@
           # Run the tests and explicitly exit with rc != 0 on failure
           sts/lma-integration/lxd-runner || exit 1
     publishers:
-      - email-server-crew-qa
+      - email-squeaky-wheel

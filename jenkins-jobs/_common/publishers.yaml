@@ -27,6 +27,12 @@
       - email:
           recipients: paride.legovini@canonical.com
 
+- publisher:
+    name: email-squeaky-wheel
+    publishers:
+      - email:
+          recipients: server-squeaky-wheel@lists.canonical.com
+
 - publishers:
     name: archive-everything
     publishers:
