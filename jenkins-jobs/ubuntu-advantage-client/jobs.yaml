@@ -17,6 +17,7 @@
 
 - job-template:
     name: uaclient-vm-{ubunturelease}
+    defaults: ubuntu-advantage-client
     parameters:
       - uaclient
     wrappers:
@@ -31,8 +32,6 @@
           - text:
               credential-id: ua-contract-token-staging
               variable: UACLIENT_BEHAVE_CONTRACT_TOKEN_STAGING
-    publishers:
-      - email-server-crew
     triggers:
       - timed: '@daily'
     builders:
@@ -46,11 +45,10 @@
 
 - job:
     name: ubuntu-advantage-client-integration-ec2-terminate
+    defaults: ubuntu-advantage-client
     node: torkoal
     wrappers:
       - workspace-cleanup
-    publishers:
-      - email-server-crew
     triggers:
       - timed: '@daily'
     builders:

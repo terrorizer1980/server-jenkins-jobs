@@ -67,6 +67,7 @@
 
 - job:
     name: metric-foundations-cloud-images
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -75,6 +76,7 @@
 
 - job:
     name: metric-foundations-docker-hub-images
+    defaults: metrics
     builders:
       - shell: |
           #!/bin/bash
@@ -94,6 +96,7 @@
 
 - job:
     name: metric-foundations-cloud-image-sizes
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -102,6 +105,7 @@
 
 - job:
     name: metric-foundations-bugs
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -110,6 +114,7 @@
 
 - job:
     name: metric-foundations-uploads
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -118,6 +123,7 @@
 
 - job:
     name: metric-foundations-error-reports
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -126,6 +132,7 @@
 
 - job:
     name: metric-foundations-netplan
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -134,6 +141,7 @@
 
 - job:
     name: metric-foundations-proposed-migration
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -142,6 +150,7 @@
 
 - job:
     name: metric-foundations-proposed-migration-by-team
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -150,12 +159,14 @@
 
 - job:
     name: metric-foundations-autopkgtest-queue
+    defaults: metrics
     builders:
       - autopkgtest_queues:
           queue_name: "ubuntu ppa huge upstream"
 
 - job:
     name: metric-foundations-sru-queues
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -164,6 +175,7 @@
 
 - job:
     name: metric-foundations-subiquity
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -172,6 +184,7 @@
 
 - job:
     name: metric-rls-bug-tasks
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -180,6 +193,7 @@
 
 - job:
     name: metric-server-cloudinit
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "server"
@@ -188,6 +202,7 @@
 
 - job:
     name: metric-server-curtin
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "server"
@@ -196,6 +211,7 @@
 
 - job:
     name: metric-server-iso
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "server"
@@ -204,6 +220,7 @@
 
 - job:
     name: metric-server-docker-downloads
+    defaults: metrics
     builders:
       - shell: |
           #!/bin/bash
@@ -218,6 +235,7 @@
 
 - job:
     name: metric-server-vagrant-downloads
+    defaults: metrics
     builders:
       - shell: |
           #!/bin/bash
@@ -232,6 +250,7 @@
 
 - job:
     name: metric-foundations-merges
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -239,6 +258,7 @@
           metric_arguments: "foundations"
 - job:
     name: metric-foundations-active-contributors
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -246,6 +266,7 @@
           metric_arguments: ""
 - job:
     name: metric-server-merges
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "server"
@@ -253,6 +274,7 @@
           metric_arguments: "server"
 - job:
     name: metric-openstack-merges
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "server"
@@ -261,6 +283,7 @@
 
 - job:
     name: metric-server-simplestreams
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "server"
@@ -269,6 +292,7 @@
 
 - job:
     name: metric-server-triage
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "server"
@@ -277,6 +301,7 @@
 
 - job:
     name: metric-server-uploads
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "server"
@@ -285,6 +310,7 @@
 
 - job:
     name: metric-openstack-uploads
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "server"
@@ -293,6 +319,7 @@
 
 - job:
     name: metric-distro-mir-bugs
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -301,6 +328,7 @@
 
 - job:
     name: metric-foundations-retracers-results-production
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"
@@ -309,6 +337,7 @@
 
 - job:
     name: metric-foundations-retracers-avg-time-production
+    defaults: metrics
     builders:
       - metric-influxdb:
           team: "foundations"

@@ -17,6 +17,7 @@
 
 - job:
     name: admin-slave-exec
+    defaults: admin
     parameters:
       - string:
           name: COMMAND

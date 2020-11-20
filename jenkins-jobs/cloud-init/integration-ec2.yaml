@@ -17,12 +17,13 @@
 
 - job:
     name: cloud-init-integration-ec2-x
+    defaults: cloud-init
     node: torkoal
     triggers:
       - timed: "H 0 * * 0"
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - cloud-init-archive-results
       - trigger:
           project: cloud-init-integration-ec2-terminate
           threshold: FAILURE
@@ -32,12 +33,13 @@
 
 - job:
     name: cloud-init-integration-ec2-b
+    defaults: cloud-init
     node: torkoal
     triggers:
       - timed: "H 0 * * 2"
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - cloud-init-archive-results
       - trigger:
           project: cloud-init-integration-ec2-terminate
           threshold: FAILURE
@@ -47,12 +49,13 @@
 
 - job:
     name: cloud-init-integration-ec2-f
+    defaults: cloud-init
     node: torkoal
     triggers:
       - timed: "H 0 * * 4"
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - cloud-init-archive-results
       - trigger:
           project: cloud-init-integration-ec2-terminate
           threshold: FAILURE
@@ -62,12 +65,13 @@
 
 - job:
     name: cloud-init-integration-ec2-h
+    defaults: cloud-init
     node: torkoal
     triggers:
       - timed: "H 0 * * 6"
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - cloud-init-archive-results
       - trigger:
           project: cloud-init-integration-ec2-terminate
           threshold: FAILURE
@@ -104,9 +108,8 @@
 
 - job:
     name: cloud-init-integration-ec2-terminate
+    defaults: cloud-init
     node: torkoal
-    publishers:
-      - email-server-crew
     builders:
       - shell: |
           sudo rm -Rf *

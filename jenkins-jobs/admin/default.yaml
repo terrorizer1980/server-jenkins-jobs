@@ -15,16 +15,9 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- project:
-    name: admin
-    jobs:
-      - admin-jobs-update
-      - admin-slave-exec
-      - admin-lp-git-autoland
-      - admin-lp-git-vote
 
 - defaults:
-    name: global
+    name: admin
     description: |
         Ubuntu Server QA Jenkins Job
 

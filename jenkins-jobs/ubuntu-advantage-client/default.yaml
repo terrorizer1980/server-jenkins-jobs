@@ -26,7 +26,7 @@
       - ubuntu-advantage-client-integration-ec2-terminate
 
 - defaults:
-    name: global
+    name: ubuntu-advantage-client
     description: |
       Ubuntu Advantage Client Ubuntu Server QA Jenkins Job
 
@@ -39,10 +39,4 @@
       - build-discarder:
           num-to-keep: 3
     publishers:
-      - email-server-crew
-
-- publisher:
-    name: email-server-crew
-    publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+      - email-server-crew-qa

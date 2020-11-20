@@ -17,6 +17,7 @@
 
 - job:
     name: git-ubuntu-ci-trigger
+    defaults: git-ubuntu
     node: metal-amd64
     triggers:
       - timed: H/15 * * * *
@@ -31,9 +32,12 @@
 
 - job:
     name: git-ubuntu-ci
+    defaults: git-ubuntu
     parameters:
       - candidate-revision
-      - landing-candidate
+      - landing-candidate:
+          default: lp:cloud-init
+          description: Candidate git repo to test (e.g. lp:~smoser/cloud-init)
       - landing-candidate-branch
       - merge-proposal
       - use-description-for-commit
@@ -128,6 +132,7 @@
 
 - job:
     name: git-ubuntu-ci-nightly
+    defaults: git-ubuntu
     parameters:
       - landing-candidate-branch
     project-type: pipeline

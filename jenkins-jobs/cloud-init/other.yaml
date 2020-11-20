@@ -17,11 +17,10 @@
 
 - job:
     name: cloud-init-style-tip
+    defaults: cloud-init
     node: metal-amd64
     triggers:
       - timed: "H 23 * * *"
-    publishers:
-      - email-server-crew
     builders:
       - shell: |
           #!/bin/bash
@@ -38,11 +37,12 @@
 
 - job:
     name: cloud-init-lp-build-status
+    defaults: cloud-init
     node: metal-amd64
     triggers:
       - timed: "H */5 * * *"
     publishers:
-      - email-server-crew
+      - email-server-crew-qa
       - junit:
           results: server-test-scripts/cloud-init/results.xml
     builders:
@@ -57,6 +57,7 @@
 
 - job:
     name: cloud-init-github-mirror
+    defaults: cloud-init
     node: metal-amd64
     triggers:
       - timed: "H */4 * * *"

@@ -17,6 +17,7 @@
 
 - job:
     name: virt-amd64-0-prep
+    defaults: virt
     node: torkoal
     triggers:
       # 3am UTC every Saturday
@@ -42,6 +43,7 @@
 
 - job:
     name: virt-amd64-1-migrate-t
+    defaults: virt
     node: torkoal
     publishers:
       - archive:
@@ -65,6 +67,7 @@
 
 - job:
     name: virt-amd64-1-migrate-x
+    defaults: virt
     node: torkoal
     publishers:
       - archive:
@@ -88,6 +91,7 @@
 
 - job:
     name: virt-amd64-1-migrate-b
+    defaults: virt
     node: torkoal
     publishers:
       - archive:
@@ -111,6 +115,7 @@
 
 - job:
     name: virt-amd64-2-cross-rel
+    defaults: virt
     node: torkoal
     publishers:
       - archive:
@@ -134,6 +139,7 @@
 
 - job:
     name: virt-amd64-3-misc
+    defaults: virt
     node: torkoal
     publishers:
       - archive:
@@ -157,6 +163,7 @@
 
 - job:
     name: virt-amd64-4-qemuqa-x
+    defaults: virt
     node: torkoal
     publishers:
       - archive:
@@ -180,6 +187,7 @@
 
 - job:
     name: virt-amd64-5-libvirtqa-x
+    defaults: virt
     node: torkoal
     publishers:
       - archive:
@@ -203,6 +211,7 @@
 
 - job:
     name: virt-amd64-4-qemuqa-b
+    defaults: virt
     node: torkoal
     publishers:
       - archive:
@@ -226,6 +235,7 @@
 
 - job:
     name: virt-amd64-5-libvirtqa-b
+    defaults: virt
     node: torkoal
     publishers:
       - archive:
@@ -249,6 +259,7 @@
 
 - job:
     name: virt-amd64-6-cleanup
+    defaults: virt
     node: torkoal
     publishers:
       - archive:

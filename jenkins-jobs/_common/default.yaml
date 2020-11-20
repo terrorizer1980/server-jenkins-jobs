@@ -15,24 +15,16 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job:
-    name: pollinate-test
-    defaults: pollinate
-    triggers:
-      - timed: "@daily"
-    publishers:
-      - email-server-crew-qa
-    builders:
-      - shell: |
-          #!/bin/sh
+- defaults:
+    name: global
+    description: |
+        Ubuntu Server QA Jenkins Job
 
-          set -eufx
-
-          pollinate --print-user-agent
-
-          # pollinate prints logging messages to stderr only if
-          # attached to a terminal, otherwise it will just print
-          # the random seed to stdout. Here we trick it into
-          # thinking there's a terminal attached by using script(1).
-          # The random seed (stdout) is discarded.
-          script --quiet --return -c 'pollinate --testing --strict > /dev/null'
+        *** STOP ***
+        Do NOT edit this job through the web
+        This job is managed by Jenkins Job Builder and stored on Github via the URL below:
+        https://github.com/canonical/server-jenkins-jobs
+        *** STOP ***
+    properties:
+      - build-discarder:
+          num-to-keep: 3

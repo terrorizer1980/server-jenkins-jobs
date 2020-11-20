@@ -17,6 +17,7 @@
 
 - job:
     name: admin-jobs-update
+    defaults: admin
     node: torkoal
     triggers:
       - timed: "*/15 * * * *"
@@ -52,6 +53,9 @@
           git clone --depth 1 https://github.com/canonical/server-jenkins-jobs
           cd server-jenkins-jobs || exit 1
 
+          # Do not attempt a deploy if the jobs don't test clean
+          ./test-jenkins-jobs || exit 1
+
           jjb_flags=()
           # Jenkins jobs altered via the jenkins configure UI are
           # updated if deltas are observed on 'tip' of source repo.
@@ -61,11 +65,4 @@
 
           jjb_update_flags=(--recursive)
 
-          JJB_RC=0
-          for dir in jenkins-jobs/*/; do
-            # If JJB fails on a directory proceed with the other directories,
-            # but report the failure status at the end.
-            jenkins-jobs "${jjb_flags[@]}" update "${jjb_update_flags[@]}" "$dir" || JJB_RC=1
-          done
-
-          exit $JJB_RC
+          jenkins-jobs "${jjb_flags[@]}" update "${jjb_update_flags[@]}" jenkins-jobs || exit 1

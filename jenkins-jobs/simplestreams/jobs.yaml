@@ -17,6 +17,7 @@
 
 - job:
     name: simplestreams-build
+    defaults: simplestreams
     node: metal-amd64
     builders:
       - shell: |
@@ -33,8 +34,12 @@
 
 - job:
     name: simplestreams-debug
+    defaults: simplestreams
     parameters:
-      - branch
+      - string:
+          name: branch
+          default: https://git.launchpad.net/simplestreams
+          description: git url to clone (e.g. 'https://git.launchpad.net/simplestreams[@COMMITISH]')
       - tox-parameters
     publishers:
       - email:
@@ -64,6 +69,7 @@
 
 - job:
     name: simplestreams-tests
+    defaults: simplestreams
     project-type: matrix
     triggers:
       - timed: "H 23 * * *"
@@ -74,7 +80,7 @@
       - trigger:
           project: simplestreams-build
           threshold: FAILURE
-      - email-server-crew
+      - email-server-crew-qa
     axes:
       - axis:
           type: slave

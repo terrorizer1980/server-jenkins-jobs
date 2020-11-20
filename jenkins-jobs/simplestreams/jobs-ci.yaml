@@ -17,6 +17,7 @@
 
 - job:
     name: simplestreams-ci-trigger
+    defaults: simplestreams
     triggers:
       - timed: H/15 * * * *
     wrappers:
@@ -36,6 +37,7 @@
 
 - job:
     name: simplestreams-autoland-trigger
+    defaults: simplestreams
     node: metal-amd64
     triggers:
       - timed: H/15 * * * *
@@ -57,8 +59,11 @@
 
 - job:
     name: simplestreams-ci
+    defaults: simplestreams
     parameters:
-      - landing-candidate
+      - landing-candidate:
+          default: ''
+          description: Candidate LaunchPad branch to test.
       - candidate-revision
       - merge-proposal
       - use-description-for-commit
@@ -107,6 +112,7 @@
 
 - job:
     name: simplestreams-autoland-test
+    defaults: simplestreams
     node: torkoal
     parameters:
       - string:

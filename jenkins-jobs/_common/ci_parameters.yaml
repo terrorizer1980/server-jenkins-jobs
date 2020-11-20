@@ -1,3 +1,4 @@
+---
 # Ubuntu Server QA Jenkins Jobs
 # Copyright (C) 2016 Canonical Ltd.
 #
@@ -20,21 +21,30 @@
     parameters:
       - string:
           name: landing_candidate
-          description: Candidate LaunchPad branch to test.
+          default: '{default}'
+          description: '{description|Candidate git repo to test (e.g. https://git.launchpad.net/~raharper/curtin)}'
+
+- parameter:
+    name: landing-candidate-branch
+    parameters:
+      - string:
+          name: landing_candidate_branch
+          default: master
+          description: Git branch name for testing (e.g. 'master')
 
 - parameter:
     name: candidate-revision
     parameters:
       - string:
           name: candidate_revision
-          description: Revision of the branch to test.
+          description: Revision of the branch to test. (e.g. 'c6af5b9a1648c208c82b3a2704668391abadd8ab')
 
 - parameter:
     name: merge-proposal
     parameters:
       - string:
           name: merge_proposal
-          description: Merge proposal to process to test.
+          description: Merge proposal to process to test. (e.g. https://code.launchpad.net/~raharper/curtin/+git/curtin/+merge/370800)
 
 - parameter:
     name: use-description-for-commit
@@ -43,14 +53,6 @@
           name: use_description_for_commit
           default: true
           description: Use or not use the merge proposal description as commit message.
-
-- parameter:
-    name: branch
-    parameters:
-      - string:
-          name: branch
-          default: https://git.launchpad.net/simplestreams
-          description: git url to clone (e.g. 'https://git.launchpad.net/simplestreams[@COMMITISH]')
 
 - parameter:
     name: tox-parameters

@@ -17,6 +17,7 @@
 
 - job:
     name: virt-ppc64-0-prep
+    defaults: virt
     node: metal-ppc64el
     triggers:
       # 3am UTC every Saturday
@@ -42,6 +43,7 @@
 
 - job:
     name: virt-ppc64-1-migrate-x
+    defaults: virt
     node: metal-ppc64el
     publishers:
       - archive:
@@ -65,6 +67,7 @@
 
 - job:
     name: virt-ppc64-1-migrate-b
+    defaults: virt
     node: metal-ppc64el
     publishers:
       - archive:
@@ -88,6 +91,7 @@
 
 - job:
     name: virt-ppc64-2-cross-rel
+    defaults: virt
     node: metal-ppc64el
     publishers:
       - archive:
@@ -111,6 +115,7 @@
 
 - job:
     name: virt-ppc64-3-misc
+    defaults: virt
     node: metal-ppc64el
     publishers:
       - archive:
@@ -134,6 +139,7 @@
 
 - job:
     name: virt-ppc64-6-cleanup
+    defaults: virt
     node: metal-ppc64el
     publishers:
       - archive:

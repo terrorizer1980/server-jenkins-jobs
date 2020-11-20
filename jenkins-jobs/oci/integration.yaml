@@ -17,6 +17,7 @@
 
 - job:
     name: oci-integration-lma
+    defaults: oci
     node: metal-amd64
     triggers:
       - timed: "@daily"
@@ -41,5 +42,4 @@
           # Run the tests and explicitly exit with rc != 0 on failure
           sts/lma-integration/lxd-runner || exit 1
     publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+      - email-server-crew-qa

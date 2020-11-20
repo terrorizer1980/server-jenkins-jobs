@@ -16,7 +16,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - defaults:
-    name: global
+    name: docker
     description: |
         Docker QA Jenkins Job
 
@@ -29,17 +29,4 @@
       - build-discarder:
           num-to-keep: 25
     publishers:
-      - email-server-crew
-
-- publisher:
-    name: email-server-crew
-    publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
-
-- publisher:
-    name: archive-everything
-    publishers:
-      - archive:
-          artifacts: '**/*'
-          allow-empty: 'true'
+      - email-server-crew-qa

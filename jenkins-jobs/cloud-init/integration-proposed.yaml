@@ -17,6 +17,7 @@
 
 - job-template:
     name: cloud-init-integration-proposed-trigger-{release}
+    defaults: cloud-init
     node: torkoal
     triggers:
       - timed: "@daily"
@@ -32,6 +33,7 @@
 
 - job-template:
     name: cloud-init-integration-proposed-{release}-{platform}
+    defaults: cloud-init
     node: torkoal
     auth-token: BUILD_ME
     wrappers:
@@ -41,8 +43,8 @@
           release: "{release}"
           platform: "{platform}"
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - cloud-init-archive-results
 
 - builder:
     name: proposed-integration

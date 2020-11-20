@@ -17,6 +17,7 @@
 
 - job:
     name: admin-lp-git-vote
+    defaults: admin
     node: metal-amd64
     parameters:
       - string:
@@ -46,6 +47,7 @@
 
 - job:
     name: admin-lp-git-autoland
+    defaults: admin
     node: metal-amd64
     parameters:
       - string:

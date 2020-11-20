@@ -15,35 +15,8 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- project:
-    name: virt
-    jobs:
-      - virt-amd64-0-prep
-      - virt-amd64-1-migrate-t
-      - virt-amd64-1-migrate-x
-      - virt-amd64-1-migrate-b
-      - virt-amd64-2-cross-rel
-      - virt-amd64-3-misc
-      - virt-amd64-4-qemuqa-x
-      - virt-amd64-5-libvirtqa-x
-      - virt-amd64-4-qemuqa-b
-      - virt-amd64-5-libvirtqa-b
-      - virt-amd64-6-cleanup
-      - virt-s390x-1-migrate-x
-      - virt-s390x-0-prep
-      - virt-s390x-1-migrate-b
-      - virt-s390x-2-cross-rel
-      - virt-s390x-3-misc
-      - virt-s390x-6-cleanup
-      - virt-ppc64-0-prep
-      - virt-ppc64-1-migrate-x
-      - virt-ppc64-1-migrate-b
-      - virt-ppc64-2-cross-rel
-      - virt-ppc64-3-misc
-      - virt-ppc64-6-cleanup
-
 - defaults:
-    name: global
+    name: virt
     description: |
         Virt Ubuntu Server QA Jenkins Job
 

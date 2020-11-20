@@ -27,6 +27,7 @@
 
 - job-template:
     name: docker-image-size-{dockertag}
+    defaults: docker
     node: metal-amd64
     wrappers:
       - timeout:
@@ -46,5 +47,3 @@
     builders:
       - shell:
           !include-raw-escape: 'docker-image-size.sh'
-    publishers:
-      - email-server-crew

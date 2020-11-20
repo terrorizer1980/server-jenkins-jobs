@@ -34,6 +34,7 @@
 
 - job-template:
     name: oci-unit-{testcase}
+    defaults: oci
     triggers:
       - timed: "@daily"
     parameters:
@@ -56,5 +57,4 @@
           cd sts/oci-unit-tests
           sh "{testcase}_test.sh" || exit 1
     publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+      - email-server-crew-qa

@@ -15,38 +15,8 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- project:
-    name: metrics
-    jobs:
-      - metric-foundations-cloud-images
-      - metric-foundations-cloud-image-sizes
-      - metric-foundations-docker-hub-images
-      - metric-foundations-error-reports
-      - metric-foundations-proposed-migration
-      - metric-foundations-proposed-migration-by-team
-      - metric-foundations-autopkgtest-queue
-      - metric-foundations-sru-queues
-      - metric-foundations-bugs
-      - metric-foundations-uploads
-      - metric-foundations-merges
-      - metric-foundations-retracers-results-production
-      - metric-foundations-retracers-avg-time-production
-      - metric-openstack-merges
-      - metric-openstack-uploads
-      - metric-rls-bug-tasks
-      - metric-server-cloudinit
-      - metric-server-curtin
-      - metric-server-docker-downloads
-      - metric-server-iso
-      - metric-server-merges
-      - metric-server-simplestreams
-      - metric-server-triage
-      - metric-server-uploads
-      - metric-server-vagrant-downloads
-      - metric-distro-mir-bugs
-
 - defaults:
-    name: global
+    name: metrics
     description: |
         Metrics Ubuntu Server QA Jenkins Job
 

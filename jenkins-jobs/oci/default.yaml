@@ -16,7 +16,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - defaults:
-    name: global
+    name: oci
     description: |
         Ubuntu Server QA Jenkins Job
 

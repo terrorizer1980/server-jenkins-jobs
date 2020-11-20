@@ -18,6 +18,7 @@
 
 - job:
     name: curtin-vmtest-daily-x
+    defaults: curtin
     node: torkoal
     parameters:
       - nose-args:
@@ -25,8 +26,8 @@
     triggers:
       - timed: "H 4 * * 0,3"
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - curtin-archive-results
     wrappers:
       - timestamps
       - workspace-cleanup
@@ -37,6 +38,7 @@
 
 - job:
     name: curtin-vmtest-daily-b
+    defaults: curtin
     node: torkoal
     parameters:
       - nose-args:
@@ -44,8 +46,8 @@
     triggers:
       - timed: "H 4 * * 1,4"
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - curtin-archive-results
     wrappers:
       - timestamps
       - workspace-cleanup
@@ -56,6 +58,7 @@
 
 - job:
     name: curtin-vmtest-daily-f
+    defaults: curtin
     node: torkoal
     parameters:
       - nose-args:
@@ -63,8 +66,8 @@
     triggers:
       - timed: "H 4 * * 2,5"
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - curtin-archive-results
     wrappers:
       - timestamps
       - workspace-cleanup
@@ -75,6 +78,7 @@
 
 - job:
     name: curtin-vmtest-daily-g
+    defaults: curtin
     node: torkoal
     parameters:
       - nose-args:
@@ -82,8 +86,8 @@
     triggers:
       - timed: "H 4 * * 6"
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - curtin-archive-results
     wrappers:
       - timestamps
       - workspace-cleanup

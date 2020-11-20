@@ -17,12 +17,12 @@
 
 - job:
     name: dpdk-tools-x
+    defaults: dpdk
     node: torkoal
     publishers:
       - archive:
           artifacts: 'dpdk-testing/dpdk-test.status'
-      - email:
-          recipients: paride.legovini@canonical.com
+      - email-qa-maintainer
       - trigger:
           project: dpdk-virt-tools-x
           threshold: FAILURE
@@ -37,12 +37,12 @@
 
 - job:
     name: dpdk-virt-tools-x
+    defaults: dpdk
     node: torkoal
     publishers:
       - archive:
           artifacts: 'dpdk-testing/dpdk-test.status'
-      - email:
-          recipients: paride.legovini@canonical.com
+      - email-qa-maintainer
       - trigger:
           project: dpdk-benchmark-x
           threshold: FAILURE
@@ -57,12 +57,12 @@
 
 - job:
     name: dpdk-benchmark-x
+    defaults: dpdk
     node: torkoal
     publishers:
       - archive:
           artifacts: 'dpdk-testing/dpdk-test.status'
-      - email:
-          recipients: paride.legovini@canonical.com
+      - email-qa-maintainer
       - trigger:
           project: dpdk-endurance-x
           threshold: FAILURE
@@ -77,12 +77,12 @@
 
 - job:
     name: dpdk-endurance-x
+    defaults: dpdk
     node: torkoal
     publishers:
       - archive:
           artifacts: 'dpdk-testing/dpdk-test.status'
-      - email:
-          recipients: paride.legovini@canonical.com
+      - email-qa-maintainer
     builders:
       - shell: |
           #!/bin/bash -eu

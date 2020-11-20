@@ -17,12 +17,13 @@
 
 - job:
     name: cloud-init-integration-lxd-x
+    defaults: cloud-init
     node: torkoal
     triggers:
       - timed: "H 11 * * *"
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - cloud-init-archive-results
       - trigger:
           project: cloud-init-integration-lxd-b
           threshold: FAILURE
@@ -32,10 +33,11 @@
 
 - job:
     name: cloud-init-integration-lxd-b
+    defaults: cloud-init
     node: torkoal
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - cloud-init-archive-results
       - trigger:
           project: cloud-init-integration-lxd-f
           threshold: FAILURE
@@ -45,10 +47,11 @@
 
 - job:
     name: cloud-init-integration-lxd-f
+    defaults: cloud-init
     node: torkoal
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - cloud-init-archive-results
       - trigger:
           project: cloud-init-integration-lxd-h
           threshold: FAILURE
@@ -58,10 +61,11 @@
 
 - job:
     name: cloud-init-integration-lxd-h
+    defaults: cloud-init
     node: torkoal
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - cloud-init-archive-results
     builders:
       - integration-lxd:
           release: hirsute

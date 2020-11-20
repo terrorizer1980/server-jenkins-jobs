@@ -17,6 +17,7 @@
 
 - job:
     name: proposed-regression-t
+    defaults: proposed
     builders:
       - shell: |
           #!/bin/bash
@@ -28,6 +29,7 @@
 
 - job:
     name: proposed-regression-x
+    defaults: proposed
     builders:
       - shell: |
           #!/bin/bash

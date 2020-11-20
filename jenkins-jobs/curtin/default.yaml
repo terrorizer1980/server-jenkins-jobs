@@ -17,7 +17,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - defaults:
-    name: global
+    name: curtin
     description: |
         Curtin Ubuntu Server QA Jenkins Job
 
@@ -26,56 +26,18 @@
         This job is managed by Jenkins Job Builder and stored on Github via the URL below:
         https://github.com/canonical/server-jenkins-jobs
         *** STOP ***
-    properties:
-      - build-discarder:
-          num-to-keep: 3
     wrappers:
       - timeout:
           timeout: 960
           fail: true
+    properties:
+      - build-discarder:
+          num-to-keep: 3
     publishers:
-      - email-server-crew
-
-
-- project:
-    name: curtin
-    jobs:
-      - curtin-autoland-test
-      - curtin-autoland-trigger
-      - curtin-ci
-      - curtin-ci-trigger
-      - curtin-build
-      - curtin-style-tip
-      - curtin-tests
-      - curtin-debug
-      - curtin-github-mirror
-      - curtin-lp-build-status
-      - curtin-vmtest-devel-debug
-      - curtin-vmtest-devel-amd64
-      - curtin-vmtest-devel-amd64-proposed
-      - curtin-vmtest-devel-arm64
-      - curtin-vmtest-devel-ppc64el
-      - curtin-vmtest-devel-s390x
-      - curtin-vmtest-daily-x
-      - curtin-vmtest-daily-b
-      - curtin-vmtest-daily-f
-      - curtin-vmtest-daily-g
-      - curtin-vmtest-proposed-b
-      - curtin-vmtest-proposed-b-trigger
-      - curtin-vmtest-proposed-f
-      - curtin-vmtest-proposed-f-trigger
-      - curtin-vmtest-proposed-x
-      - curtin-vmtest-proposed-x-trigger
-
+      - email-server-crew-qa
 
 - publisher:
-    name: email-server-crew
-    publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
-
-- publisher:
-    name: archive-results
+    name: curtin-archive-results
     publishers:
       - archive:
           artifacts: 'output/**'

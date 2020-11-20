@@ -19,11 +19,10 @@
 
 - job:
     name: curtin-vmtest-proposed-x-trigger
+    defaults: curtin
     node: torkoal
     triggers:
       - timed: "H 10 * * 1,4"
-    publishers:
-      - email-server-crew
     wrappers:
       - workspace-cleanup
     builders:
@@ -33,11 +32,10 @@
 
 - job:
     name: curtin-vmtest-proposed-b-trigger
+    defaults: curtin
     node: torkoal
     triggers:
       - timed: "H 10 * * 2,5"
-    publishers:
-      - email-server-crew
     wrappers:
       - workspace-cleanup
     builders:
@@ -47,11 +45,10 @@
 
 - job:
     name: curtin-vmtest-proposed-f-trigger
+    defaults: curtin
     node: torkoal
     triggers:
       - timed: "H 10 * * 3,6"
-    publishers:
-      - email-server-crew
     wrappers:
       - workspace-cleanup
     builders:
@@ -78,11 +75,12 @@
 
 - job:
     name: curtin-vmtest-proposed-x
+    defaults: curtin
     node: torkoal
     auth-token: BUILD_ME
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - curtin-archive-results
     wrappers:
       - timestamps
       - workspace-cleanup
@@ -92,11 +90,12 @@
 
 - job:
     name: curtin-vmtest-proposed-b
+    defaults: curtin
     node: torkoal
     auth-token: BUILD_ME
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - curtin-archive-results
     wrappers:
       - timestamps
       - workspace-cleanup
@@ -106,11 +105,12 @@
 
 - job:
     name: curtin-vmtest-proposed-f
+    defaults: curtin
     node: torkoal
     auth-token: BUILD_ME
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - curtin-archive-results
     wrappers:
       - timestamps
       - workspace-cleanup

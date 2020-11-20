@@ -16,7 +16,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - defaults:
-    name: global
+    name: cloud-init
     description: |
       Cloud-init Ubuntu Server QA Jenkins Job
 
@@ -29,7 +29,7 @@
       - build-discarder:
           num-to-keep: 3
     publishers:
-      - email-server-crew
+      - email-server-crew-qa
 
 - project:
     name: cloud-init-integration-proposed
@@ -48,13 +48,7 @@
       - cloud-init-integration-proposed-{release}-{platform}
 
 - publisher:
-    name: email-server-crew
-    publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
-
-- publisher:
-    name: archive-results
+    name: cloud-init-archive-results
     publishers:
       - archive:
           artifacts: 'cloud-init/results/**'

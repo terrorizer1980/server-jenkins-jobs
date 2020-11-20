@@ -1,12 +1,13 @@
 #!/bin/bash
 set -e
 
+# Test each project on its own (plus _common):
+
 for dir in jenkins-jobs/*/;
 do 
-    if [ -d $dir ]; then
-        pushd $dir
-	jenkins-jobs test .
-	popd
-    fi
+    jenkins-jobs test --recursive "jenkins-jobs/_common:$dir"
 done
 
+# Test all the definitions together:
+
+jenkins-jobs test --recursive jenkins-jobs

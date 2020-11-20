@@ -17,14 +17,15 @@
 
 - job:
     name: cloud-init-integration-nocloud-kvm-x
+    defaults: cloud-init
     node: torkoal
     parameters:
       - boot-timeout
     triggers:
       - timed: "H 12 * * *"
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - cloud-init-archive-results
       - trigger:
           project: cloud-init-integration-nocloud-kvm-b
           threshold: FAILURE
@@ -34,12 +35,13 @@
 
 - job:
     name: cloud-init-integration-nocloud-kvm-b
+    defaults: cloud-init
     node: torkoal
     parameters:
       - boot-timeout
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - cloud-init-archive-results
       - trigger:
           project: cloud-init-integration-nocloud-kvm-f
           threshold: FAILURE
@@ -49,12 +51,13 @@
 
 - job:
     name: cloud-init-integration-nocloud-kvm-f
+    defaults: cloud-init
     node: torkoal
     parameters:
       - boot-timeout
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - cloud-init-archive-results
       - trigger:
           project: cloud-init-integration-nocloud-kvm-h
           threshold: FAILURE
@@ -64,12 +67,13 @@
 
 - job:
     name: cloud-init-integration-nocloud-kvm-h
+    defaults: cloud-init
     node: torkoal
     parameters:
       - boot-timeout
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - cloud-init-archive-results
     builders:
       - integration-nocloud-kvm:
           release: hirsute

@@ -15,14 +15,8 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- project:
-    name: proposed
-    jobs:
-      - proposed-regression-t
-      - proposed-regression-x
-
 - defaults:
-    name: global
+    name: proposed
     description: |
         Proposed Ubuntu Server QA Jenkins Job
 
@@ -38,5 +32,4 @@
       - build-discarder:
           num-to-keep: 25
     publishers:
-      - email:
-          recipients: server-crew-qa@lists.canonical.com
+      - email-server-crew-qa

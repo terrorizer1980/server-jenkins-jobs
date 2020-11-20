@@ -15,24 +15,21 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- job:
-    name: pollinate-test
-    defaults: pollinate
-    triggers:
-      - timed: "@daily"
+- publisher:
+    name: email-server-crew-qa
     publishers:
-      - email-server-crew-qa
-    builders:
-      - shell: |
-          #!/bin/sh
+      - email:
+          recipients: server-crew-qa@lists.canonical.com
 
-          set -eufx
+- publisher:
+    name: email-qa-maintainer
+    publishers:
+      - email:
+          recipients: paride.legovini@canonical.com
 
-          pollinate --print-user-agent
-
-          # pollinate prints logging messages to stderr only if
-          # attached to a terminal, otherwise it will just print
-          # the random seed to stdout. Here we trick it into
-          # thinking there's a terminal attached by using script(1).
-          # The random seed (stdout) is discarded.
-          script --quiet --return -c 'pollinate --testing --strict > /dev/null'
+- publishers:
+    name: archive-everything
+    publishers:
+      - archive:
+          artifacts: '**/*'
+          allow-empty: true

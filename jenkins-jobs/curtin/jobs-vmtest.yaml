@@ -19,9 +19,11 @@
 
 - job:
     name: curtin-vmtest-devel-amd64
+    defaults: curtin
     node: torkoal
     parameters:
-      - landing-candidate
+      - landing-candidate:
+          default: https://git.launchpad.net/curtin
       - landing-candidate-branch
       - nose-args:
           default_nose_args:
@@ -32,21 +34,21 @@
     builders:
       - vmtest-devel
     publishers:
-      - archive:
-          artifacts: 'output/**'
-          excludes: 'output/debug.log, **/*img'
-      - email-server-crew
+      - curtin-archive-results
+      - email-server-crew-qa
     wrappers:
       - timestamps
       - workspace-cleanup
 
 - job:
     name: curtin-vmtest-devel-arm64
+    defaults: curtin
     node: metal-arm64
     triggers:
       - timed: "H H * * *"
     parameters:
-      - landing-candidate
+      - landing-candidate:
+          default: https://git.launchpad.net/curtin
       - landing-candidate-branch
       - nose-args:
           default_nose_args: tests/vmtests/test_uefi_basic.py
@@ -58,18 +60,18 @@
     builders:
       - vmtest-devel
     publishers:
-      - archive:
-          artifacts: 'output/**'
-          excludes: 'output/debug.log, **/*img'
-      - email-server-crew
+      - curtin-archive-results
+      - email-server-crew-qa
 
 - job:
     name: curtin-vmtest-devel-ppc64el
+    defaults: curtin
     node: metal-ppc64el
     triggers:
       - timed: "H H * * *"
     parameters:
-      - landing-candidate
+      - landing-candidate:
+          default: https://git.launchpad.net/curtin
       - landing-candidate-branch
       - nose-args:
           default_nose_args: tests/vmtests/test_basic.py
@@ -78,19 +80,19 @@
     builders:
       - vmtest-devel
     publishers:
-      - archive:
-          artifacts: 'output/**'
-          excludes: 'output/debug.log, **/*img'
-      - email-server-crew
+      - curtin-archive-results
+      - email-server-crew-qa
     wrappers:
       - timestamps
       - workspace-cleanup
 
 - job:
     name: curtin-vmtest-devel-s390x
+    defaults: curtin
     node: metal-s390x
     parameters:
-      - landing-candidate
+      - landing-candidate:
+          default: https://git.launchpad.net/curtin
       - landing-candidate-branch
       - nose-args:
           default_nose_args: tests/vmtests/test_basic.py
@@ -99,19 +101,19 @@
     builders:
       - vmtest-devel
     publishers:
-      - archive:
-          artifacts: 'output/**'
-          excludes: 'output/debug.log, **/*img'
-      - email-server-crew
+      - curtin-archive-results
+      - email-server-crew-qa
     wrappers:
       - timestamps
       - workspace-cleanup
 
 - job:
     name: curtin-vmtest-devel-debug
+    defaults: curtin
     node: torkoal
     parameters:
-      - landing-candidate
+      - landing-candidate:
+          default: https://git.launchpad.net/curtin
       - landing-candidate-branch
       - nose-args:
           default_nose_args:
@@ -120,20 +122,20 @@
     builders:
       - vmtest-devel
     publishers:
-      - archive:
-          artifacts: 'output/**'
-          excludes: 'output/debug.log, **/*img'
+      - curtin-archive-results
     wrappers:
       - timestamps
       - workspace-cleanup
 
 - job:
     name: curtin-vmtest-devel-amd64-proposed
+    defaults: curtin
     node: torkoal
     triggers:
       - timed: "H 8 * * 7"
     parameters:
-      - landing-candidate
+      - landing-candidate:
+          default: https://git.launchpad.net/curtin
       - landing-candidate-branch
       - nose-args:
           default_nose_args:
@@ -143,8 +145,8 @@
           name: vmtest_filters
           default: "target_distro=ubuntu"
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - curtin-archive-results
     builders:
       - vmtest-devel
     wrappers:
@@ -153,9 +155,11 @@
 
 - job:
     name: curtin-cloudinit-sru
+    defaults: curtin
     node: torkoal
     parameters:
-      - landing-candidate
+      - landing-candidate:
+          default: https://git.launchpad.net/curtin
       - landing-candidate-branch
       - vmtest-add-repos:
           default_vmtest_add_repos: "ppa:cloud-init-dev/proposed"
@@ -176,8 +180,8 @@
     builders:
       - vmtest-devel
     publishers:
-      - email-server-crew
-      - archive-results
+      - email-server-crew-qa
+      - curtin-archive-results
 
 - builder:
     name: vmtest-sync-images

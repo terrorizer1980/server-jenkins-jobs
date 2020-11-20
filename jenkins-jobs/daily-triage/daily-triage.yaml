@@ -17,10 +17,11 @@
 
 - job:
     name: tableflip-daily-triage
+    defaults: daily-triage
     triggers:
       - timed: "H(0-20) 6 * * 1-5"
     publishers:
-      - email-qa
+      - email-qa-maintainer
     builders:
       - cleanup-workspace
       - shell:

@@ -15,16 +15,8 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-- project:
-    name: dpdk
-    jobs:
-      - dpdk-tools-x
-      - dpdk-virt-tools-x
-      - dpdk-benchmark-x
-      - dpdk-endurance-x
-
 - defaults:
-    name: global
+    name: dpdk
     description: |
         DPDK Ubuntu Server QA Jenkins Job
 
