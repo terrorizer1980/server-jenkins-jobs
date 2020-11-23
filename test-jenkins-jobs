@@ -5,9 +5,9 @@ set -e
 
 for dir in jenkins-jobs/*/;
 do 
-    jenkins-jobs test --recursive "jenkins-jobs/_common:$dir"
+    jenkins-jobs --conf jenkins_jobs.ini test --recursive "jenkins-jobs/_common:$dir"
 done
 
 # Test all the definitions together:
 
-jenkins-jobs test --recursive jenkins-jobs
+jenkins-jobs --conf jenkins_jobs.ini test --recursive jenkins-jobs

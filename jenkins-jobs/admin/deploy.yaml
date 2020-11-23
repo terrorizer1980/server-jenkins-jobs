@@ -32,6 +32,11 @@
           description: Delete jobs that were jobs once managed by JJB
             (as distinguished by a special comment that JJB appends to their
             description), but were not generated in this JJB run.
+    wrappers:
+      - credentials-binding:
+          - text:
+              credential-id: server-team-jb-bot-password
+              variable: JJB_PASSWORD
     publishers:
       - email:
           recipients: server-crew-qa@lists.canonical.com
@@ -40,6 +45,8 @@
           #!/bin/bash
 
           set -ux -o pipefail
+
+          export JJB_USER=server-team-jb-bot
 
           # Setup a venv and install JJB, reuse the venv if already existing.
           # Avoid leaving a broken venv behind is something goes wrong here.
@@ -61,7 +68,7 @@
           # Do not attempt a deploy if the jobs don't test clean
           ./test-jenkins-jobs || exit 1
 
-          jjb_flags=()
+          jjb_flags=(--conf jenkins_jobs.ini)
           # Jenkins jobs altered via the jenkins configure UI are
           # updated if deltas are observed on 'tip' of source repo.
           # Use --ignore-cache to force update to clear out any deltas
