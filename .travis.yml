@@ -1,3 +1,0 @@
-language: python
-install: "pip install jenkins-job-builder==3.2.0"
-script: ./test-jenkins-jobs
