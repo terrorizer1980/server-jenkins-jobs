@@ -55,6 +55,6 @@
 
           git clone --depth 1 -b "$STSBRANCH" "$STSREPO" sts
           cd sts/oci-unit-tests
-          sh "{testcase}_test.sh" || exit 1
+          DEBUG_TESTS=1 sh "{testcase}_test.sh" || exit 1
     publishers:
       - email-squeaky-wheel
