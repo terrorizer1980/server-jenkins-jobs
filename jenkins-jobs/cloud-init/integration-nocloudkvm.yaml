@@ -59,11 +59,27 @@
       - email-server-crew-qa
       - cloud-init-archive-results
       - trigger:
-          project: cloud-init-integration-nocloud-kvm-h
+          project: cloud-init-integration-nocloud-kvm-g
           threshold: FAILURE
     builders:
       - integration-nocloud-kvm:
           release: focal
+
+- job:
+    name: cloud-init-integration-nocloud-kvm-g
+    defaults: cloud-init
+    node: torkoal
+    parameters:
+      - boot-timeout
+    publishers:
+      - email-server-crew-qa
+      - cloud-init-archive-results
+      - trigger:
+          project: cloud-init-integration-nocloud-kvm-h
+          threshold: FAILURE
+    builders:
+      - integration-nocloud-kvm:
+          release: groovy
 
 - job:
     name: cloud-init-integration-nocloud-kvm-h

@@ -53,11 +53,25 @@
       - email-server-crew-qa
       - cloud-init-archive-results
       - trigger:
-          project: cloud-init-integration-lxd-h
+          project: cloud-init-integration-lxd-g
           threshold: FAILURE
     builders:
       - integration-lxd:
           release: focal
+
+- job:
+    name: cloud-init-integration-lxd-g
+    defaults: cloud-init
+    node: torkoal
+    publishers:
+      - email-server-crew-qa
+      - cloud-init-archive-results
+      - trigger:
+          project: cloud-init-integration-lxd-h
+          threshold: FAILURE
+    builders:
+      - integration-lxd:
+          release: groovy
 
 - job:
     name: cloud-init-integration-lxd-h
