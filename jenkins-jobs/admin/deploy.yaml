@@ -27,6 +27,11 @@
           description: Force job updates of all jobs by providing --ignore-cache to 'jenkins-job update' command.
             Useful to clear out config deltas introduced by editing jobs in Jenkins' UI.
           default: false
+      - bool:
+          name: delete_old
+          description: Delete jobs that were jobs once managed by JJB
+            (as distinguished by a special comment that JJB appends to their
+            description), but were not generated in this JJB run.
     publishers:
       - email:
           recipients: server-crew-qa@lists.canonical.com
@@ -64,5 +69,6 @@
           [[ $force_update == true ]] && jjb_flags+=(--ignore-cache)
 
           jjb_update_flags=(--recursive)
+          [[ $delete_old == true ]] && jjb_update_flags+=(--delete-old)
 
           jenkins-jobs "${jjb_flags[@]}" update "${jjb_update_flags[@]}" jenkins-jobs || exit 1
