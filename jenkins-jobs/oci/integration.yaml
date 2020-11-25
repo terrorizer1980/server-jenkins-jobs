@@ -40,6 +40,7 @@
           git clone --depth 1 -b "$STSBRANCH" "$STSREPO" sts
 
           # Run the tests and explicitly exit with rc != 0 on failure
-          sts/lma-integration/lxd-runner || exit 1
+          cd sts/lma-integration
+          ./run-tests || exit 1
     publishers:
       - email-squeaky-wheel
