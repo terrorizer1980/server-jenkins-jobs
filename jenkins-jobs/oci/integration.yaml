@@ -18,7 +18,6 @@
 - job:
     name: oci-integration-lma
     defaults: oci
-    node: metal-amd64
     triggers:
       - timed: "@daily"
     parameters:
