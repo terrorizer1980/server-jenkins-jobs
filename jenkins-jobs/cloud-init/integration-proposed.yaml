@@ -51,7 +51,7 @@
     builders:
       - shell: |
           release="{release}"
-          release_ver=$(ubuntu-distro-info --release --series={release} | cut -f ' ' -f 1)
+          release_ver=$(ubuntu-distro-info --release --series={release} | cut -d ' ' -f 1)
           platform="{platform}"
 
           set -e
