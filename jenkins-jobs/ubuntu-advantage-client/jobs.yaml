@@ -13,10 +13,240 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  US
+- job:
+    name: uaclient-flake8
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+
+          python3 -m venv /tmp/flake8
+          . /tmp/flake8/bin/activate
+          make testdeps
+
+          tox -e py3,flake8
+
+- job:
+    name: uaclient-flake8-trusty
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+
+          python3 -m venv /tmp/flake8
+          . /tmp/flake8/bin/activate
+          make testdeps
+
+          tox -e py3-trusty,flake8-trusty
+
+- job:
+    name: uaclient-flake8-xenial
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+
+          python3 -m venv /tmp/xenial-flake8
+          . /tmp/xenial-flake8/bin/activate
+          make testdeps
+
+          VIRTUALENV_PIP=18.1 tox -e py3-xenial,flake8-xenial
+
+- job:
+    name: uaclient-flake8-bionic
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+
+          python3 -m venv /tmp/bionic-flake8
+          . /tmp/bionic-flake8/bin/activate
+          make testdeps
+
+          VIRTUALENV_PIP=20.1.1 tox -e py3-bionic,flake8-bionic
+
+- job:
+    name: uaclient-mypy
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+
+          python3 -m venv /tmp/mypy
+          . /tmp/mypy/bin/activate
+          make testdeps
+
+          tox -e mypy
+
+- job:
+    name: uaclient-black
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+
+          python3 -m venv /tmp/black
+          . /tmp/black/bin/activate
+          make testdeps
+
+          tox -e black
+
+- job:
+    name: uaclient-cleanup-stale-aws-vms
+    defaults: ubuntu-advantage-client
+    node: torkoal
+    wrappers:
+      - workspace-cleanup
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          set -ex
+
+          git clone https://github.com/canonical/server-test-scripts.git
+          git clone https://github.com/canonical/pycloudlib.git
+
+          python3 -m venv /tmp/aws-cleanup
+          . /tmp/aws-cleanup/bin/activate
+          pip install pip --upgrade
+
+          cd pycloudlib
+          pip install -r requirements.txt
+          cd ..
+
+          DATE=`date +%D`
+          for region in us-east-1 us-east-2; do
+            AWS_DEFAULT_REGION=${region} python server-test-scripts/ubuntu-advantage-client/ec2_cleanup.py -b ${DATE} || true
+          done;
+
+- job:
+    name: uaclient-cleanup-stale-azure-vms
+    defaults: ubuntu-advantage-client
+    node: torkoal
+    wrappers:
+      - workspace-cleanup
+      - credentials-binding:
+          - text:
+              credential-id: ua-azure-client-id
+              variable: UACLIENT_BEHAVE_AZ_CLIENT_ID
+          - text:
+              credential-id: ua-azure-client-secret
+              variable: UACLIENT_BEHAVE_AZ_CLIENT_SECRET
+          - text:
+              credential-id: ua-azure-tenant
+              variable: UACLIENT_BEHAVE_AZ_TENANT_ID
+          - text:
+              credential-id: ua-azure-subscription-id
+              variable: UACLIENT_BEHAVE_AZ_SUBSCRIPTION_ID
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          set -ex
+
+          git clone https://github.com/canonical/server-test-scripts.git
+          git clone https://github.com/canonical/pycloudlib.git
+          python3 -m venv /tmp/azure-cleanup
+          . /tmp/azure-cleanup/bin/activate
+          pip install pip --upgrade
+
+          cd pycloudlib
+          pip install -r requirements.txt
+          cd ..
+
+          DATE=`date +%D`
+          python server-test-scripts/ubuntu-advantage-client/azure_cleanup.py --client-id ${UACLIENT_BEHAVE_AZ_CLIENT_ID} \
+          --client-secret ${UACLIENT_BEHAVE_AZ_CLIENT_SECRET} --subscription-id ${UACLIENT_BEHAVE_AZ_SUBSCRIPTION_ID} \
+            --tenant-id ${UACLIENT_BEHAVE_AZ_TENANT_ID} || true
 
 - job-template:
-    name: uaclient-vm-{ubunturelease}
+    name: uaclient-build-package-{ubuntureleasename}
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+
+          sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
+          sudo apt-get update
+          sudo apt-get build-dep -y ubuntu-advantage-tools
+          sudo apt-get install -y --install-recommends sbuild ubuntu-dev-tools dh-systemd
+
+          # Missing build-deps
+          sudo apt-get install -y --install-recommends libapt-pkg-dev python3-mock python3-pytest
+          debuild -S -uc -us
+          mk-sbuild {ubuntureleasename} || true
+          sbuild --nolog --verbose --dist={ubuntureleasename} ../ubuntu-advantage-tools*.dsc
+
+          cp ./ubuntu-advantage-tools*.deb ubuntu-advantage-tools-{ubuntureleasename}.deb
+          cp ./ubuntu-advantage-pro*.deb ubuntu-advantage-tools-pro-{ubuntureleasename}.deb
+
+
+- job-template:
+    name: uaclient-vm-{ubuntuvmrelease}
     defaults: ubuntu-advantage-client
     parameters:
       - uaclient
@@ -41,7 +271,208 @@
 
           git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
           cd ua-client
-          tox -e behave-vm-{ubunturelease}
+          tox -e behave-vm-{ubuntuvmrelease}
+
+- job-template:
+    name: uaclient-lxd-{ubunturelease}
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+      - timeout:
+          timeout: 50
+          fail: true
+      - credentials-binding:
+          - text:
+              credential-id: ua-contract-token
+              variable: UACLIENT_BEHAVE_CONTRACT_TOKEN
+          - text:
+              credential-id: ua-contract-token-staging
+              variable: UACLIENT_BEHAVE_CONTRACT_TOKEN_STAGING
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+          tox -e behave-lxd-{ubunturelease}
+
+- job-template:
+    name: uaclient-azure-pro-{ubunturelease}
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+      - timeout:
+          timeout: 50
+          fail: true
+      - credentials-binding:
+          - text:
+              credential-id: ua-contract-token
+              variable: UACLIENT_BEHAVE_CONTRACT_TOKEN
+          - text:
+              credential-id: ua-contract-token-staging
+              variable: UACLIENT_BEHAVE_CONTRACT_TOKEN_STAGING
+          - text:
+              credential-id: ua-azure-client-id
+              variable: UACLIENT_BEHAVE_AZ_CLIENT_ID
+          - text:
+              credential-id: ua-azure-client-secret
+              variable: UACLIENT_BEHAVE_AZ_CLIENT_SECRET
+          - text:
+              credential-id: ua-azure-tenant
+              variable: UACLIENT_BEHAVE_AZ_TENANT_ID
+          - text:
+              credential-id: ua-azure-subscription-id
+              variable: UACLIENT_BEHAVE_AZ_SUBSCRIPTION_ID
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+          tox -e behave-azurepro-{ubunturelease}
+
+- job-template:
+    name: uaclient-azure-generic-{ubunturelease}
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+      - timeout:
+          timeout: 50
+          fail: true
+      - credentials-binding:
+          - text:
+              credential-id: ua-contract-token
+              variable: UACLIENT_BEHAVE_CONTRACT_TOKEN
+          - text:
+              credential-id: ua-contract-token-staging
+              variable: UACLIENT_BEHAVE_CONTRACT_TOKEN_STAGING
+          - text:
+              credential-id: ua-azure-client-id
+              variable: UACLIENT_BEHAVE_AZ_CLIENT_ID
+          - text:
+              credential-id: ua-azure-client-secret
+              variable: UACLIENT_BEHAVE_AZ_CLIENT_SECRET
+          - text:
+              credential-id: ua-azure-tenant
+              variable: UACLIENT_BEHAVE_AZ_TENANT_ID
+          - text:
+              credential-id: ua-azure-subscription-id
+              variable: UACLIENT_BEHAVE_AZ_SUBSCRIPTION_ID
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+          tox -e behave-azuregeneric-{ubunturelease}
+
+- job-template:
+    name: uaclient-aws-pro-{ubunturelease}
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+      - timeout:
+          timeout: 50
+          fail: true
+      - credentials-binding:
+          - text:
+              credential-id: ua-contract-token
+              variable: UACLIENT_BEHAVE_CONTRACT_TOKEN
+          - text:
+              credential-id: ua-contract-token-staging
+              variable: UACLIENT_BEHAVE_CONTRACT_TOKEN_STAGING
+          - text:
+              credential-id: ua-aws-access-key-id
+              variable: UACLIENT_BEHAVE_AWS_ACCESS_KEY_ID
+          - text:
+              credential-id: ua-aws-secret-access-key
+              variable: UACLIENT_BEHAVE_AWS_SECRET_ACCESS_KEY
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+          tox -e behave-awspro-{ubunturelease}
+
+- job-template:
+    name: uaclient-aws-generic-{ubunturelease}
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+      - timeout:
+          timeout: 50
+          fail: true
+      - credentials-binding:
+          - text:
+              credential-id: ua-contract-token
+              variable: UACLIENT_BEHAVE_CONTRACT_TOKEN
+          - text:
+              credential-id: ua-contract-token-staging
+              variable: UACLIENT_BEHAVE_CONTRACT_TOKEN_STAGING
+          - text:
+              credential-id: ua-aws-access-key-id
+              variable: UACLIENT_BEHAVE_AWS_ACCESS_KEY_ID
+          - text:
+              credential-id: ua-aws-secret-access-key
+              variable: UACLIENT_BEHAVE_AWS_SECRET_ACCESS_KEY
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+          tox -e behave-awsgeneric-{ubunturelease}
+
+- job-template:
+    name: uaclient-upgrade-{ubuntuupgrade}
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+      - timeout:
+          timeout: 50
+          fail: true
+      - credentials-binding:
+          - text:
+              credential-id: ua-contract-token
+              variable: UACLIENT_BEHAVE_CONTRACT_TOKEN
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+          tox -e behave-upgrade-{ubuntuupgrade}
 
 - job:
     name: ubuntu-advantage-client-integration-ec2-terminate
