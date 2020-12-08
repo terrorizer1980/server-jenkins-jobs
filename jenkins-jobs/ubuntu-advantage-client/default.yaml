@@ -17,13 +17,33 @@
 
 - project:
     name: ubuntu-advantage-client
-    ubunturelease:
+    ubuntuvmrelease:
       - 16.04
       - 18.04
       - 20.04
+    ubunturelease:
+      - 14.04
+      - 16.04
+      - 18.04
+      - 20.04
+    ubuntureleasename:
+      - trusty
+      - xenial
+      - bionic
+      - focal
+    ubuntuupgrade:
+      - 14.04
+      - 16.04
+      - 18.04
     jobs:
-      - uaclient-vm-{ubunturelease}
-      - ubuntu-advantage-client-integration-ec2-terminate
+      - uaclient-build-package-{ubuntureleasename}
+      - uaclient-aws-pro-{ubunturelease}
+      - uaclient-azure-pro-{ubunturelease}
+      - uaclient-aws-generic-{ubunturelease}
+      - uaclient-azure-generic-{ubunturelease}
+      - uaclient-lxd-{ubunturelease}
+      - uaclient-vm-{ubuntuvmrelease}
+      - uaclient-upgrade-{ubuntuupgrade}
 
 - defaults:
     name: ubuntu-advantage-client
