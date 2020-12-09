@@ -73,7 +73,7 @@
       - trigger:
           project: curtin-build
           threshold: FAILURE
-      - email-server-crew-qa
+      - email-curtin-qa
     wrappers:
       - workspace-cleanup
     builders:
@@ -101,7 +101,7 @@
       - trigger:
           project: curtin-style-tip
           threshold: FAILURE
-      - email-server-crew-qa
+      - email-curtin-qa
     axes:
       - axis:
           type: slave
@@ -129,7 +129,7 @@
     triggers:
       - timed: "H */5 * * *"
     publishers:
-      - email-server-crew-qa
+      - email-curtin-qa
       - junit:
           results: server-test-scripts/curtin/results.xml
     wrappers:

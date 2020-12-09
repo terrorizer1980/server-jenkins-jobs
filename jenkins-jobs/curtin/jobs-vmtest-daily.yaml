@@ -26,7 +26,7 @@
     triggers:
       - timed: "H 4 * * 0,3"
     publishers:
-      - email-server-crew-qa
+      - email-curtin-qa
       - curtin-archive-results
     wrappers:
       - timestamps
@@ -46,7 +46,7 @@
     triggers:
       - timed: "H 4 * * 1,4"
     publishers:
-      - email-server-crew-qa
+      - email-curtin-qa
       - curtin-archive-results
     wrappers:
       - timestamps
@@ -66,7 +66,7 @@
     triggers:
       - timed: "H 4 * * 2,5"
     publishers:
-      - email-server-crew-qa
+      - email-curtin-qa
       - curtin-archive-results
     wrappers:
       - timestamps
@@ -86,7 +86,7 @@
     triggers:
       - timed: "H 4 * * 6"
     publishers:
-      - email-server-crew-qa
+      - email-curtin-qa
       - curtin-archive-results
     wrappers:
       - timestamps

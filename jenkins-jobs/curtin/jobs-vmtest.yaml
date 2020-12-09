@@ -35,7 +35,7 @@
       - vmtest-devel
     publishers:
       - curtin-archive-results
-      - email-server-crew-qa
+      - email-curtin-qa
     wrappers:
       - timestamps
       - workspace-cleanup
@@ -61,7 +61,7 @@
       - vmtest-devel
     publishers:
       - curtin-archive-results
-      - email-server-crew-qa
+      - email-curtin-qa
 
 - job:
     name: curtin-vmtest-devel-ppc64el
@@ -81,7 +81,7 @@
       - vmtest-devel
     publishers:
       - curtin-archive-results
-      - email-server-crew-qa
+      - email-curtin-qa
     wrappers:
       - timestamps
       - workspace-cleanup
@@ -102,7 +102,7 @@
       - vmtest-devel
     publishers:
       - curtin-archive-results
-      - email-server-crew-qa
+      - email-curtin-qa
     wrappers:
       - timestamps
       - workspace-cleanup
@@ -145,7 +145,7 @@
           name: vmtest_filters
           default: "target_distro=ubuntu"
     publishers:
-      - email-server-crew-qa
+      - email-curtin-qa
       - curtin-archive-results
     builders:
       - vmtest-devel
@@ -180,7 +180,7 @@
     builders:
       - vmtest-devel
     publishers:
-      - email-server-crew-qa
+      - email-curtin-qa
       - curtin-archive-results
 
 - builder:

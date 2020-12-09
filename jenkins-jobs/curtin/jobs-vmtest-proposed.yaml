@@ -79,7 +79,7 @@
     node: torkoal
     auth-token: BUILD_ME
     publishers:
-      - email-server-crew-qa
+      - email-curtin-qa
       - curtin-archive-results
     wrappers:
       - timestamps
@@ -94,7 +94,7 @@
     node: torkoal
     auth-token: BUILD_ME
     publishers:
-      - email-server-crew-qa
+      - email-curtin-qa
       - curtin-archive-results
     wrappers:
       - timestamps
@@ -109,7 +109,7 @@
     node: torkoal
     auth-token: BUILD_ME
     publishers:
-      - email-server-crew-qa
+      - email-curtin-qa
       - curtin-archive-results
     wrappers:
       - timestamps

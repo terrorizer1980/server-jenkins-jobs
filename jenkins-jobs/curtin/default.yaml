@@ -42,3 +42,10 @@
       - archive:
           artifacts: 'output/**'
           excludes: 'output/debug.log, **/*img'
+
+- publisher:
+    name: email-curtin-qa
+    publishers:
+      - email-server-crew-qa
+      - email:
+          recipients: michael.hudson@canonical.com
