@@ -32,6 +32,7 @@
           description: Delete jobs that were jobs once managed by JJB
             (as distinguished by a special comment that JJB appends to their
             description), but were not generated in this JJB run.
+      - git-params-server-jenkins-jobs
     wrappers:
       - credentials-binding:
           - text:
@@ -62,7 +63,7 @@
           jenkins-jobs --version
 
           rm -rf server-jenkins-jobs
-          git clone --depth 1 https://github.com/canonical/server-jenkins-jobs
+          git clone --depth 1 -b "$SJJBRANCH" "$SJJREPO" server-jenkins-jobs || exit 1
           cd server-jenkins-jobs || exit 1
 
           # Do not attempt a deploy if the jobs don't test clean
