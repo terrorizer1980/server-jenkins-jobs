@@ -32,6 +32,10 @@
           description: Delete jobs that were jobs once managed by JJB
             (as distinguished by a special comment that JJB appends to their
             description), but were not generated in this JJB run.
+      - string:
+          name: job_names
+          description: Space-separated list of jobs to deploy (empty = all).
+      - git-params-server-jenkins-jobs
     wrappers:
       - credentials-binding:
           - text:
@@ -62,7 +66,7 @@
           jenkins-jobs --version
 
           rm -rf server-jenkins-jobs
-          git clone --depth 1 https://github.com/canonical/server-jenkins-jobs
+          git clone --depth 1 -b "$SJJBRANCH" "$SJJREPO" server-jenkins-jobs || exit 1
           cd server-jenkins-jobs || exit 1
 
           # Do not attempt a deploy if the jobs don't test clean
@@ -78,4 +82,7 @@
           jjb_update_flags=(--recursive)
           [[ $delete_old == true ]] && jjb_update_flags+=(--delete-old)
 
-          jenkins-jobs "${jjb_flags[@]}" update "${jjb_update_flags[@]}" jenkins-jobs || exit 1
+          # Convert job_names to an array. Allows individual quoting of job names.
+          read -r -a job_names <<< "${job_names-}"
+
+          jenkins-jobs "${jjb_flags[@]}" update "${jjb_update_flags[@]}" jenkins-jobs "${job_names[@]}" || exit 1
