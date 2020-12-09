@@ -246,8 +246,16 @@
 
 
 - job-template:
-    name: uaclient-vm-{ubuntuvmrelease}
+    name: uaclient-vm
     defaults: ubuntu-advantage-client
+    project-type: matrix
+    execution-strategy:
+      sequential: true
+    axes:
+      - axis:
+          type: user-defined
+          name: UBUNTUVMRELEASE
+          values: '{obj:ubuntuvmrelease}'
     parameters:
       - uaclient
     wrappers:
@@ -271,7 +279,7 @@
 
           git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
           cd ua-client
-          tox -e behave-vm-{ubuntuvmrelease}
+          tox -e "behave-vm-$UBUNTUVMRELEASE"
 
 - job-template:
     name: uaclient-lxd-{ubunturelease}
