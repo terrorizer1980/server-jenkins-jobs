@@ -40,7 +40,7 @@
       - uaclient-aws-pro-{ubunturelease}
       - uaclient-azure-pro
       - uaclient-aws-generic-{ubunturelease}
-      - uaclient-azure-generic-{ubunturelease}
+      - uaclient-azure-generic
       - uaclient-lxd-{ubunturelease}
       - uaclient-vm
       - uaclient-upgrade-{ubuntuupgrade}
