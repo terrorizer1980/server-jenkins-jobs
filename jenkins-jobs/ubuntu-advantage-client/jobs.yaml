@@ -37,28 +37,6 @@
           tox -e py3,flake8
 
 - job:
-    name: uaclient-flake8-trusty
-    defaults: ubuntu-advantage-client
-    parameters:
-      - uaclient
-    wrappers:
-      - workspace-cleanup
-    triggers:
-      - timed: '@daily'
-    builders:
-      - shell: |
-          set -ex
-
-          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
-          cd ua-client
-
-          python3 -m venv /tmp/flake8
-          . /tmp/flake8/bin/activate
-          make testdeps
-
-          tox -e py3-trusty,flake8-trusty
-
-- job:
     name: uaclient-flake8-xenial
     defaults: ubuntu-advantage-client
     parameters:
