@@ -310,8 +310,16 @@
           tox -e behave-lxd-{ubunturelease}
 
 - job-template:
-    name: uaclient-azure-pro-{ubunturelease}
+    name: uaclient-azure-pro
     defaults: ubuntu-advantage-client
+    project-type: matrix
+    execution-strategy:
+      sequential: true
+    axes:
+      - axis:
+          type: user-defined
+          name: UBUNTURELEASE
+          values: '{obj:ubunturelease}'
     parameters:
       - uaclient
     wrappers:
@@ -347,7 +355,7 @@
 
           git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
           cd ua-client
-          tox -e behave-azurepro-{ubunturelease}
+          tox -e behave-azurepro-$UBUNTURELEASE
 
 - job-template:
     name: uaclient-azure-generic-{ubunturelease}
