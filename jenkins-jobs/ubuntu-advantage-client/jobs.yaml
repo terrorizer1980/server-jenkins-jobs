@@ -35,6 +35,42 @@
           make testdeps
 
           tox -e py3,flake8
+- job:
+    name: uaclient-flake8-trusty
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          set -ex
+
+          git clone -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+
+          bash tools/tox-lxd-runner trusty "tox -e flake8-trusty"
+
+- job:
+    name: uaclient-py3-trusty
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          set -ex
+
+          git clone -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+
+          bash tools/tox-lxd-runner trusty "tox -e py3-trusty"
+
 
 - job:
     name: uaclient-flake8-xenial
@@ -49,14 +85,28 @@
       - shell: |
           set -ex
 
-          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          git clone -b "$UABRANCH" "$UAREPO" ua-client
           cd ua-client
 
-          python3 -m venv /tmp/xenial-flake8
-          . /tmp/xenial-flake8/bin/activate
-          make testdeps
+          bash tools/tox-lxd-runner xenial "VIRTUALENV_PIP=18.1 tox -e flake8-xenial"
 
-          VIRTUALENV_PIP=18.1 tox -e py3-xenial,flake8-xenial
+- job:
+    name: uaclient-py3-xenial
+    defaults: ubuntu-advantage-client
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+    triggers:
+      - timed: '@daily'
+    builders:
+      - shell: |
+          set -ex
+
+          git clone -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+
+          bash tools/tox-lxd-runner xenial "VIRTUALENV_PIP=18.1 tox -e py3-xenial"
 
 - job:
     name: uaclient-flake8-bionic
