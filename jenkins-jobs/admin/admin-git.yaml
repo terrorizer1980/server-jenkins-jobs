@@ -19,6 +19,10 @@
     name: admin-lp-git-vote
     defaults: admin
     node: metal-amd64
+    wrappers:
+      - timeout:
+          timeout: 5
+          fail: true
     parameters:
       - string:
           name: MERGE_BRANCH
@@ -49,6 +53,10 @@
     name: admin-lp-git-autoland
     defaults: admin
     node: metal-amd64
+    wrappers:
+      - timeout:
+          timeout: 5
+          fail: true
     parameters:
       - string:
           name: MERGE_REVISION
