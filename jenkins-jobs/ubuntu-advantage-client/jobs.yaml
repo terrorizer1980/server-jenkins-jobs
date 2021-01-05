@@ -131,7 +131,7 @@
     wrappers:
       - workspace-cleanup
     triggers:
-      - timed: '@daily'
+      - timed: 'H 4 * * *'
     builders:
       - shell: |
           set -ex
@@ -172,7 +172,7 @@
               credential-id: ua-azure-subscription-id
               variable: UACLIENT_BEHAVE_AZ_SUBSCRIPTION_ID
     triggers:
-      - timed: 'H 1 * * *'
+      - timed: 'H 0,4 * * *'
     builders:
       - shell: |
           set -ex
@@ -191,6 +191,21 @@
           python server-test-scripts/ubuntu-advantage-client/azure_cleanup.py --client-id ${UACLIENT_BEHAVE_AZ_CLIENT_ID} \
           --client-secret ${UACLIENT_BEHAVE_AZ_CLIENT_SECRET} --subscription-id ${UACLIENT_BEHAVE_AZ_SUBSCRIPTION_ID} \
             --tenant-id ${UACLIENT_BEHAVE_AZ_TENANT_ID} || true
+
+- job:
+    name: uaclient-cleanup-stale-lxd-vms
+    defaults: ubuntu-advantage-client
+    node: torkoal
+    wrappers:
+      - workspace-cleanup
+    triggers:
+      - timed: 'H 1 * * *'
+    builders:
+      - shell: |
+          set -ex
+
+          git clone https://github.com/canonical/server-test-scripts.git
+          python3 server-test-scripts/ubuntu-advantage-client/lxd_cleanup.py --prefix ubuntu-behave
 
 - job-template:
     name: uaclient-build-package-{ubuntureleasename}
@@ -249,7 +264,7 @@
               credential-id: ua-contract-token-staging
               variable: UACLIENT_BEHAVE_CONTRACT_TOKEN_STAGING
     triggers:
-      - timed: '@daily'
+      - timed: 'H 2 * * *'
     builders:
       - shell: |
           #!/bin/bash
@@ -277,7 +292,7 @@
               credential-id: ua-contract-token-staging
               variable: UACLIENT_BEHAVE_CONTRACT_TOKEN_STAGING
     triggers:
-      - timed: '@daily'
+      - timed: 'H 1 * * *'
     builders:
       - shell: |
           #!/bin/bash
@@ -373,7 +388,7 @@
               credential-id: ua-azure-subscription-id
               variable: UACLIENT_BEHAVE_AZ_SUBSCRIPTION_ID
     triggers:
-      - timed: 'H 4 * * *'
+      - timed: 'H 3 * * *'
     builders:
       - shell: |
           #!/bin/bash
@@ -407,7 +422,7 @@
               credential-id: ua-aws-secret-access-key
               variable: UACLIENT_BEHAVE_AWS_SECRET_ACCESS_KEY
     triggers:
-      - timed: '@daily'
+      - timed: 'H 3 * * *'
     builders:
       - shell: |
           #!/bin/bash
@@ -441,7 +456,7 @@
               credential-id: ua-aws-secret-access-key
               variable: UACLIENT_BEHAVE_AWS_SECRET_ACCESS_KEY
     triggers:
-      - timed: '@daily'
+      - timed: 'H 3 * * *'
     builders:
       - shell: |
           #!/bin/bash
