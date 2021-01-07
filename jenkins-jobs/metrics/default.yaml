@@ -29,6 +29,7 @@
     triggers:
       - timed: "H * * * *"
     wrappers:
+      - workspace-cleanup
       - timestamps
       - timeout:
           timeout: 30

@@ -24,7 +24,6 @@
 
           retry() (for i in {{0..4}}; do sleep $((8*i**3)) && echo "Trying: ${{*:1}}" >&2 && "${{@:1}}" && break; done)
 
-          rm -rf *
           retry git clone https://github.com/canonical/metrics.git
           cd metrics
           retry git clone --depth 1 lp:kpi-metrics-tools
@@ -41,7 +40,6 @@
 
           retry() (for i in {{0..4}}; do sleep $((8*i**3)) && echo "Trying: ${{*:1}}" >&2 && "${{@:1}}" && break; done)
 
-          rm -rf *
           retry git clone https://github.com/canonical/metrics.git
           cd metrics
           retry git clone --depth 1 lp:kpi-metrics-tools
@@ -69,7 +67,6 @@
 
           retry() (for i in {0..4}; do sleep $((8*i**3)) && echo "Trying: ${*:1}" >&2 && "${@:1}" && break; done)
 
-          rm -rf *
           retry git clone https://github.com/canonical/metrics.git
           cd metrics
           retry git clone --depth 1 lp:kpi-metrics-tools
@@ -210,7 +207,6 @@
       - shell: |
           #!/bin/bash
           set -e
-          rm -rf *
           git clone https://github.com/canonical/metrics.git
           cd metrics
           git clone --depth 1 lp:kpi-metrics-tools
@@ -225,7 +221,6 @@
       - shell: |
           #!/bin/bash
           set -e
-          rm -rf *
           git clone https://github.com/canonical/metrics.git
           cd metrics
           git clone --depth 1 lp:kpi-metrics-tools
