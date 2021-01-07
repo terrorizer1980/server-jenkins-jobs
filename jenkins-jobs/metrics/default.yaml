@@ -38,5 +38,9 @@
       - build-discarder:
           num-to-keep: 25
     publishers:
-      - email:
+      - email-ext:
           recipients: paride.legovini@canonical.com, daniel.watkins@canonical.com
+          failure: false
+          still-failing: true
+          fixed: true
+          attach-build-log: true
