@@ -42,4 +42,5 @@
           cd sts/lma-integration
           ./run-tests || exit 1
     publishers:
-      - email-squeaky-wheel
+      - email:
+          recipients: server-crew-qa@lists.canonical.com sergio.durigan@canonical.com lucas.kanashiro@canonical.com
