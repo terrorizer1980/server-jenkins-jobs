@@ -329,7 +329,7 @@
     wrappers:
       - workspace-cleanup
       - timeout:
-          timeout: 50
+          timeout: 120
           fail: true
       - credentials-binding:
           - text:
@@ -591,7 +591,7 @@
     wrappers:
       - workspace-cleanup
       - timeout:
-          timeout: 50
+          timeout: 120
           fail: true
       - credentials-binding:
           - text:
