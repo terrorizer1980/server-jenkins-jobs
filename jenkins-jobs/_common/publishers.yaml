@@ -33,7 +33,7 @@
       - email:
           recipients: server-squeaky-wheel@lists.canonical.com
 
-- publishers:
+- publisher:
     name: archive-everything
     publishers:
       - archive:
