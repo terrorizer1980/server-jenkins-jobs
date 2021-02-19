@@ -18,7 +18,6 @@
 - job:
     name: admin-jobs-update
     defaults: admin
-    node: torkoal
     triggers:
       - timed: "*/15 * * * *"
     parameters:
