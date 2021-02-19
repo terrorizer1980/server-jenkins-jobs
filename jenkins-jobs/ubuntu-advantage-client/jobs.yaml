@@ -265,7 +265,7 @@
           cd ..
 
           https_proxy=http://squid.internal:3128 python server-test-scripts/ubuntu-advantage-client/gcp_cleanup.py \
-          --credentials-path $GCP_CREDENTIALS_PATH --project ubuntu-rickh --region us-west2 --zone a
+          --credentials-path $GCP_CREDENTIALS_PATH --project test-ubuntu-advantage-tools --region us-west2 --zone a
 
 - job:
     name: uaclient-cleanup-stale-lxd-vms
@@ -515,7 +515,7 @@
 
           git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
           cd ua-client
-          no_proxy=launchpad.net https_proxy=http://squid.internal:3128 UACLIENT_BEHAVE_GCP_PROJECT=ubuntu-rickh \
+          no_proxy=launchpad.net https_proxy=http://squid.internal:3128 UACLIENT_BEHAVE_GCP_PROJECT=test-ubuntu-advantage-tools \
           tox -e behave-gcpgeneric-$UBUNTURELEASE
 
 - job-template:
