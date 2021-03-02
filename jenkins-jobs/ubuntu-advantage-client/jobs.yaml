@@ -177,30 +177,32 @@
 - job:
     name: uaclient-cleanup-stale-aws-vms
     defaults: ubuntu-advantage-client
-    node: torkoal
     wrappers:
       - workspace-cleanup
+      - credentials-binding:
+          - text:
+              credential-id: ua-aws-access-key-id
+              variable: AWS_ACCESS_KEY_ID
+          - text:
+              credential-id: ua-aws-secret-access-key
+              variable: AWS_SECRET_ACCESS_KEY
     triggers:
       - timed: 'H 4 * * *'
     builders:
       - shell: |
           set -ex
 
-          git clone https://github.com/canonical/server-test-scripts.git
-          git clone https://github.com/canonical/pycloudlib.git
-
-          python3 -m venv /tmp/aws-cleanup
-          . /tmp/aws-cleanup/bin/activate
-          pip install pip --upgrade
-
-          cd pycloudlib
-          pip install -r requirements.txt
-          cd ..
+          git clone --depth 1 https://github.com/canonical/server-test-scripts.git
 
           DATE=`date +%D`
+
+          # Do not fail on the first failure, but record it and return accordingly.
+          rc=0
           for region in us-east-1 us-east-2; do
-            AWS_DEFAULT_REGION=${region} python server-test-scripts/ubuntu-advantage-client/ec2_cleanup.py -b ${DATE} || true
-          done;
+            AWS_DEFAULT_REGION=${region} server-test-scripts/ubuntu-advantage-client/ec2_cleanup.py -b ${DATE} || rc=1
+          done
+
+          exit $rc
 
 - job:
     name: uaclient-cleanup-stale-azure-vms
