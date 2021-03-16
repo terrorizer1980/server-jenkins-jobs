@@ -21,6 +21,10 @@
     node: metal-amd64
     triggers:
       - timed: H/15 * * * *
+    wrappers:
+      - timeout:
+          timeout: 15
+          fail: true
     builders:
       - shell: |
           #!/bin/bash -x
@@ -33,6 +37,10 @@
 - job:
     name: git-ubuntu-ci
     defaults: git-ubuntu
+    wrappers:
+      - timeout:
+          timeout: 120
+          fail: true
     parameters:
       - candidate-revision
       - landing-candidate:
