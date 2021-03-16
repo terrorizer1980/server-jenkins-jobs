@@ -22,13 +22,13 @@
     triggers:
       - timed: H/15 * * * *
     wrappers:
+      - workspace-cleanup
       - timeout:
           timeout: 15
           fail: true
     builders:
       - shell: |
           #!/bin/bash -x
-          rm -rf *
           launchpadTrigger --lock-name=${JOB_NAME} \
                            --job=git-ubuntu-ci \
                            --branch=lp:usd-importer \
