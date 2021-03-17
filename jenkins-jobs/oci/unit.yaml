@@ -24,7 +24,7 @@
       - nginx
       - prometheus
       - apache2
-      - alertmanager
+      - prometheus-alertmanager
       - memcached
       - grafana
       - cortex
@@ -35,8 +35,34 @@
 - job-template:
     name: oci-unit-{testcase}
     defaults: oci
-    triggers:
-      - timed: "@daily"
+    project-type: matrix
+    execution-strategy:
+      sequential: true
+    axes:
+      - axis:
+          type: slave
+          name: nodes
+          values:
+            - metal-amd64
+            - metal-arm64
+            - metal-ppc64el
+            - metal-s390x
+      - axis:
+          type: user-defined
+          name: DOCKER_REGISTRY
+          values:
+            - public.ecr.aws
+      - axis:
+          type: user-defined
+          name: DOCKER_NAMESPACE
+          values:
+            - ubuntu
+            - lts
+      - axis:
+          type: user-defined
+          name: DOCKER_TAG
+          values:
+            - edge
     parameters:
       - git-params-server-test-scripts
     wrappers:
@@ -46,16 +72,18 @@
       - timestamps
       - workspace-cleanup
     builders:
-      - shell: |
-          #!/bin/sh
+      - shell:
+          unstable-return: 99
+          command: |
+            #!/bin/sh
 
-          set -eufx
+            set -eufx
 
-          export https_proxy=http://squid.internal:3128
+            export https_proxy=http://squid.internal:3128
 
-          git clone --depth 1 -b "$STSBRANCH" "$STSREPO" sts
-          cd sts/oci-unit-tests
-          DEBUG_TESTS=1 sh "{testcase}_test.sh" || exit 1
+            git clone --depth 1 -b "$STSBRANCH" "$STSREPO" sts
+            cd sts/oci-unit-tests
+            DEBUG_TESTS=1 sh "{testcase}_test.sh" || exit 1
     publishers:
       - email:
           recipients: server-crew-qa@lists.canonical.com sergio.durigan@canonical.com lucas.kanashiro@canonical.com
