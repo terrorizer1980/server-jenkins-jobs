@@ -22,4 +22,5 @@
       - git-clone-params:
           gitproject: ubuntu-advantage-client
           giturl: 'https://github.com/canonical/ubuntu-advantage-client.git'
+          gitbranch: master
           gitvarprefix: UA
