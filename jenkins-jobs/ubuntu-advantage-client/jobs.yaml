@@ -521,6 +521,45 @@
           tox -e behave-gcpgeneric-$UBUNTURELEASE
 
 - job-template:
+    name: uaclient-gcp-pro
+    defaults: ubuntu-advantage-client
+    project-type: matrix
+    execution-strategy:
+      sequential: true
+    axes:
+      - axis:
+          type: user-defined
+          name: UBUNTURELEASE
+          values: '{obj:ubuntugcppro}'
+    parameters:
+      - uaclient
+    wrappers:
+      - workspace-cleanup
+      - timeout:
+          timeout: 50
+          fail: true
+      - credentials-binding:
+          - file:
+              credential-id: ua-gce-account
+              variable: UACLIENT_BEHAVE_GCP_CREDENTIALS_PATH
+    triggers:
+      - timed: 'H H * * *'
+    publishers:
+      - email-server-crew-qa
+      - trigger:
+          project: uaclient-cleanup-stale-gcp-vms
+          threshold: FAILURE
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -ex
+
+          git clone --depth 1 -b "$UABRANCH" "$UAREPO" ua-client
+          cd ua-client
+          no_proxy=launchpad.net https_proxy=http://squid.internal:3128 UACLIENT_BEHAVE_GCP_PROJECT=test-ubuntu-advantage-tools \
+          tox -e behave-gcppro-$UBUNTURELEASE
+
+- job-template:
     name: uaclient-aws-pro-{ubunturelease}
     defaults: ubuntu-advantage-client
     parameters:

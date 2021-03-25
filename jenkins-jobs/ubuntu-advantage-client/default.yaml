@@ -35,6 +35,10 @@
       - 14.04
       - 16.04
       - 18.04
+    ubuntugcppro:
+      - 16.04
+      - 18.04
+      - 20.04
     jobs:
       - uaclient-build-package-{ubuntureleasename}
       - uaclient-aws-pro-{ubunturelease}
@@ -42,6 +46,7 @@
       - uaclient-aws-generic-{ubunturelease}
       - uaclient-azure-generic
       - uaclient-gcp-generic
+      - uaclient-gcp-pro
       - uaclient-lxd-{ubunturelease}
       - uaclient-vm
       - uaclient-upgrade-{ubuntuupgrade}
