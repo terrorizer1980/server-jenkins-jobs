@@ -25,7 +25,7 @@
           description: '{gitproject} repository location'
       - string:
           name: '{gitvarprefix}BRANCH'
-          default: '{gitbranch|master}'
+          default: '{gitbranch|main}'
           description: '{gitproject} branch to pull'
 
 
