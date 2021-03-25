@@ -86,7 +86,7 @@
             stage ('VM Setup') {
                 steps {
                     deleteDir()
-                    git url: 'https://github.com/canonical/server-test-scripts', branch: 'master'
+                    git url: 'https://github.com/canonical/server-test-scripts', branch: 'main'
                     sh 'https_proxy=http://squid.internal:3128 ./git-ubuntu/vm_setup "$VM_NAME"'
                 }
             }
@@ -174,7 +174,7 @@
             stage ('VM Setup') {
                 steps {
                     deleteDir()
-                    git url: 'https://github.com/canonical/server-test-scripts', branch: 'master'
+                    git url: 'https://github.com/canonical/server-test-scripts', branch: 'main'
                     sh 'https_proxy="http://squid.internal:3128" ./git-ubuntu/vm_setup "$VM_NAME" --snapcraft-snap'
                 }
             }
