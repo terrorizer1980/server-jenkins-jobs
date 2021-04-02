@@ -16,8 +16,8 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - view:
-    name: cloud-init
+    name: simplestreams
     view-type: list
     description: |
-      cloud-init unit and integration testing
-    regex: '^cloud-init-.*'
+      simplestreams CI and testing
+    regex: '^simplestreams-.*'
