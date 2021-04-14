@@ -211,7 +211,7 @@
                 steps {
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "no_proxy=canonical.com,launchpad.net,launchpadlibrarian.net sudo snap install --classic snapcraft"'
                     sh 'scp -oStrictHostKeyChecking=no "$SNAPCRAFT_LOGIN_FILE" ubuntu@$(uvt-kvm ip "$VM_NAME"):git-ubuntu-snap-edge-push'
-                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "no_proxy=canonical.com,launchpad.net,snapcraft.io snapcraft login --with git-ubuntu-snap-edge-push"'
+                    sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "no_proxy=canonical.com,launchpad.net,ubuntu.com,snapcraft.io snapcraft login --with git-ubuntu-snap-edge-push"'
                     sh 'uvt-kvm ssh --insecure "$VM_NAME" -- "no_proxy=canonical.com,launchpad.net,ubuntu.com,snapcraft.io snapcraft upload --release edge git-ubuntu_*_amd64.snap"'
                 }
             }
