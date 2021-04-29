@@ -17,13 +17,16 @@
 
 - project:
     name: ha-fence-agents
+    release:
+      - hirsute
+      - impish
     testcase:
       - virsh
     jobs:
-      - ha-fence-{testcase}
+      - ha-fence-{testcase}-{release}
 
 - job-template:
-    name: ha-fence-{testcase}
+    name: ha-fence-{testcase}-{release}
     defaults: ha
     wrappers:
       - timeout:
@@ -39,6 +42,8 @@
             #!/bin/sh
 
             set -eux
+
+            export UBUNTU_SERIES={release}
 
             git clone --depth 1 -b "$STSBRANCH" "$STSREPO" sts
             cd sts/ha/{testcase}
