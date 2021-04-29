@@ -36,6 +36,8 @@
       - workspace-cleanup
     parameters:
       - git-params-server-test-scripts
+    triggers:
+      - timed: '@daily'
     builders:
       - shell:
           command: |
