@@ -18,7 +18,6 @@
 - project:
     name: ha-fence-agents
     release:
-      - hirsute
       - impish
     testcase:
       - virsh
