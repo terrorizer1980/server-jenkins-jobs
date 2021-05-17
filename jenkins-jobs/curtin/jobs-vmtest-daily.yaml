@@ -17,26 +17,6 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 - job:
-    name: curtin-vmtest-daily-x
-    defaults: curtin
-    node: torkoal
-    parameters:
-      - nose-args:
-          default_nose_args:
-    triggers:
-      - timed: "H 4 * * 0,3"
-    publishers:
-      - email-curtin-qa
-      - curtin-archive-results
-    wrappers:
-      - timestamps
-      - workspace-cleanup
-    builders:
-      - vmtest-daily:
-          release: xenial
-          nose_args: nose_args
-
-- job:
     name: curtin-vmtest-daily-b
     defaults: curtin
     node: torkoal
