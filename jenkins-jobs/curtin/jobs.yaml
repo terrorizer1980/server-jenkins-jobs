@@ -30,7 +30,7 @@
           cd build-$BUILD_NUMBER
 
           ./tools/build-deb -S -us -uc
-          sbuild --nolog --verbose --dist=xenial curtin_*.dsc
+          sbuild --nolog --verbose --dist=bionic curtin_*.dsc
 
 - job:
     name: curtin-debug
