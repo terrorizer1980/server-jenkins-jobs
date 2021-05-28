@@ -31,6 +31,48 @@
       - telegraf
     jobs:
       - oci-unit-{testcase}
+      - oci-unit-{testcase}-standalone
+
+- job-template:
+    name: oci-unit-{testcase}-standalone
+    defaults: oci
+    triggers:
+      - timed: '@daily'
+    parameters:
+      - git-params-server-test-scripts
+    wrappers:
+      - timeout:
+          timeout: 30
+          fail: true
+      - timestamps
+      - workspace-cleanup
+      - credentials-binding:
+          - file:
+              credential-id: aws-ecr-ro-config
+              variable: AWS_CONFIG_FILE
+          - file:
+              credential-id: aws-ecr-ro-credentials
+              variable: AWS_SHARED_CREDENTIALS_FILE
+          - username-password-separated:
+              credential-id: docker-readonly
+              username: DOCKER_USERNAME
+              password: DOCKER_PASSWORD
+    builders:
+      - shell: |
+          #!/bin/sh
+
+          set -eufx
+
+          export https_proxy=http://squid.internal:3128
+          export no_proxy=launchpad.net,amazonaws.com,ecr.aws
+
+          git clone --depth 1 -b "$STSBRANCH" "$STSREPO" sts
+          cd sts/oci-unit-tests
+
+          DOCKER_PACKAGE={testcase} sh standalone-checks_test.sh
+    publishers:
+      - email:
+          recipients: server-crew-qa@lists.canonical.com sergio.durigan@canonical.com lucas.kanashiro@canonical.com
 
 - job-template:
     name: oci-unit-{testcase}
