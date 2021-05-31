@@ -43,4 +43,4 @@
           ./run-tests || exit 1
     publishers:
       - email:
-          recipients: server-crew-qa@lists.canonical.com sergio.durigan@canonical.com lucas.kanashiro@canonical.com
+          recipients: server-crew-qa@lists.canonical.com sergio.durigan@canonical.com bryce.harrington@canonical.com athos.ribeiro@canonical.com

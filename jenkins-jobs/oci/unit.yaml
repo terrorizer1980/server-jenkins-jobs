@@ -72,7 +72,7 @@
           DOCKER_PACKAGE={testcase} sh standalone-checks_test.sh
     publishers:
       - email:
-          recipients: server-crew-qa@lists.canonical.com sergio.durigan@canonical.com lucas.kanashiro@canonical.com
+          recipients: server-crew-qa@lists.canonical.com sergio.durigan@canonical.com bryce.harrington@canonical.com athos.ribeiro@canonical.com
 
 - job-template:
     name: oci-unit-{testcase}
@@ -128,4 +128,4 @@
             DEBUG_TESTS=1 sh "{testcase}_test.sh" || exit 1
     publishers:
       - email:
-          recipients: server-crew-qa@lists.canonical.com sergio.durigan@canonical.com lucas.kanashiro@canonical.com
+          recipients: server-crew-qa@lists.canonical.com sergio.durigan@canonical.com bryce.harrington@canonical.com athos.ribeiro@canonical.com
