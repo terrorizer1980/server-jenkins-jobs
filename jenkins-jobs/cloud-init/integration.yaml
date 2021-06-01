@@ -139,7 +139,7 @@
                 CLOUD_INIT_CLOUD_INIT_SOURCE=ppa:cloud-init-dev/daily
             fi
 
-            CLOUD_INIT_COLLECT_LOGS=ALWAYS
+            CLOUD_INIT_COLLECT_LOGS=ON_ERROR
             CLOUD_INIT_LOCAL_LOG_PATH="$WORKSPACE/cloud_init_test_logs"
 
             export CLOUD_INIT_PLATFORM
