@@ -37,6 +37,8 @@
     name: cloud-init-integration-{platform}-{release}-{source}
     defaults: cloud-init
     node: torkoal
+    triggers:
+      - timed: '@weekly'
     wrappers:
       - workspace-cleanup
       - timestamps
