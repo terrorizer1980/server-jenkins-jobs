@@ -31,29 +31,6 @@
       - proposed
     jobs:
       - cloud-init-integration-{platform}-{release}-{source}
-      - cloud-init-integration-{release}-proposed-trigger
-
-- job-template:
-    name: cloud-init-integration-{release}-proposed-trigger
-    defaults: cloud-init
-    node: torkoal
-    triggers:
-      - timed: "@daily"
-    wrappers:
-      - workspace-cleanup
-      - timestamps
-      - timeout:
-          timeout: 5
-          fail: true
-    publishers:
-      - email-server-crew-qa
-    builders:
-      - trigger-proposed-integration:
-          release: "{release}"
-          triggerwhat: !j2: |
-            {% for p in platform -%}
-            {{ "cloud-init-integration-" + p + "-" + release + "-proposed "}}
-            {%- endfor %}
 
 
 - job-template:
