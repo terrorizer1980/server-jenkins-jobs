@@ -22,10 +22,11 @@
       - lxd_vm
       - ec2
     release:
-      - xenial
       - bionic
       - focal
+      - groovy
       - hirsute
+      - impish
     source:
       - daily
       - proposed
