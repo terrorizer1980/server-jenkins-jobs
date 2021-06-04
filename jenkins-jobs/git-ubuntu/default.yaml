@@ -30,4 +30,3 @@
           num-to-keep: 25
     publishers:
       - email-server-crew-qa
-      - email-git-ubuntu-qa
