@@ -17,18 +17,31 @@
 
 - project:
     name: oci-unit-tests
+    namespaces:
+      - ubuntu
+      - lts
     testcase:
       - postgres
       - redis
       - mysql
       - nginx
-      - prometheus
+      - prometheus:
+          namespaces:
+            - ubuntu
       - apache2
-      - prometheus-alertmanager
+      - prometheus-alertmanager:
+          namespaces:
+            - ubuntu
       - memcached
-      - grafana
-      - cortex
-      - telegraf
+      - grafana:
+          namespaces:
+            - ubuntu
+      - cortex:
+          namespaces:
+            - ubuntu
+      - telegraf:
+          namespaces:
+            - ubuntu
     jobs:
       - oci-unit-{testcase}
       - oci-unit-{testcase}-standalone
@@ -97,9 +110,7 @@
       - axis:
           type: user-defined
           name: DOCKER_NAMESPACE
-          values:
-            - ubuntu
-            - lts
+          values: '{namespaces}'
       - axis:
           type: user-defined
           name: DOCKER_TAG
