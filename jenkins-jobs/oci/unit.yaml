@@ -133,6 +133,7 @@
             set -eufx
 
             export https_proxy=http://squid.internal:3128
+            export AWS_PROFILE=ubuntu
 
             git clone --depth 1 -b "$STSBRANCH" "$STSREPO" sts
             cd sts/oci-unit-tests
